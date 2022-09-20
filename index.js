@@ -1,5 +1,7 @@
 const Joi = require('joi');
-
+const http = require('http');
+const https = require('https');
+const fs = require("fs");
 const express = require('express');
 const app = express();
 
@@ -71,8 +73,33 @@ app.get('/', (req,res) => {
 //     res.send(course);
 // })
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listing on port ${port}`));
+https.createServer(app).listen(443);
+
+// file location of private key
+var privateKey = fs.readFileSync( '/home/ec2-user/beatshot_gg/private.key' );
+
+// file location of SSL cert
+var certificate = fs.readFileSync( '/home/ec2-user/beatshot_gg/beatshot_gg.crt' );
+
+var server_config = {
+    key : privateKey,
+    cert: certificate
+};
+
+var https_server = https.createServer(server_config, app).listen(443, function(err){
+    console.log("Node.js Express HTTPS Server Listening on Port 443");
+});
+
+var http_server = http.createServer(function(req,res){    
+    // 301 redirect (reclassifies google listings)
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(80, function(err){
+    console.log("Node.js Express HTTPS Server Listening on Port 80");    
+});
+
+//const port = process.env.PORT || 3000;
+//app.listen(port, () => console.log(`Listing on port ${port}`));
 
 /* to set environment variable, in console you can:
 export PORT = 5000
