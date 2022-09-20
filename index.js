@@ -73,8 +73,6 @@ app.get('/', (req,res) => {
 //     res.send(course);
 // })
 
-https.createServer(app).listen(443);
-
 // file location of private key
 var privateKey = fs.readFileSync( '/home/ec2-user/beatshot_gg/private.pem' );
 
