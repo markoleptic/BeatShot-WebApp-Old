@@ -76,10 +76,10 @@ app.get('/', (req,res) => {
 https.createServer(app).listen(443);
 
 // file location of private key
-var privateKey = fs.readFileSync( '/home/ec2-user/beatshot_gg/private.key' );
+var privateKey = fs.readFileSync( '/home/ec2-user/beatshot_gg/private.pem' );
 
 // file location of SSL cert
-var certificate = fs.readFileSync( '/home/ec2-user/beatshot_gg/beatshot_gg.crt' );
+var certificate = fs.readFileSync( '/home/ec2-user/beatshot_gg/certificate.pem' );
 
 var server_config = {
     key : privateKey,
