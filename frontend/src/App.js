@@ -14,7 +14,7 @@ function App() {
         <input
           type="text"
           value={items}
-          placeholder="Enter Tweet Here"
+          placeholder="This doesn't do anything"
         ></input>
         <button type ="submit">Hi</button>
       </form>
