@@ -2,12 +2,12 @@
 //const http = require('http');
 //const https = require('https');
 //const fs = require("fs");
-import express, { json } from 'express';
+const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
 // middleware
-app.use(json());
+app.use(express.json());
 
 app.get('/', (req,res) => {
     res.send('BeatShot website under construction');
