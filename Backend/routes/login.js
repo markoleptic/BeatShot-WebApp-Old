@@ -12,22 +12,27 @@ router.post("/", async (req, res) => {
     res.
     status(400)
     .json({ message: "User Doesn't Exist" });
+    return;
+  } if (!user.confirmed) {
+    res.
+    status(400)
+    .json({ message:"Please confirm your email to login"});
+    return;
+  }
+  const dbPassword = user.password;
+  const valid = await bcrypt.compare(password, dbPassword);
+
+  if (!valid) {
+    res
+    .status(400)
+    .json({ message: "Wrong Username and password combination" });
   } else {
-    const dbPassword = user.password;
-    bcrypt.compare(password, dbPassword).then((match) => {
-      if (!match) {
-        res
-          .status(400)
-          .json({ message: "Wrong Username and password combination" });
-      } else {
-        const accessToken = createTokens(user);
-        res.cookie("accessToken", accessToken, {
-          maxAge: 60 * 60 * 24 * 1000,
-          httpOnly: true,
-        });
-        res.json("Logged in");
-      }
+    const accessToken = createTokens(user);
+    res.cookie("accessToken", accessToken, {
+      maxAge: 60 * 60 * 24 * 1000,
+      httpOnly: true,
     });
+  res.json("Logged in");
   }
 });
 
