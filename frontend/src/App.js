@@ -5,12 +5,7 @@ function App() {
   const [usernameReg, setUsernameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
   const [emailReg, setEmailReg] = useState("");
-
-//  let homePage = async () => {
-//    const response = await fetch("/");
-//    const data = await response.json();
-//    setItems(data);
-//  };
+  const [errorReg, setErrorReg] = useState();
 
   let register = async () => {
     const response = await fetch("/register", {
@@ -22,6 +17,9 @@ function App() {
       }),
       headers: { "Content-Type": "application/json" },
     });
+    const data = await response.json();
+    setErrorReg(JSON.stringify(data));
+
   };
 
   let login = async () => {
@@ -34,18 +32,12 @@ function App() {
       }),
       headers: { "Content-Type": "application/json" },
     });
+    const data = await response.json();
+    setErrorReg(JSON.stringify(data));
   };
 
   return (
     <React.Fragment>
-      <head>
-        <meta charset="utf-8" />
-        <title>BeatShot: the rhythm-based aim trainer</title>
-        <meta
-          name="description"
-          content="BeatShot is a free-to-play rhythm-based aim trainer coming soon to Steam."
-        />
-      </head>
       <body>
         <h1>Registration</h1>
         <label>Username</label>
@@ -71,6 +63,7 @@ function App() {
         />
         <button onClick={register}> Register </button>
         <button onClick={login}> Login </button>
+        <p>{errorReg}</p>
       </body>
     </React.Fragment>
   );
