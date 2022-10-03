@@ -7,7 +7,7 @@ export function Login() {
   const [errorReg, setErrorReg] = useState();
 
   let register = async () => {
-    const response = await fetch("/register", {
+    const response = await fetch("/api/register", {
       method: "post",
       body: JSON.stringify({
         username: usernameReg,
@@ -21,7 +21,7 @@ export function Login() {
   };
 
   let login = async () => {
-    const response = await fetch("/login", {
+    const response = await fetch("/api/login", {
       method: "post",
       body: JSON.stringify({
         username: usernameReg,

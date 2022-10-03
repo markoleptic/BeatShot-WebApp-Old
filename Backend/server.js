@@ -13,10 +13,10 @@ const loginRoute = require("./routes/login");
 const patchnotesRoute = require("./routes/patchnotes");
 const registerRoute = require("./routes/register");
 const confirmationRoute = require("./routes/confirmation");
-app.use("/login", loginRoute);
-app.use("/patchnotes", patchnotesRoute);
-app.use("/register", registerRoute);
-app.use("/confirmation", confirmationRoute);
+app.use("/api/login", loginRoute);
+app.use("/api/patchnotes", patchnotesRoute);
+app.use("/api/register", registerRoute);
+app.use("/api/confirmation", confirmationRoute);
 
 
 db.sequelize.sync().then(() => {
