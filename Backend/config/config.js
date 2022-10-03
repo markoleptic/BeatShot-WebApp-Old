@@ -27,13 +27,6 @@ module.exports = {
     "database": process.env.db_database,
     "host": process.env.db_host,
     "port": process.env.db_port,
-    "logging" : console.log,
-    "maxConcurrentQueries": 100,
-    "dialect": "mysql",
-    "dialectOptions": {
-      ssl: 'Amazon RDS'
-    },
-    "pool": { maxConnections: 5, maxIdleTime: 30},
-    "language": 'en',
+    "dialect": process.env.db_dialect,
   }
 }
