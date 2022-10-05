@@ -23,10 +23,18 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                notNull: true,
+                notEmpty: true,
+            }
         },
         confirmed: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
+        },
+        refreshToken: {
+            type: DataTypes.STRING,
+            allowNull: false,
         },
     });
     return users;

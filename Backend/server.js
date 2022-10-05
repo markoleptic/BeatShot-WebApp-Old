@@ -3,21 +3,32 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 const db = require("./models");
+const cors = require('cors');
+const credentials = require('./middleware/credentials');
+const corsOptions = require('./config/corsOptions');
+const verifyJWT = require('./middleware/verifyJWT');
 const cookieParser = require("cookie-parser");
 
-// middleware
+//  handle credentials check
+app.use(credentials);
+// Cross Origin Resource Sharing
+app.use(cors(corsOptions));
+// middleware for json
 app.use(express.json());
+// middleware for cookies
 app.use(cookieParser());
 
-const loginRoute = require("./routes/login");
-const patchnotesRoute = require("./routes/patchnotes");
-const registerRoute = require("./routes/register");
-const confirmationRoute = require("./routes/confirmation");
-app.use("/api/login", loginRoute);
-app.use("/api/patchnotes", patchnotesRoute);
-app.use("/api/register", registerRoute);
-app.use("/api/confirmation", confirmationRoute);
+// all routes that don't require being logged in
+app.use("/api/login", require("./routes/auth"));
+app.use("/api/patchnotes", require("./routes/patchnotes"));
+app.use("/api/register", require("./routes/register"));
+app.use("/api/confirmation", require("./routes/confirmation"));
+app.use("/api/refresh", require("./routes/refresh"));
+app.use("/api/logout", require("./routes/logout"));
 
+// all routes that require being logged in
+app.use(verifyJWT);
+app.use("/api/profile", require("./routes/profile"));
 
 db.sequelize.sync().then(() => {
   app.listen(port, () => {
