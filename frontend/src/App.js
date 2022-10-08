@@ -11,7 +11,7 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import AuthCheck from "./components/AuthCheck";
 import Logout from "./components/Logout";
-import PersistLogin from "./components/PersistLogin";
+import PersistCheck from "./components/PersistCheck";
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/patchnotes" element={<PatchNotes />} />
 
-        <Route element={<PersistLogin />}>
+        <Route element={<PersistCheck />}>
           <Route element={<AuthCheck />}>
             {/* protected routes */}
             <Route path="/" element={<Home />} />

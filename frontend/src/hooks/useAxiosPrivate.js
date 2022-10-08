@@ -1,7 +1,6 @@
 import { axiosPrivate } from "../api/axios";
 import { useEffect } from "react";
 import useRefreshToken from "./useRefreshToken";
-import useAuth from "./useAuth";
 import { useAuthContext } from "../context/AuthProvider";
 
 // interceptors to refresh access token before requests automatically

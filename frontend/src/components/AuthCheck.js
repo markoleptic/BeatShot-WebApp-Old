@@ -1,5 +1,4 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import { useAuthContext } from "../context/AuthProvider";
 
 const AuthCheck = () => {
@@ -7,13 +6,12 @@ const AuthCheck = () => {
     const location = useLocation();
 
     return (
-        auth?.username
-            // if they do have a username, allow them to access these routes
+        // if they do have a username and access token
+        auth?.username && auth?.accessToken
+            // allow them to access these routes
             ? <Outlet />
-            // if not loggin in
-            : auth?.accessToken
-                ? <Navigate to="/unauthorized" state={{ from: location }} replace />
-                : <Navigate to="/login" state={{ from: location }} replace />
+            // otherwise redirect to login page
+            : <Navigate to="/login" state={{ from: location }} replace />
     );
 }
 

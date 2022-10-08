@@ -1,5 +1,4 @@
 import axios from "../api/axios";
-import useAuth from "./useAuth";
 import { useAuthContext } from "../context/AuthProvider";
 
 const useLogout = () => {
