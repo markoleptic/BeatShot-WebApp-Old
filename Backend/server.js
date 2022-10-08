@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // all routes that don't require being logged in
-app.use("/api/login", require("./routes/auth"));
+app.use("/api/login", require("./routes/login"));
 app.use("/api/patchnotes", require("./routes/patchnotes"));
 app.use("/api/register", require("./routes/register"));
 app.use("/api/confirmation", require("./routes/confirmation"));
@@ -28,6 +28,7 @@ app.use("/api/logout", require("./routes/logout"));
 
 // all routes that require being logged in
 app.use(verifyJWT);
+// NOT CURRENTLY IMPLEMENTED  
 app.use("/api/profile", require("./routes/profile"));
 
 db.sequelize.sync().then(() => {

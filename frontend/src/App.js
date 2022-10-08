@@ -1,33 +1,39 @@
-import { Link, Route, Routes } from "react-router-dom";
-import { Home } from "./components/Home";
+// routing imports
+import { Route, Routes } from "react-router-dom";
+
+// importing components so we can link to them
+import Header from "./components/Header";
+import NavBar from "./components/NavBar";
+import Home from "./components/Home";
 import Login from "./components/Login";
-import { PatchNotes } from "./components/PatchNotes";
-import { Profile } from "./components/Profile";
+import PatchNotes from "./components/PatchNotes";
+import Register from "./components/Register";
+import Profile from "./components/Profile";
+import AuthCheck from "./components/AuthCheck";
+import Logout from "./components/Logout";
+import PersistLogin from "./components/PersistLogin";
 
 function App() {
   return (
     <>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/patchnotes">Patch Notes</Link>
-          </li>
-          <li>
-            <Link to="/profile">Profile</Link>
-          </li>
-        </ul>
-      </nav>
+      <Header />
+      <NavBar />
       <Routes>
+        {/* public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/patchnotes" element={<PatchNotes />} />
-        <Route path="/profile" element={<Profile />} />
+
+        <Route element={<PersistLogin />}>
+          <Route element={<AuthCheck />}>
+            {/* protected routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/logout" element={<Logout />} />
+          </Route>
+        </Route>
+        {/* anything that isn't one of the above */}
         <Route path="*" element={<Home />} />
       </Routes>
     </>

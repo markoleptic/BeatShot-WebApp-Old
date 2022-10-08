@@ -1,0 +1,249 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Montserrat", sans-serif;
+  font-size: 22px;
+  color: #fff;
+}
+
+.text-link,
+.icon-link-item {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #02132b;
+}
+
+header {
+  display: flex;
+  padding: 6px 6px;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
+header h1 {
+  text-shadow: 0 0 8px rgba(62, 198, 235, 1);
+  color: rgba(62, 198, 235, 1);
+  width: 100%;
+  max-height: 100px;
+}
+
+div.logo-text {
+  display: flex;
+  align-items: center;
+}
+
+h1.main-text {
+  display: inline-block;
+}
+
+img.main-logo {
+  font-size: inherit;
+  height: 2em;
+  object-fit: contain;
+  display: inline-block;
+}
+
+header p {
+  padding-left: 20px;
+  text-align: right;
+  font-size: 16px;
+}
+
+nav {
+  top: 0;
+  position: sticky;
+  display: flex;
+  padding: 0;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    124deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 20%,
+    rgba(62, 198, 235, 1) 50%
+  );
+}
+
+nav ul.nav-links-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul.nav-links-left a:hover {
+  color: #ffffff;
+}
+
+/* div holding the nav-links-right and icon-links */
+nav div.nav-right {
+  display: flex;
+  flex-direction: column;
+}
+
+nav ul.nav-links-right {
+  display: inline-flex;
+  justify-content: flex-end;
+  list-style: none;
+}
+
+nav ul.icon-links {
+  display: inline-flex;
+  justify-content: flex-end;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li.nav-item-left,
+nav li.nav-item-right,
+nav ul li a.icon-link-item {
+  padding: 0px 6px;
+  display: block;
+  color: #02132b;
+}
+
+nav li.nav-item-left:hover {
+  text-shadow: 0 0 8px #3ec6eb;
+}
+
+nav li.nav-item-right:hover,
+nav ul li a.icon-link-item:hover {
+  color: #ffffff;
+}
+
+.logo {
+  display: inline-block;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem 0.5rem;
+}
+
+.form-container {
+    width: min(90%, 1000px);
+    max-width: 420px;
+    min-height: 400px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+.form-container h1 {
+    text-align: center;
+}
+
+.form-container p {
+    text-align: center;
+}
+div.form-container p .text-link:hover {
+    text-shadow: 0 0 8px #3ec6eb;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-grow: 1;
+  padding-bottom: 1rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+button,
+textarea {
+  font-family: "Nunito", sans-serif;
+  font-size: 22px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+}
+
+
+
+label,
+button {
+  margin-top: 1rem;
+}
+
+button {
+  padding: 0.5rem;
+}
+
+li {
+  list-style-type: none;
+}
+
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.instructions > svg {
+  margin-right: 0.25rem;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.hide {
+  display: none;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
+.errmsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.line {
+  display: inline-block;
+}
+
+.flexGrow {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
