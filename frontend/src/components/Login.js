@@ -50,7 +50,7 @@ const Login = () => {
         setUsername("");
         setEmail("");
         setPassword("");
-        navigate('/profile');
+        navigate(`/profile/${username}`);
       }
     } catch (err) {
       if (!err?.response) {

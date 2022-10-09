@@ -11,6 +11,7 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import AuthCheck from "./components/AuthCheck";
 import PersistCheck from "./components/PersistCheck";
+import Stats from "./components/Stats";
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
           <Route element={<AuthCheck />}>
             {/* protected routes */}
             <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/profile/:id/stats" element={<Stats />} />
           </Route>
         </Route>
         {/* anything that isn't one of the above */}

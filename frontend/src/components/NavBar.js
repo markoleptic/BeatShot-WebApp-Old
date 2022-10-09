@@ -2,8 +2,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord, faSteam } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../context/AuthProvider";
 
 const NavBar = () => {
+  const {auth} = useAuthContext();
   return (
     <nav className="navbar">
       <ul className="nav-links-left">
@@ -31,7 +33,7 @@ const NavBar = () => {
             </Link>
           </li>
           <li className="nav-item-right">
-            <Link className="text-link" to="/profile">
+            <Link className="text-link" to={`/profile/${auth.username}`}>
               Profile
             </Link>
           </li>
