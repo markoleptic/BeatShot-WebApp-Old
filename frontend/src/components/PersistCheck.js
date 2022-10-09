@@ -13,13 +13,18 @@ const PersistCheck = () => {
   const { auth, persist } = useAuthContext();
 
   useEffect(() => {
+    let isMounted = true;
     const verifyRefreshToken = async () => {
       try {
         await refresh();
       } catch (err) {
-        console.error(err);
+        if (err.response?.status === 401) {
+          console.log("No refresh token");
+        } else {
+          console.error(err);
+        }
       } finally {
-        setIsLoading(false);
+        isMounted && setIsLoading(false);
       }
     };
     // only call for an access token if we reloaded the page and need a new one
@@ -28,7 +33,10 @@ const PersistCheck = () => {
     } else {
       setIsLoading(false);
     }
+    return () => (isMounted = false);
   }, [auth.accessToken, persist, refresh]);
+
+  useEffect(() => {}, [isLoading]);
 
   return (
     <>

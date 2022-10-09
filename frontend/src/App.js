@@ -10,7 +10,6 @@ import PatchNotes from "./components/PatchNotes";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
 import AuthCheck from "./components/AuthCheck";
-import Logout from "./components/Logout";
 import PersistCheck from "./components/PersistCheck";
 
 function App() {
@@ -30,7 +29,6 @@ function App() {
             {/* protected routes */}
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/logout" element={<Logout />} />
           </Route>
         </Route>
         {/* anything that isn't one of the above */}

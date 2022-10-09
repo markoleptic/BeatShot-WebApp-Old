@@ -4,7 +4,7 @@ import axios from "../api/axios";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const { setAuth, persist, setPersist } = useAuthContext();
+  const { setAuth, setPersist } = useAuthContext();
   // focus user input
   const userRef = useRef();
   // focus error
@@ -15,6 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [checked, setChecked] = useState(false);
 
   // sets the userRef to what the user is currently focusing
   useEffect(() => {
@@ -63,13 +64,12 @@ const Login = () => {
     }
   };
 
-  const togglePersist = () => {
-    setPersist((prev) => !prev);
-  };
-
-  useEffect(() => {
-    localStorage.setItem("persist", persist);
-  }, [persist]);
+  // update persist state on checkbox change
+  const handlePersistCheckbox = () => {
+    setChecked(!checked);
+    setPersist(!checked);
+    localStorage.setItem("persist", !checked);
+  }
 
   return (
     <div className="form-container">
@@ -114,8 +114,8 @@ const Login = () => {
           <input
             type="checkbox"
             id="persist"
-            onChange={togglePersist}
-            checked={{persist}}
+            value={checked}
+            onChange={handlePersistCheckbox}
           />
           <label htmlFor="persist">Trust This Device</label>
         </div>
