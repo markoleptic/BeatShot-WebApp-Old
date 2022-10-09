@@ -34,7 +34,7 @@ const PersistCheck = () => {
       setIsLoading(false);
     }
     return () => (isMounted = false);
-  }, [auth.accessToken, persist, refresh]);
+  }, []);
 
   useEffect(() => {}, [isLoading]);
 

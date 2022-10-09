@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useAuthContext } from "../context/AuthProvider";
 import axios from "../api/axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { setAuth, setPersist } = useAuthContext();
@@ -9,6 +9,8 @@ const Login = () => {
   const userRef = useRef();
   // focus error
   const errRef = useRef();
+
+  const navigate = useNavigate();
 
   // all variables for the form, and the functions that change them
   const [username, setUsername] = useState("");
@@ -48,6 +50,7 @@ const Login = () => {
         setUsername("");
         setEmail("");
         setPassword("");
+        navigate('/profile');
       }
     } catch (err) {
       if (!err?.response) {
