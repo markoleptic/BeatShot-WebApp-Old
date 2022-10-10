@@ -33,6 +33,7 @@ const Register = () => {
   const [validPasswordMatch, setValidPasswordMatch] = useState(false);
   const [passwordMatchFocus, setPasswordMatchFocus] = useState(false);
 
+  const [checkEmailMsg, setCheckEmailMsg] =  useState('');
   const [errMsg, setErrMsg] = useState("");
 
   // sets the userRef to what the user is currently focusing
@@ -93,6 +94,7 @@ const Register = () => {
         setPassword("");
         setEmail("");
         setPasswordMatch("");
+        setCheckEmailMsg("Email sent! Please check your inbox.")
       }
     } catch (err) {
       if (!err?.response) {
@@ -115,7 +117,11 @@ const Register = () => {
       >
         {errMsg}
       </p>
-
+      {checkEmailMsg !== '' &&
+      <p className="checkEmailMsg">
+        {checkEmailMsg}
+      </p>
+      }
       <h1>Register</h1>
 
       <form onSubmit={handleRegister}>

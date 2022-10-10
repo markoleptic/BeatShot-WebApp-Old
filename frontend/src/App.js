@@ -12,6 +12,7 @@ import Profile from "./components/Profile";
 import AuthCheck from "./components/AuthCheck";
 import PersistCheck from "./components/PersistCheck";
 import Stats from "./components/Stats";
+import EmailConfirmation from "./components/EmailConfirmation";
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/patchnotes" element={<PatchNotes />} />
-
+        <Route path="/confirmation/:token" element={<EmailConfirmation />} />
         <Route element={<PersistCheck />}>
           <Route element={<AuthCheck />}>
             {/* protected routes */}

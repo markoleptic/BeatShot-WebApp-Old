@@ -64,7 +64,6 @@ const handleNewUser = async (req, res) => {
     .then((user) => {
       createConfToken(user)
       .then((confToken) => {
-        console.log(confToken);
         sendConfEmail(user, confToken);
         return res.json("User registered. Please check your email for verification.");
       });
