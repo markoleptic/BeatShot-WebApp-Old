@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../context/AuthProvider";
 
 const Profile = () => {
-  const { id } = useParams();
+  const { auth } = useAuthContext();
   const Logout = useLogout();
   const signOut = async () => {
     await Logout();
@@ -11,11 +11,13 @@ const Profile = () => {
 
   return (
     <>
-      <h2>Only visible to those who have logged in - {id} </h2>
-      <Link to={`/profile/${id}/stats`}>
-        <button type="button">Stats</button>
+    <div className="profile">
+      <h2>Welcome, {auth.username}. Only visible to those who have logged in.</h2>
+      <Link to={`/profile/${auth.username}/stats`}>
+        <button className="sign-out" type="button">Stats</button>
       </Link>
-      <button onClick={signOut}>Sign Out</button>
+      <button className="sign-out" type="button" onClick={signOut}>Sign Out</button>
+      </div>
     </>
   );
 };

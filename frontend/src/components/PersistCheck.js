@@ -13,27 +13,31 @@ const PersistCheck = () => {
   const { auth, persist } = useAuthContext();
 
   useEffect(() => {
-    let isMounted = true;
-    const verifyRefreshToken = async () => {
-      try {
-        await refresh();
-      } catch (err) {
-        if (err.response?.status === 401) {
-          console.log("No refresh token");
-        } else {
-          console.error(err);
+    let mounted = true;
+    if (mounted) {
+      const verifyRefreshToken = async () => {
+        try {
+          await refresh();
+        } catch (err) {
+          if (err.response?.status === 401) {
+            console.log("No refresh token");
+          } else {
+            console.error(err);
+          }
+        } finally {
+          mounted && setIsLoading(false);
         }
-      } finally {
-        isMounted && setIsLoading(false);
+      };
+      // only call for an access token if we reloaded the page and need a new one
+      if (!auth.accessToken && persist) {
+        verifyRefreshToken();
+      } else {
+        setIsLoading(false);
       }
-    };
-    // only call for an access token if we reloaded the page and need a new one
-    if (!auth.accessToken && persist) {
-      verifyRefreshToken();
-    } else {
-      setIsLoading(false);
     }
-    return () => (isMounted = false);
+
+    return () => (mounted = false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {}, [isLoading]);

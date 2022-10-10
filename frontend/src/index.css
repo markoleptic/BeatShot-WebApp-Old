@@ -264,10 +264,16 @@ div.chart {
   text-align: center;
 }
 
-div.email-conf {
+div.email-conf,
+div.profile {
+  padding-top: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
+}
+
+button.sign-out {
+  margin: auto;
 }
 

@@ -46,7 +46,7 @@ const Login = () => {
       //clear the form if no errors have been caught
       if (response) {
         const accessToken = response.data?.accessToken;
-        setAuth({ username, email, password, accessToken });
+        setAuth({ username, accessToken });
         setUsername("");
         setEmail("");
         setPassword("");
