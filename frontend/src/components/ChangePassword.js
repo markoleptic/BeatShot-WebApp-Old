@@ -1,25 +1,22 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import axios from "../api/axios";
 
-const usernameRegex = /^[A-z][A-z0-9-_]{3,23}$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,24}$/;
 const emailRegex = /^\S+@\S+\.\S+$/;
 
-const Register = () => {
+const ChangePassword = () => {
   // focus user input
-  const userRef = useRef();
+  //const userRef = useRef();
   // focus error msg
   const errRef = useRef();
+  const { token } = useParams()
 
   // all variables for the form, and the functions that change them
-  const [username, setUsername] = useState("");
-  const [validUsername, setValidUsername] = useState(false);
-  const [usernameFocus, setUsernameFocus] = useState(false);
-
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
@@ -37,23 +34,16 @@ const Register = () => {
   const [regMsgClassName, setRegMsgClassName] = useState("");
 
   // sets the userRef to what the user is currently focusing
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
+  //useEffect(() => {
+  //  userRef.current.focus();
+  //}, []);
 
   // clear error message on username, password, email, or passwordMatch change
   useEffect(() => {
     if (checkEmailMsg === false) {
       setRegMsg("");
     }
-  }, [username, password, email, passwordMatch, checkEmailMsg]);
-
-  /* anytime the user changes the username field,
-   * it automatically updates the username state,
-   * and checks if it passes regex test */
-  useEffect(() => {
-    setValidUsername(usernameRegex.test(username));
-  }, [username]);
+  }, [password, email, passwordMatch, checkEmailMsg]);
 
   /* anytime the user changes the password field,
    * it automatically updates the password state,
@@ -83,8 +73,8 @@ const Register = () => {
     // use try/catch for async/await
     try {
       const response = await axios.post(
-        "/api/register",
-        JSON.stringify({ username, email, password }),
+        `/api/changepassword/${token}`,
+        JSON.stringify({ email, password }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
@@ -92,12 +82,11 @@ const Register = () => {
       );
       //clear the form if no errors have been caught
       if (response) {
-        setUsername("");
         setPassword("");
         setEmail("");
         setPasswordMatch("");
         setCheckEmailMsg(true);
-        setRegMsg("Email sent! Please check your inbox.");
+        setRegMsg("Password changed successfully.");
         errRef.current.focus();
       }
     } catch (err) {
@@ -105,9 +94,9 @@ const Register = () => {
       if (!err?.response) {
         setRegMsg("No Server Response.");
       } else if (err.response?.status === 400) {
-        setRegMsg(Object.values(err.response.data)[0].toString()+".");
+        setRegMsg(err.response.data.toString()+".");
       } else {
-        setRegMsg("Registration Failed.");
+        setRegMsg("Password Change Failed.");
       }
       errRef.current.focus();
     }
@@ -133,48 +122,9 @@ const Register = () => {
           {regMsg}
         </p>
 
-        <h2 className="form-title">Create an Account</h2>
-        <p className="fs-100 text-lightgrey">
-          Automatically save your scores in the cloud and gain access to visual
-          analysis of every aspect of your play.
-        </p>
+        <h2 className="form-title">Password Change</h2>
 
         <form className="form" onSubmit={handleRegister}>
-          <label className="form-label" htmlFor="username">
-            Username:
-            <FontAwesomeIcon
-              icon={faSquareCheck}
-              className={validUsername ? "valid" : "hide"}
-            />
-            <FontAwesomeIcon
-              icon={faSquareXmark}
-              className={validUsername || !username ? "hide" : "invalid"}
-            />
-          </label>
-          <input
-            className="form-text"
-            type="text"
-            id="username"
-            ref={userRef}
-            autoComplete="off"
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            aria-invalid={validUsername ? "false" : "true"}
-            aria-describedby="uidnote"
-            onFocus={() => setUsernameFocus(true)}
-            onBlur={() => setUsernameFocus(false)}
-          />
-          <p
-            id="uidnote"
-            className={
-              usernameFocus && username && !validUsername
-                ? "instructions"
-                : "hide"
-            }>
-            <FontAwesomeIcon icon={faInfoCircle} />
-            4 to 24 characters. <br />
-          </p>
-
           <label className="form-label" htmlFor="email">
             Email:
             <FontAwesomeIcon
@@ -280,14 +230,13 @@ const Register = () => {
 
           <button
             disabled={
-              !validUsername ||
               !validPassword ||
               !validEmail ||
               !validPasswordMatch
                 ? true
                 : false
             }>
-            Sign Up
+            Save
           </button>
           <a className="link center-link fs-300" href="/login">
           Already have an account?
@@ -299,4 +248,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default ChangePassword;

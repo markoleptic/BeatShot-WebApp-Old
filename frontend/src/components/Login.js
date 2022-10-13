@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useAuthContext } from "../context/AuthProvider";
 import axios from "../api/axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { setAuth, setPersist } = useAuthContext();
@@ -55,13 +55,19 @@ const Login = () => {
     } catch (err) {
       if (!err?.response) {
         console.log(err.response);
-        setErrMsg("No Server Response");
+        setErrMsg("No Server Response.");
+      } else if (
+        err.response.data.toString() === "not confirmed"
+      ) {
+        setErrMsg("Please confirm your email or request for a resend.");
       } else if (err.response?.status === 400) {
-        setErrMsg("Missing Username or Password");
+        console.log(err.response.data.toString())
+        setErrMsg("Missing Username/Email or Password.");
       } else if (err.response?.status === 401) {
-        setErrMsg("Unauthorized");
+        console.log(Object.values(err.response.data)[0].toString())
+        setErrMsg("Invalid Username, Email, or Password.");
       } else {
-        setErrMsg("Login Failed");
+        setErrMsg("Login Failed.");
       }
       errRef.current.focus();
     }
@@ -72,22 +78,28 @@ const Login = () => {
     setChecked(!checked);
     setPersist(!checked);
     localStorage.setItem("persist", !checked);
-  }
+  };
 
   return (
     <div className="form-container">
       <p
         ref={errRef}
         className={errMsg ? "errmsg" : "offscreen"}
-        aria-live="assertive"
-      >
+        aria-live="assertive">
         {errMsg}
       </p>
 
-      <h1>Sign In</h1>
-      <form onSubmit={handleLogin}>
-        <label htmlFor="username">Username:</label>
+      <h2 className="form-title">Sign In</h2>
+      <p className="fs-100 text-lightgrey">
+        Automatically save your scores in the cloud and gain access to visual
+        analysis of every aspect of your play.
+      </p>
+      <form className="form" onSubmit={handleLogin}>
+        <label className="form-label" htmlFor="username">
+          Username:
+        </label>
         <input
+          className="form-text"
           type="text"
           id="username"
           ref={userRef}
@@ -95,8 +107,11 @@ const Login = () => {
           onChange={(e) => setUsername(e.target.value)}
         />
 
-        <label htmlFor="email">Email:</label>
+        <label className="form-label" htmlFor="email">
+          Email:
+        </label>
         <input
+          className="form-text"
           type="email"
           id="email"
           placeholder="icantaim@beatshot.gg"
@@ -104,32 +119,42 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label htmlFor="password">Password:</label>
+        <label className="form-label" htmlFor="password">
+          Password:
+        </label>
         <input
+          className="form-text"
           type="password"
           id="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
           required
         />
-        <button>Login</button>
+
         <div className="persistCheck">
           <input
+            className="form-text"
             type="checkbox"
             id="persist"
-            value={checked}
+            checked={checked}
             onChange={handlePersistCheckbox}
           />
-          <label htmlFor="persist">Trust This Device</label>
+          <label className="fa fs-200" htmlFor="persist">
+            <span className="button-text">Trust This Device</span>
+          </label>
         </div>
-      </form>
-      <p>
+
+        <button>Login</button>
+
+        <a className="link center-link fs-300" href="/register">
         Don't have an account?
-        <br />
-        <Link className="text-link" to="/Register">
-          Sign Up
-        </Link>
-      </p>
+      </a>
+
+      <a className="link center-link fs-300" href="/recover">
+        Forgot Password?
+      </a>
+
+      </form>
     </div>
   );
 };

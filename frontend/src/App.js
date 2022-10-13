@@ -2,22 +2,23 @@
 import { Route, Routes } from "react-router-dom";
 
 // importing components so we can link to them
-import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import PatchNotes from "./components/PatchNotes";
 import Register from "./components/Register";
-import Profile from "./components/Profile";
+import RecoverAccount from "./components/RecoverAccount";
+import Profile from "./components/profile/Profile";
 import AuthCheck from "./components/AuthCheck";
 import PersistCheck from "./components/PersistCheck";
 import Stats from "./components/Stats";
 import EmailConfirmation from "./components/EmailConfirmation";
+import Footer from "./components/Footer";
+import ChangePassword from "./components/ChangePassword";
 
 function App() {
   return (
     <>
-      <Header />
       <NavBar />
       <Routes>
         {/* public routes */}
@@ -26,6 +27,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/patchnotes" element={<PatchNotes />} />
         <Route path="/confirmation/:token" element={<EmailConfirmation />} />
+        <Route path="/recover" element={<RecoverAccount />} />
+        <Route path="/recover/:token" element={<ChangePassword />} />
         <Route element={<PersistCheck />}>
           <Route element={<AuthCheck />}>
             {/* protected routes */}
@@ -37,6 +40,7 @@ function App() {
         {/* anything that isn't one of the above */}
         <Route path="*" element={<Home />} />
       </Routes>
+      <Footer />
     </>
   );
 }

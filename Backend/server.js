@@ -25,6 +25,9 @@ app.use("/api/register", require("./routes/register"));
 app.use("/api/confirmation", require("./routes/confirmation"));
 app.use("/api/refresh", require("./routes/refresh"));
 app.use("/api/logout", require("./routes/logout"));
+app.use("/api/recoveraccount", require("./routes/recoverAccount"));
+app.use("/api/changepassword", require("./routes/changePassword"));
+app.use("/api/resendconfemail", require("./routes/resendConfEmail"));
 
 // all routes that require being logged in
 app.use(verifyJWT);

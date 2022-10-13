@@ -1,58 +1,63 @@
 // icons and images
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDiscord, faSteam } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthProvider";
+import logo from "../images/logo.ico";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from "react";
 
 const NavBar = () => {
-  const {auth} = useAuthContext();
+  const { auth } = useAuthContext();
+  const [visible, setVisibilty] = useState(false);
+
+  useEffect(() => {
+    console.log(visible);
+  }, [visible]);
+
   return (
-    <nav className="navbar">
-      <ul className="nav-links-left">
-        <li className="nav-item-left">
-          <Link className="text-link" to="/">
-            Home
-          </Link>
-        </li>
-        <li className="nav-item-left">
-          <Link className="text-link" to="/patchnotes">
-            Patch Notes
-          </Link>
-        </li>
-      </ul>
-      <div className="nav-right">
-        <ul className="nav-links-right">
-          <li className="nav-item-right">
-            <Link className="text-link" to="/login">
-              Login
+    <header className="primary-header flex">
+      <a href="/">
+        <img className="logo" src={logo} alt="logo" />
+      </a>
+
+      <FontAwesomeIcon
+        icon={faBars}
+        onClick={() => setVisibilty(!visible)}
+        className="mobile-nav-toggle link"
+        aria-controls="primary-navigation"
+        aria-expanded="false"></FontAwesomeIcon>
+      <nav>
+        <ul
+          id="primary-navigation"
+          className="primary-navigation flex fs-300"
+          data-visible={visible}>
+          <li className="uppercase">
+            <Link
+              onClick={() => setVisibilty(false)}
+              className="link"
+              to="/patchnotes">
+              Patch Notes
             </Link>
           </li>
-          <li className="nav-item-right">
-            <Link className="text-link" to="/register">
-              Register
-            </Link>
-          </li>
-          <li className="nav-item-right">
-            <Link className="text-link" to={`/profile/${auth.username}`}>
+          <li className="uppercase">
+            <Link
+              onClick={() => setVisibilty(false)}
+              className="link"
+              to={`/profile/${auth.username}`}>
               Profile
             </Link>
           </li>
-        </ul>
-
-        <ul className="icon-links">
-          <li className="icon-item">
-            <a className="icon-link-item" href="https://www.steam.com">
-              <FontAwesomeIcon icon={faSteam} />
-            </a>
-          </li>
-          <li className="icon-item">
-            <a className="icon-link-item" href="https://www.discord.gg">
-              <FontAwesomeIcon icon={faDiscord} />
-            </a>
+          <li className="uppercase">
+            <Link
+              onClick={() => setVisibilty(false)}
+              className="link"
+              to="/login">
+              Log in
+            </Link>
           </li>
         </ul>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
 

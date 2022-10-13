@@ -69,7 +69,6 @@ const handleNewUser = async (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       const errObj = {};
       err.errors.map((er) => {
         errObj[er.path] = er.message;
