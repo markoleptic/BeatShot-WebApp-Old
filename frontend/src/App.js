@@ -11,7 +11,6 @@ import RecoverAccount from "./components/RecoverAccount";
 import Profile from "./components/profile/Profile";
 import AuthCheck from "./components/AuthCheck";
 import PersistCheck from "./components/PersistCheck";
-import Stats from "./components/Stats";
 import EmailConfirmation from "./components/EmailConfirmation";
 import Footer from "./components/Footer";
 import ChangePassword from "./components/ChangePassword";
@@ -32,9 +31,7 @@ function App() {
         <Route element={<PersistCheck />}>
           <Route element={<AuthCheck />}>
             {/* protected routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/profile/:id" element={<Profile />} />
-            <Route path="/profile/:id/stats" element={<Stats />} />
+            <Route path="/profile/*" element={<Profile />}/>
           </Route>
         </Route>
         {/* anything that isn't one of the above */}

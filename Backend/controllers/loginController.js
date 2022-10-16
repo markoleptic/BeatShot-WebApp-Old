@@ -5,7 +5,7 @@ const { Op } = require("sequelize");
 require("dotenv").config();
 
 const handleLogin = async (req, res) => {
-  const { username, email, password } = req.body;
+  var { username, email, password } = req.body;
   if ((!username && !email) || !password)
     return res
       .status(400)
@@ -33,11 +33,10 @@ const handleLogin = async (req, res) => {
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: "30d" }
       );
-
       // Saving refreshToken with current user
       await users.update(
         { refreshToken: refreshToken },
-        { where: { username: username } }
+        { where: { username: foundUser.username } }
       );
       res.cookie("jwt", refreshToken, {
         httpOnly: true,
@@ -45,9 +44,10 @@ const handleLogin = async (req, res) => {
         secure: true,
         maxAge: 24 * 60 * 60 * 1000,
       });
-      res.json({ username, accessToken });
+      username = foundUser.username;
+      res.status(200).json({username, accessToken});
     } else {
-      res.sendStatus(401);
+      res.status(401);
     }
   }
 };

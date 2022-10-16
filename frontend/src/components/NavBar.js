@@ -1,18 +1,16 @@
 // icons and images
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../context/AuthProvider";
 import logo from "../images/logo.ico";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
+import { useAuthContext } from "../context/AuthProvider";
 
 const NavBar = () => {
-  const { auth } = useAuthContext();
   const [visible, setVisibilty] = useState(false);
-
+  const { auth } = useAuthContext();
   useEffect(() => {
-    console.log(visible);
-  }, [visible]);
+  }, [visible, auth]);
 
   return (
     <header className="primary-header flex">

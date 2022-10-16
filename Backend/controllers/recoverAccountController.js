@@ -38,7 +38,7 @@ const createRecoveryToken = async (user) => {
   const recoveryToken = jwt.sign(
     { username: user.username },
     process.env.RECOV_TOKEN_SECRET,
-    { expiresIn: "1h" }
+    { expiresIn: "5m" }
   );
   return recoveryToken;
 };

@@ -1,27 +1,43 @@
 import logo from "../images/logo.ico";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDiscord, faSteam } from "@fortawesome/free-brands-svg-icons";
+import {
+  faDiscord,
+  faSteam,
+  faGithub,
+} from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => {
   return (
     <footer>
-      <div className="logo-text">
-        <img className="main-logo" src={logo} alt="mainlogo" />
-        <h1 className="main-text">BeatShot</h1>
+      <div className="footer-brand-container">
+        <div className="footer-logo-container">
+          <img className="footer-logo" src={logo} alt="logo" />
+          <h2 className="footer-logo-text">BeatShot</h2>
+        </div>
+        <div className="footer-text-container">
+          <p className="footer-description-text">the free-to-play rhythm-based aim trainer</p>
+        </div>
       </div>
-      <p>free-to-play rhythm-based aim trainer coming soon to Steam</p>
-      <ul className="icon-links">
-          <li className="icon-item">
-            <a className="icon-link-item" href="https://www.steam.com">
-              <FontAwesomeIcon icon={faSteam} />
-            </a>
-          </li>
-          <li className="icon-item">
-            <a className="icon-link-item" href="https://www.discord.gg">
-              <FontAwesomeIcon icon={faDiscord} />
-            </a>
-          </li>
-        </ul>
+
+      <ul className="footer-icon-list">
+        <li className="footer-icon-item">
+          <a className="footer-icon-link link" href="https://www.steam.com">
+            <FontAwesomeIcon icon={faSteam} />
+          </a>
+        </li>
+        <li className="footer-icon-item">
+          <a className="footer-icon-link link" href="https://www.discord.gg">
+            <FontAwesomeIcon icon={faDiscord} />
+          </a>
+        </li>
+        <li className="footer-icon-item">
+          <a
+            className="footer-icon-link link"
+            href="https://github.com/markoleptic/BeatShot">
+            <FontAwesomeIcon icon={faGithub} />
+          </a>
+        </li>
+      </ul>
     </footer>
   );
 };

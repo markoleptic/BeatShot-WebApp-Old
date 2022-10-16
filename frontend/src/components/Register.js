@@ -128,7 +128,7 @@ const Register = () => {
 
   return (
     <div className="form-container">
-      <div className="front">
+
         <p ref={errRef} className={regMsgClassName} aria-live="assertive">
           {regMsg}
         </p>
@@ -140,6 +140,7 @@ const Register = () => {
         </p>
 
         <form className="form" onSubmit={handleRegister}>
+        <div className="label-input-container">
           <label className="form-label" htmlFor="username">
             Username:
             <FontAwesomeIcon
@@ -174,7 +175,9 @@ const Register = () => {
             <FontAwesomeIcon icon={faInfoCircle} />
             4 to 24 characters. <br />
           </p>
+          </div>
 
+          <div className="label-input-container">
           <label className="form-label" htmlFor="email">
             Email:
             <FontAwesomeIcon
@@ -207,7 +210,9 @@ const Register = () => {
             <FontAwesomeIcon icon={faInfoCircle} />
             Must be a valid email. <br />
           </p>
+          </div>
 
+          <div className="label-input-container">
           <label className="form-label" htmlFor="password">
             Password:
             <FontAwesomeIcon
@@ -241,7 +246,9 @@ const Register = () => {
             <br />
             Must include an uppercase letter, lowercase letter, and a number.
           </p>
+          </div>
 
+          <div className="label-input-container">
           <label className="form-label" htmlFor="passwordMatch">
             Re-enter Password:
             <FontAwesomeIcon
@@ -277,6 +284,7 @@ const Register = () => {
             <FontAwesomeIcon icon={faInfoCircle} />
             Must match the first password input field.
           </p>
+          </div>
 
           <button
             disabled={
@@ -293,8 +301,6 @@ const Register = () => {
           Already have an account?
         </a>
         </form>
-      </div>
-      <div className="back"></div>
     </div>
   );
 };

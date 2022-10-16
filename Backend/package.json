@@ -23,10 +23,10 @@
     "nodemailer": "^6.8.0",
     "path": "^0.12.7",
     "sequelize": "^6.23.2",
-    "sequelize-cli": "^6.5.1",
     "sqlite3": "^5.1.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.5.1"
   }
 }

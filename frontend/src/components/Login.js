@@ -3,6 +3,10 @@ import { useAuthContext } from "../context/AuthProvider";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
+const usernameRegex = /^[A-z][A-z0-9-_]{3,23}$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,24}$/;
+const emailRegex = /^\S+@\S+\.\S+$/;
+
 const Login = () => {
   const { setAuth, setPersist } = useAuthContext();
   // focus user input
@@ -10,13 +14,17 @@ const Login = () => {
   // focus error
   const errRef = useRef();
 
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   // all variables for the form, and the functions that change them
   const [username, setUsername] = useState("");
+  const [validUsername, setValidUsername] = useState(false);
   const [password, setPassword] = useState("");
+  const [validPassword, setValidPassword] = useState(false);
   const [email, setEmail] = useState("");
-  const [errMsg, setErrMsg] = useState("");
+  const [validEmail, setValidEmail] = useState(false);
+
+  const [regMsg, setRegMsg] = useState("");
   const [checked, setChecked] = useState(false);
 
   // sets the userRef to what the user is currently focusing
@@ -24,10 +32,36 @@ const Login = () => {
     userRef.current.focus();
   }, []);
 
-  // clear error message on username, password, email change
+  // clear error message on username, password, email, or passwordMatch change
   useEffect(() => {
-    setErrMsg("");
+    setRegMsg("");
   }, [username, password, email]);
+
+  /* anytime the user changes the username field,
+   * it automatically updates the username state,
+   * and checks if it passes regex test */
+  useEffect(() => {
+    setValidUsername(usernameRegex.test(username));
+  }, [username]);
+
+  /* anytime the user changes the password field,
+   * it automatically updates the password state,
+   * checks if it passes regex test, and if it
+   * matches the second password (passwordMatch)*/
+  useEffect(() => {
+    const regexCheck = passwordRegex.test(password);
+    setValidPassword(regexCheck);
+  }, [password]);
+
+  /* anytime the user changes the email field,
+   * it automatically updates the email state,
+   * and checks if it passes regex test */
+  useEffect(() => {
+    const result =
+      document.getElementById("email").checkValidity() &&
+      emailRegex.test(email);
+    setValidEmail(result);
+  }, [email]);
 
   // called when the Login button is clicked
   const handleLogin = async (e) => {
@@ -46,28 +80,27 @@ const Login = () => {
       //clear the form if no errors have been caught
       if (response) {
         const accessToken = response.data?.accessToken;
-        setAuth({ username, accessToken });
+        const responseUsername = response.data.username;
+        setAuth({username: responseUsername, accessToken });
         setUsername("");
         setEmail("");
         setPassword("");
-        navigate(`/profile/${username}`);
+        navigate(`/profile/${responseUsername}`);
       }
     } catch (err) {
       if (!err?.response) {
         console.log(err.response);
-        setErrMsg("No Server Response.");
-      } else if (
-        err.response.data.toString() === "not confirmed"
-      ) {
-        setErrMsg("Please confirm your email or request for a resend.");
+        setRegMsg("No Server Response.");
+      } else if (err.response.data.toString() === "not confirmed") {
+        setRegMsg("Please confirm your email or request for a resend.");
       } else if (err.response?.status === 400) {
-        console.log(err.response.data.toString())
-        setErrMsg("Missing Username/Email or Password.");
+        console.log(err.response.data.toString());
+        setRegMsg("Missing Username/Email or Password.");
       } else if (err.response?.status === 401) {
-        console.log(Object.values(err.response.data)[0].toString())
-        setErrMsg("Invalid Username, Email, or Password.");
+        console.log(Object.values(err.response.data)[0].toString());
+        setRegMsg("Invalid Username, Email, or Password.");
       } else {
-        setErrMsg("Login Failed.");
+        setRegMsg("Login Failed.");
       }
       errRef.current.focus();
     }
@@ -84,9 +117,9 @@ const Login = () => {
     <div className="form-container">
       <p
         ref={errRef}
-        className={errMsg ? "errmsg" : "offscreen"}
+        className={regMsg ? "errmsg" : "offscreen"}
         aria-live="assertive">
-        {errMsg}
+        {regMsg}
       </p>
 
       <h2 className="form-title">Sign In</h2>
@@ -94,7 +127,12 @@ const Login = () => {
         Automatically save your scores in the cloud and gain access to visual
         analysis of every aspect of your play.
       </p>
+      <p className="fs-100 text-light margin-top">
+        You can use your username or email.
+      </p>
       <form className="form" onSubmit={handleLogin}>
+
+        <div className="label-input-container">
         <label className="form-label" htmlFor="username">
           Username:
         </label>
@@ -106,7 +144,9 @@ const Login = () => {
           autoComplete="off"
           onChange={(e) => setUsername(e.target.value)}
         />
+        </div>
 
+        <div className="label-input-container">
         <label className="form-label" htmlFor="email">
           Email:
         </label>
@@ -118,7 +158,9 @@ const Login = () => {
           autoComplete="off"
           onChange={(e) => setEmail(e.target.value)}
         />
+        </div>
 
+        <div className="label-input-container">
         <label className="form-label" htmlFor="password">
           Password:
         </label>
@@ -130,7 +172,8 @@ const Login = () => {
           value={password}
           required
         />
-
+        </div>
+        
         <div className="persistCheck">
           <input
             className="form-text"
@@ -144,16 +187,20 @@ const Login = () => {
           </label>
         </div>
 
-        <button>Login</button>
+        <button
+          disabled={
+            !validPassword || (!validEmail && !validUsername) ? true : false
+          }>
+          Login
+        </button>
 
         <a className="link center-link fs-300" href="/register">
-        Don't have an account?
-      </a>
+          Don't have an account?
+        </a>
 
-      <a className="link center-link fs-300" href="/recover">
-        Forgot Password?
-      </a>
-
+        <a className="link center-link fs-300" href="/recover">
+          Forgot Password or need another confirmation link?
+        </a>
       </form>
     </div>
   );
