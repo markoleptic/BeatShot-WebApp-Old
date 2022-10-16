@@ -14,7 +14,7 @@ const ChangePassword = () => {
   //const userRef = useRef();
   // focus error msg
   const errRef = useRef();
-  const { token } = useParams()
+  const { token } = useParams();
 
   // all variables for the form, and the functions that change them
   const [password, setPassword] = useState("");
@@ -94,7 +94,7 @@ const ChangePassword = () => {
       if (!err?.response) {
         setRegMsg("No Server Response.");
       } else if (err.response?.status === 400) {
-        setRegMsg(err.response.data.toString()+".");
+        setRegMsg(err.response.data.toString() + ".");
       } else {
         setRegMsg("Password Change Failed.");
       }
@@ -230,17 +230,15 @@ const ChangePassword = () => {
 
           <button
             disabled={
-              !validPassword ||
-              !validEmail ||
-              !validPasswordMatch
+              !validPassword || !validEmail || !validPasswordMatch
                 ? true
                 : false
             }>
             Save
           </button>
           <a className="link center-link fs-300" href="/login">
-          Already have an account?
-        </a>
+            Already have an account?
+          </a>
         </form>
       </div>
       <div className="back"></div>

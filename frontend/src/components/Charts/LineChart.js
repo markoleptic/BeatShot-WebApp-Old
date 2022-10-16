@@ -1,5 +1,5 @@
 import { Line } from "react-chartjs-2";
-import { draw, generate } from "patternomaly";
+//import { draw, generate } from "patternomaly";
 import React, { useRef, useEffect, useState } from "react";
 import {
   Chart as ChartJS,
@@ -73,7 +73,7 @@ const LineChart = (props, canvas) => {
 
   useEffect(() => {
     const chart = chartRef.current;
-    console.log(props.labels);
+    //console.log(props.labels);
     if (chart) {
       //chart.ctx.rect(0, 0, 0, chart.canvas.height);
       gradient = chart.ctx.createLinearGradient(0, 0, 0, chart.canvas.height);
@@ -82,8 +82,8 @@ const LineChart = (props, canvas) => {
       chart.ctxfillStyle = gradient;
       chart.ctx.fill();
       SetGradient(gradient);
-      console.log("CanvasRenderingContext2D", chart.ctx);
-      console.log("HTMLCanvasElement", chart.canvas.height);
+      //console.log("CanvasRenderingContext2D", chart.ctx);
+      //console.log("HTMLCanvasElement", chart.canvas.height);
     }
   }, [chartRef]);
 

@@ -417,12 +417,34 @@ form {
   overflow: auto;
   position: relative;
   background-color: hsl(var(--clr-sidebar));
-  max-width: 600px;
+  max-width: 800px;
 }
 canvas {
   width: 100% !important;
   height: 100% !important;
 }
+.select-container {
+  background-color: hsl(var(--clr-beatshot-darkblue));
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-right: auto;
+}
+.select-wrapper {
+  background-color: hsl(var(--clr-beatshot-darkblue));
+  flex:1;
+
+}
+.song-select {
+  color:#02132b;
+  background-color:#02132b;
+}
+
+.game-mode-select {
+  background-color: hsl(var(--clr-beatshot-darkblue));
+  color: hsl(var(--clr-beatshot-darkblue));
+}
+
 
 /* mobile navigation toggle */
 .mobile-nav-toggle {

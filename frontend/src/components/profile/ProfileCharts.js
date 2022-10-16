@@ -5,18 +5,54 @@ import { useAuthContext } from "../../context/AuthProvider";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const ProfileCharts = () => {
-  const [users, setUsers] = useState([]);
-  const [id, setId] = useState([]);
-  const [gameModeOptions, setGameModeOptions] = useState();
-  const [songOptions, setSongOptions] = useState();
-  const [NSMBScores, setNSMBScores] = useState();
-  const [NSMBDates, setNSMBDates] = useState();
-  const [gameModeSongTitle, setgameModeSongTitle] = useState("");
+  const [gameModeOptions, setGameModeOptions] = useState([]);
+  const [songOptions, setSongOptions] = useState([]);
+  const [scores, setScores] = useState();
+  const [dates, setDates] = useState();
+  const [chartTitle, setChartTitle] = useState("");
+  const [lineChartData, setLineChartData] = useState([]);
+  const [selectedGameMode, setSelectedGameMode] = useState("");
+  const [selectedSong, setSelectedSong] = useState("");
+  const [scoreMap, setScoreMap] = useState(new Map());
   const axios = useAxiosPrivate();
-  const {auth} = useAuthContext();
+  const { auth } = useAuthContext();
+
+  const getGameModes = (data) => {
+    let gameModeArray = [];
+    data.map((x) =>
+      gameModeArray.push({
+        value: x.gameModeActorName,
+        label: x.gameModeActorName,
+      })
+    );
+    setGameModeOptions(getUnique(gameModeArray));
+  };
+  const getSongTitles = (data) => {
+    let songTitleArray = [];
+    data.map((x) =>
+      songTitleArray.push({
+        value: x.songTitle,
+        label: x.songTitle,
+      })
+    );
+    setSongOptions(getUnique(songTitleArray));
+  };
+  const getUnique = (data) => {
+    let tempArray = [];
+    let unique = data.filter((element) => {
+      let isDupe = tempArray.includes(element.value);
+      if (!isDupe) {
+        tempArray.push(element.value);
+        return true;
+      }
+      return false;
+    });
+    return unique;
+  };
+
 
   useEffect(() => {
-    const getScores = async () => {
+    const initializeOptions = async () => {
       try {
         const response = await axios.get(
           `/api/profile/${auth.username}/getscores`,
@@ -25,20 +61,11 @@ const ProfileCharts = () => {
             withCredentials: true,
           }
         );
-        //clear the form if no errors have been caught
         if (response) {
-          const lineChartData = await response.data;
-          setgameModeSongTitle("NarrowSpreadMultiBeat - Random_15s_Song");
-          for (let scoreObject in lineChartData) {
-            if (lineChartData[scoreObject].gameModeActorName==="NarrowSpreadMultiBeat"
-            && lineChartData[scoreObject].songTitle==="triangle_open_01-102876") {
-              setNSMBScores(lineChartData.map((x) => x.score));
-              setNSMBDates(lineChartData.map((x) => x.time));
-            }
-            console.log(lineChartData[scoreObject].highScore)
-          }
-          console.log(lineChartData)
-          //setGameModeOptions(response.json());
+          const responseData = await response.data;
+          setLineChartData(responseData);
+          getGameModes(responseData);
+          getSongTitles(responseData);
         }
       } catch (err) {
         if (!err?.response) {
@@ -56,52 +83,93 @@ const ProfileCharts = () => {
           //setRegMsg("Login Failed.");
         }
       }
-      // try {
-      //   const response = await fetch(
-      //     "https://jsonplaceholder.typicode.com/users"
-      //   ).then({});
-      //   if (response) {
-      //     const lineChartData = await response.json();
-      //     setId(lineChartData.map((x) => x.id));
-      //     setUsers(lineChartData.map((x) => x.name));
-      //   }
-      // } catch (err) {
-      //   console.log(err);
-      // }
+    };
+    initializeOptions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const getScores = () => {
+      //let scoreMap = new Map();
+      setScoreMap(new Map());
+      for (let scoreObject in lineChartData) {
+        if (
+          lineChartData[scoreObject].gameModeActorName ===
+            selectedGameMode &&
+          lineChartData[scoreObject].songTitle === selectedSong
+        ) {
+          scoreMap.set(lineChartData[scoreObject].time, lineChartData[scoreObject].score);
+          //setNSMBDates(responseData.map((x) => x.time));
+        }
+      }
+      const sortedScoreMap = new Map([...scoreMap].sort());
+      const keys = [...sortedScoreMap.keys()];
+      const values = [...sortedScoreMap.values()];
+      setScores(values);
+      setDates(keys);
     };
     getScores();
-  }, []);
+    setChartTitle(selectedGameMode+selectedSong)
+  }, [selectedGameMode, selectedSong]);
+
+  const handleGameModeClick = () => {};
+
+  const handleGameModeSelect = async (newValue) => {
+    setSelectedGameMode(newValue);
+    var matchingSongTitles = [];
+    for (var scoreObject in lineChartData) {
+      if (lineChartData[scoreObject].gameModeActorName === newValue) {
+        matchingSongTitles.push({
+          value: lineChartData[scoreObject].songTitle,
+          label: lineChartData[scoreObject].songTitle,
+        });
+      }
+    }
+    setSongOptions(getUnique(matchingSongTitles));
+  };
+
+  const handleSongSelect = async (newValue) => {
+    setSelectedSong(newValue);
+    var matchingGameModes = [];
+    for (var scoreObject in lineChartData) {
+      if (lineChartData[scoreObject].songTitle === newValue) {
+        matchingGameModes.push({
+          value: lineChartData[scoreObject].gameModeActorName,
+          label: lineChartData[scoreObject].gameModeActorName,
+        });
+      }
+    }
+    setGameModeOptions(getUnique(matchingGameModes));
+  };
 
   return (
     <>
-      <div className="rec-select">
-        <div>
-          <h4> #1:</h4>
-          <Select options={""} className="rec-select-item" />
+      <div className="select-container">
+        <div className="select-wrapper">
+          <h4> Select a GameMode:</h4>
+          <Select
+            className="game-mode-select"
+            options={gameModeOptions}
+            onMenuOpen={handleGameModeClick}
+            onChange={(newValue) => handleGameModeSelect(newValue.value)}
+            placeholder="Filter by game mode"
+          />
         </div>
-
-        <div>
-          <h4> #2:</h4>
-          <Select options={""} className="rec-select-item" />
+        <div className="select-wrapper">
+          <h4> Select a Song:</h4>
+          <Select
+            className="song-select"
+            options={songOptions}
+            onChange={(newValue) => handleSongSelect(newValue.value)}
+            placeholder="Filter by song"
+          />
         </div>
       </div>
-      <p class="text-light">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem nostrum
-        doloribus esse nam laudantium maiores molestiae, accusantium veniam
-        officia nulla debitis, dolorum laboriosam adipisci consequuntur ex
-        quasi? Eligendi corporis nulla ipsum in ad veniam libero quis cumque,
-        quod nesciunt doloremque officia illo molestiae iste id illum. Officia
-        tempore in deleniti exercitationem, quidem ducimus non molestiae
-        veritatis doloremque nihil recusandae natus vitae, quasi ex itaque
-        voluptate. Doloribus, deleniti vero. Consequuntur voluptates obcaecati
-        aperiam nemo minima. Tempora, incidunt amet. Totam tenetur harum sequi,
-        magni quos possimus ea. Nulla excepturi, quo explicabo, libero autem
-        deserunt iste, consequuntur dolore asperiores quos inventore voluptas
-        eius?
-      </p>
-      <LineChart labels={NSMBDates} data={NSMBScores} title={gameModeSongTitle} />
-      <LineChart labels={users} data={id} />
-      <LineChart labels={users} data={id} />
+      <div>
+        {selectedGameMode!=="" && selectedSong!=="" && (
+          <LineChart labels={dates} data={scores} title={chartTitle} />
+        )}
+      </div>
     </>
   );
 };

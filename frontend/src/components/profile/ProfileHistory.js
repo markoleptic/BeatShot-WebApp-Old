@@ -1,7 +1,7 @@
 const ProfileHistory = () => {
     return (
       <>
-        <p class="text-light">
+        <p className="text-light">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem nostrum
           doloribus esse nam laudantium maiores molestiae, accusantium veniam
           officia nulla debitis, dolorum laboriosam adipisci consequuntur ex
