@@ -1,6 +1,9 @@
+import ProfileHeader from "./ProfileHeader";
+
 const ProfileOverview = () => {
   return (
     <>
+    <ProfileHeader />
       <p className="text-light">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem nostrum
         doloribus esse nam laudantium maiores molestiae, accusantium veniam

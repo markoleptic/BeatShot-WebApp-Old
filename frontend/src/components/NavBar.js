@@ -5,12 +5,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../context/AuthProvider";
+import useLogout from "../hooks/useLogout";
 
 const NavBar = () => {
   const [visible, setVisibilty] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const { auth } = useAuthContext();
   useEffect(() => {
+    if (auth?.username && auth?.accessToken) {
+      setLoggedIn(true);
+    }
+    else {setLoggedIn(false)}
   }, [visible, auth]);
+
+  const Logout = useLogout();
+  const signOut = async () => {
+    await Logout();
+  };
 
   return (
     <header className="primary-header flex">
@@ -46,12 +57,20 @@ const NavBar = () => {
             </Link>
           </li>
           <li className="uppercase">
-            <Link
-              onClick={() => setVisibilty(false)}
-              className="link"
-              to="/login">
-              Log in
-            </Link>
+            {loggedIn ? (
+              <button
+                onClick={() => {setVisibilty(false); signOut()}}
+                className="fake-button link">
+                Logout
+              </button>
+            ) : (
+              <Link
+                onClick={() => setVisibilty(false)}
+                className="link"
+                to="/login">
+                Login
+              </Link>
+            )}
           </li>
         </ul>
       </nav>

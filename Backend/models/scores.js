@@ -40,9 +40,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     isBeatTrackMode: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     totalPossibleDamage: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.INTEGER,
     },
     reactionTime: {
       type: DataTypes.FLOAT,

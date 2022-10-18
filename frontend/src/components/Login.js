@@ -117,7 +117,7 @@ const Login = () => {
     <div className="form-container">
       <p
         ref={errRef}
-        className={regMsg ? "errmsg" : "offscreen"}
+        className={regMsg ? "errmsg" : "hide"}
         aria-live="assertive">
         {regMsg}
       </p>
