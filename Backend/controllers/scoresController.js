@@ -4,7 +4,6 @@ require("dotenv").config();
 
 const saveScores = async (req, res) => {
   var data = req.body;
-  console.log(data);
   const foundUser = await users.findOne({
     where: { username: req.params.userid },
   });
@@ -16,80 +15,36 @@ const saveScores = async (req, res) => {
   for (entry in foundScores) {
     times.push(foundScores[entry].time.toJSON());
   }
-
-  for (let gameModeScorePairs in data) {
-    for (let scorePairs in data[gameModeScorePairs]) {
-      //console.log(data[gameModeScorePairs][scorePairs].playerScoreArray)
-    }
-  }
-
-  for (let gameModeScorePairs in data) {
-    for (let scorePair in data[gameModeScorePairs]) {
-      for (let scoreElements in data[gameModeScorePairs][scorePair]) {
-        for (let playerScoreArray in data[gameModeScorePairs][scorePair][
-          scoreElements
-        ]) {
-          let gameMode =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .gameModeActorName;
-          let highScore =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .highScore;
-          let score =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .score;
-          let time =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .time;
-          let songTitle =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .songTitle;
-          let customGameModeName =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .customGameModeName;
-          let songLength =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .songLength;
-          let shotsFired =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .shotsFired;
-          let targetsHit =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .targetsHit;
-          let targetsSpawned =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .targetsSpawned;
-          let isBeatTrackMode =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .isBeatTrackMode;
-          let totalPossibleDamage =
-            data[gameModeScorePairs][scorePair][scoreElements][playerScoreArray]
-              .totalPossibleDamage;
-
-          let splitTime = time.split("-");
-          splitTime[0] = splitTime[0].replaceAll(/\./g, "-");
-          splitTime[1] = splitTime[1].replaceAll(/\./g, ":");
-          let formattedString = splitTime[0]
-            .concat("T", splitTime[1])
-            .concat(".000Z");
-          if (times.includes(formattedString) === false) {
-            scores.create({
-              userID: foundUser.userID,
-              gameModeActorName: gameMode,
-              highScore: highScore,
-              score: score,
-              time: formattedString,
-              songTitle: songTitle,
-              customGameModeName: customGameModeName,
-              songLength: songLength,
-              shotsFired: shotsFired,
-              targetsHit: targetsHit,
-              targetsSpawned: targetsSpawned,
-              isBeatTrackMode: isBeatTrackMode,
-              totalPossibleDamage: totalPossibleDamage,
-            });
-          }
-        }
+  console.log(data);
+  for (let scoreArray in data) {
+    for (let scoreObject in data[scoreArray]) {
+      let time = data[scoreArray][scoreObject].time;
+      let splitTime = time.split("-");
+      splitTime[0] = splitTime[0].replaceAll(/\./g, "-");
+      splitTime[1] = splitTime[1].replaceAll(/\./g, ":");
+      let formattedTime = splitTime[0]
+        .concat("T", splitTime[1])
+        .concat(".000Z");
+      if (times.includes(formattedTime) === false) {
+        scores.create({
+          userID: foundUser.userID,
+          gameModeActorName: data[scoreArray][scoreObject].gameModeActorName,
+          customGameModeName: data[scoreArray][scoreObject].customGameModeName,
+          songTitle: data[scoreArray][scoreObject].songTitle,
+          songLength: data[scoreArray][scoreObject].songLength,
+          score: data[scoreArray][scoreObject].score,
+          highScore: data[scoreArray][scoreObject].highScore,
+          accuracy: data[scoreArray][scoreObject].accuracy,
+          completion: data[scoreArray][scoreObject].completion,
+          shotsFired: data[scoreArray][scoreObject].shotsFired,
+          targetsHit: data[scoreArray][scoreObject].targetsHit,
+          targetsSpawned: data[scoreArray][scoreObject].targetsSpawned,
+          totalPossibleDamage:
+            data[scoreArray][scoreObject].totalPossibleDamage,
+          totalTimeOffset: data[scoreArray][scoreObject].totalTimeOffset,
+          avgTimeOffset: data[scoreArray][scoreObject].avgTimeOffset,
+          time: formattedTime,
+        });
       }
     }
   }

@@ -3,26 +3,38 @@ import LineChart from "../Charts/LineChart";
 import Select from "react-select";
 import { useAuthContext } from "../../context/AuthProvider";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import SelectBox from "../SelectBox";
 
 const ProfileCharts = () => {
+  const OTHERS_OPTION = {
+    label: "Others",
+    value: "Others",
+  };
+
+  var options = [
+    { value: "Spring", label: "Spring" },
+    { value: "Summer", label: "Summer" },
+    { value: "Autumn", label: "Autumn" },
+    { value: "Winter", label: "Winter" },
+    { ...OTHERS_OPTION, isHidden: true },
+  ];
+
   const [gameModeOptions, setGameModeOptions] = useState([]);
   const [songOptions, setSongOptions] = useState([]);
   const [scores, setScores] = useState();
   const [dates, setDates] = useState();
   const [lineChartData, setLineChartData] = useState([]);
-  const [scoreOptions, setScoreOptions] = useState();
-  const [accuracyOptions, setAccuracyOptions] = useState();
   const [selectedGameMode, setSelectedGameMode] = useState("");
   const [selectedSong, setSelectedSong] = useState("");
   const [scoreMap, setScoreMap] = useState(new Map());
   const [bestScore, setBestScore] = useState();
   const [bestAccuracy, setBestAccuracy] = useState();
-  const [bestDestroyed, setBestDestroyed] = useState();
-  const [bestReactionTime, setBestReactionTime] = useState();
+  const [bestCompletion, setBestCompletion] = useState();
+  const [bestTimeOffset, setBestTimeOffset] = useState();
   const [avgScore, setAvgScore] = useState();
   const [avgAccuracy, setAvgAccuracy] = useState();
-  const [avgDestroyed, setAvgDestroyed] = useState();
-  const [avgReactionTime, setAvgReactionTime] = useState();
+  const [avgCompletion, setAvgCompletion] = useState();
+  const [avgTimeOffset, setAvgTimeOffset] = useState();
   const axios = useAxiosPrivate();
   const { auth } = useAuthContext();
   const errRef = useRef();
@@ -36,12 +48,19 @@ const ProfileCharts = () => {
   /* sets the game mode options based on get request */
   const getGameModes = (data) => {
     let gameModeArray = [];
-    data.map((x) =>
-      gameModeArray.push({
-        value: x.gameModeActorName,
-        label: x.gameModeActorName,
-      })
-    );
+    data.map((x) => {
+      if (x.gameModeActorName === "Custom" && x.customGameModeName !== "") {
+        return gameModeArray.push({
+          value: x.customGameModeName,
+          label: x.customGameModeName,
+        });
+      } else {
+        return gameModeArray.push({
+          value: x.gameModeActorName,
+          label: x.gameModeActorName,
+        });
+      }
+    });
     setGameModeOptions(getUnique(gameModeArray));
   };
 
@@ -92,7 +111,7 @@ const ProfileCharts = () => {
       } catch (err) {
         if (!err?.response) {
           console.log(err.response);
-          setRegMsg("No Server Response");
+          setRegMsg("No Server Response. Try to Reload the page");
         } else if (err.response?.status === 400) {
           console.log(err.response.data.toString());
           setRegMsg("Unauthorized");
@@ -114,19 +133,20 @@ const ProfileCharts = () => {
       setScoreMap(new Map());
       for (let scoreObject in lineChartData) {
         if (
-          lineChartData[scoreObject].gameModeActorName === selectedGameMode &&
+          ((lineChartData[scoreObject].customGameModeName === "" &&
+            lineChartData[scoreObject].gameModeActorName ===
+              selectedGameMode) ||
+            (lineChartData[scoreObject].customGameModeName ===
+              selectedGameMode &&
+              lineChartData[scoreObject].gameModeActorName === "Custom")) &&
           lineChartData[scoreObject].songTitle === selectedSong
         ) {
           scoreMap.set(lineChartData[scoreObject].time, {
             score: lineChartData[scoreObject].score,
             highScore: lineChartData[scoreObject].highScore,
-            accuracy:
-              lineChartData[scoreObject].targetsHit /
-              lineChartData[scoreObject].shotsFired,
-            destroyed:
-              lineChartData[scoreObject].targetsHit /
-              lineChartData[scoreObject].targetsSpawned,
-            reactionTime: lineChartData[scoreObject].reactionTime,
+            accuracy: lineChartData[scoreObject].accuracy,
+            completion: lineChartData[scoreObject].completion,
+            timeOffset: lineChartData[scoreObject].avgTimeOffset,
           });
         }
       }
@@ -135,15 +155,27 @@ const ProfileCharts = () => {
       const values = [...sortedScoreMap.values()];
       setScores(values);
       setDates(keys);
-      setBestScore(Math.round((Math.max(...values.map((value) => value.highScore))*10)/10));
+      setBestScore(
+        Math.round(
+          (Math.max(...values.map((value) => value.highScore)) * 10) / 10
+        )
+      );
       setBestAccuracy(
-        Math.round(Math.max(...values.map((value) => value.accuracy)) * 1000)/10 + "%"
+        Math.round(Math.max(...values.map((value) => value.accuracy)) * 1000) /
+          10 +
+          "%"
       );
-      setBestDestroyed(
-        Math.round(Math.max(...values.map((value) => value.destroyed)) * 1000)/10 + "%"
+      setBestCompletion(
+        Math.round(
+          Math.max(...values.map((value) => value.completion)) * 1000
+        ) /
+          10 +
+          "%"
       );
-      setBestReactionTime(
-        Math.round(Math.max(...values.map((value) => value.reactionTime))*10)/10 + " ms"
+      setBestTimeOffset(
+        Math.round(
+          Math.max(...values.map((value) => value.timeOffset)) * 1000
+        ) + " ms"
       );
       setAvgScore(
         Math.round(
@@ -158,25 +190,25 @@ const ProfileCharts = () => {
             .map((value) => value.accuracy)
             .reduce((p, c, i, a) => p + c / a.length, 0) * 1000
         ) /
-          10 + "%"
+          10 +
+          "%"
       );
-      setAvgDestroyed(
+      setAvgCompletion(
         Math.round(
           values
-            .map((value) => value.destroyed)
+            .map((value) => value.completion)
             .reduce((p, c, i, a) => p + c / a.length, 0) * 1000
         ) /
-          10 + "%"
+          10 +
+          "%"
       );
-      setAvgReactionTime(
+      setAvgTimeOffset(
         Math.round(
           values
-            .map((value) => value.reactionTime)
-            .reduce((p, c, i, a) => p + c / a.length, 0)
-        )
-        + " ms"
+            .map((value) => value.timeOffset)
+            .reduce((p, c, i, a) => p + c / a.length, 0) * 1000
+        ) + " ms"
       );
-      setChartOptions();
     };
     getScores();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -187,7 +219,10 @@ const ProfileCharts = () => {
     setSelectedGameMode(newValue);
     var matchingSongTitles = [];
     for (var scoreObject in lineChartData) {
-      if (lineChartData[scoreObject].gameModeActorName === newValue) {
+      if (
+        lineChartData[scoreObject].gameModeActorName === newValue ||
+        lineChartData[scoreObject].customGameModeName === newValue
+      ) {
         matchingSongTitles.push({
           value: lineChartData[scoreObject].songTitle,
           label: lineChartData[scoreObject].songTitle,
@@ -203,87 +238,49 @@ const ProfileCharts = () => {
     var matchingGameModes = [];
     for (var scoreObject in lineChartData) {
       if (lineChartData[scoreObject].songTitle === newValue) {
-        matchingGameModes.push({
-          value: lineChartData[scoreObject].gameModeActorName,
-          label: lineChartData[scoreObject].gameModeActorName,
-        });
+        if (matchingGameModes.gameModeActorName === "") {
+          matchingGameModes.push({
+            value: lineChartData[scoreObject].customGameModeName,
+            label: lineChartData[scoreObject].customGameModeName,
+          });
+        } else {
+          matchingGameModes.push({
+            value: lineChartData[scoreObject].gameModeActorName,
+            label: lineChartData[scoreObject].gameModeActorName,
+          });
+        }
       }
     }
     setGameModeOptions(getUnique(matchingGameModes));
   };
 
-  const selectStyles = {
-    menu: (provided, state) => ({
-      ...provided,
-      marginTop: 0,
-      fontSize: 14,
-      //opacity: state.menuIsOpen ? 1 : 0,
-      transition: "all 120ms ease-in-out",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isSelected ? "hsl(193, 81%, 58%)" : "white",
-      textAlign: "left",
-      cursor: "pointer",
-      "&:hover": {
-        backgroundColor: "hsl(193, 81%, 58%)",
-        transition: "all 120ms ease-out",
-      },
-    }),
-    container: (provided) => ({
-      ...provided,
-      width: "100%",
-    }),
-    control: (provided) => ({
-      ...provided,
-      width: "100%",
-      textAlign: "left",
-      cursor: "pointer",
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: state ? "hsl(193, 81%, 58%)" : "hsl(215, 91%, 9%)",
-      "&:hover": {
-        color: "#9ee2f5",
-        transition: "all 200ms ease-out",
-      },
-    }),
-    indicatorSeparator: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isMenuOpen
-        ? "hsl(193, 81%, 58%)"
-        : "hsl(215, 91%, 9%)",
-    }),
-    valueContainer: (provided) => ({
-      ...provided,
-      padding: 0,
-      paddingLeft: 2,
-      paddingRight: 2,
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-    }),
+  const scoreOptions = {
+    title: "Score vs Time",
+    xAxisTitle: "Date",
+    yAxisTitle: "Score (thousands)",
+    category: "score",
+    bDisplayPercentage: true,
   };
-
-  const setChartOptions = () => {
-    setScoreOptions([
-      {
-        title: "Score vs Time",
-        xAxisTitle: "Date",
-        yAxisTitle: "Score (thousands)",
-        category: "score",
-        bDisplayPercentage: true,
-      },
-    ]);
-    setAccuracyOptions([
-      {
-        title: "Accuracy vs Time",
-        xAxisTitle: "Date",
-        yAxisTitle: "Hit Rate",
-        category: "accuracy",
-        bDisplayPercentage: false,
-      },
-    ]);
+  const accuracyOptions = {
+    title: "Accuracy vs Time",
+    xAxisTitle: "Date",
+    yAxisTitle: "Hit Rate (%)",
+    category: "accuracy",
+    bDisplayPercentage: false,
+  };
+  const completionOptions = {
+    title: "Average Targets Destroyed",
+    xAxisTitle: "Date",
+    yAxisTitle: "Completion (%)",
+    category: "completion",
+    bDisplayPercentage: false,
+  };
+  const avgTimeOffsetOptions = {
+    title: "Average Reaction Time",
+    xAxisTitle: "Date",
+    yAxisTitle: "Time (ms)",
+    category: "avgTimeOffset",
+    bDisplayPercentage: false,
   };
 
   return (
@@ -302,26 +299,31 @@ const ProfileCharts = () => {
         <div className="select-container">
           <div className="select-wrapper">
             <p className="select-caption fs-200">GameMode:</p>
-            <Select
-              className="game-mode-select"
-              options={gameModeOptions}
-              onChange={(newValue) => handleGameModeSelect(newValue.value)}
-              placeholder="Filter by game mode"
-              styles={selectStyles}
-            />
+            <div className="select-wrapper">
+              <SelectBox
+                onChange={(newValue) => handleGameModeSelect(newValue.value)}
+                placeholder={"Filter by game mode"}
+                options={gameModeOptions}
+              />
+            </div>
           </div>
           <div className="select-wrapper">
             <p className="select-caption fs-200">Song:</p>
-            <Select
-              className="song-select"
-              options={songOptions}
-              onChange={(newValue) => handleSongSelect(newValue.value)}
-              placeholder="Filter by song"
-              styles={selectStyles}
-            />
+            <div className="select-wrapper">
+              <SelectBox
+                onChange={(newValue) => handleSongSelect(newValue.value)}
+                placeholder={"Filter by song"}
+                options={songOptions}
+              />
+            </div>
           </div>
         </div>
-        <div className={selectedGameMode !== "" && selectedSong !== "" ? "best-avg-container" : "hide"}>
+        <div
+          className={
+            selectedGameMode !== "" && selectedSong !== ""
+              ? "best-avg-container"
+              : "hide"
+          }>
           <div className="best-container">
             <ul className="best-list">
               <li className="table-header">
@@ -337,11 +339,11 @@ const ProfileCharts = () => {
               </li>
               <li className="table-row">
                 <div className="col col-1">Reaction Time:</div>
-                <div className="col col-2">{bestReactionTime}</div>
+                <div className="col col-2">{bestTimeOffset}</div>
               </li>
               <li className="table-row">
                 <div className="col col-1">Targets Destroyed:</div>
-                <div className="col col-2">{bestDestroyed}</div>
+                <div className="col col-2">{bestCompletion}</div>
               </li>
             </ul>
           </div>
@@ -360,11 +362,11 @@ const ProfileCharts = () => {
               </li>
               <li className="table-row">
                 <div className="col col-1">Reaction Time:</div>
-                <div className="col col-2">{avgReactionTime}</div>
+                <div className="col col-2">{avgTimeOffset}</div>
               </li>
               <li className="table-row">
                 <div className="col col-1">Targets Destroyed:</div>
-                <div className="col col-2">{avgDestroyed}</div>
+                <div className="col col-2">{avgCompletion}</div>
               </li>
             </ul>
           </div>
@@ -385,6 +387,24 @@ const ProfileCharts = () => {
             labels={dates}
             data={scores.map((value) => value.accuracy)}
             myOptions={accuracyOptions}
+          />
+        )}
+      </div>
+      <div>
+        {selectedGameMode !== "" && selectedSong !== "" && (
+          <LineChart
+            labels={dates}
+            data={scores.map((value) => value.completion)}
+            myOptions={completionOptions}
+          />
+        )}
+      </div>
+      <div>
+        {selectedGameMode !== "" && selectedSong !== "" && (
+          <LineChart
+            labels={dates}
+            data={scores.map((value) => value.timeOffset)}
+            myOptions={avgTimeOffsetOptions}
           />
         )}
       </div>

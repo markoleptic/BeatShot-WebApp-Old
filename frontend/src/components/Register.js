@@ -297,7 +297,7 @@ const Register = () => {
             }>
             Sign Up
           </button>
-          <a className="link center-link fs-300" href="/login">
+          <a className="link text-white hover-blue fs-300 fs-300" href="/login">
           Already have an account?
         </a>
         </form>

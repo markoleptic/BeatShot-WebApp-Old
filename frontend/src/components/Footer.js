@@ -21,18 +21,18 @@ const Footer = () => {
 
       <ul className="footer-icon-list">
         <li className="footer-icon-item">
-          <a className="footer-icon-link link" href="https://www.steam.com">
+          <a className="footer-icon-link link hover-blue" href="https://www.steam.com">
             <FontAwesomeIcon icon={faSteam} />
           </a>
         </li>
         <li className="footer-icon-item">
-          <a className="footer-icon-link link" href="https://www.discord.gg">
+          <a className="footer-icon-link link hover-blue" href="https://discord.gg">
             <FontAwesomeIcon icon={faDiscord} />
           </a>
         </li>
         <li className="footer-icon-item">
           <a
-            className="footer-icon-link link"
+            className="footer-icon-link link hover-blue"
             href="https://github.com/markoleptic/BeatShot">
             <FontAwesomeIcon icon={faGithub} />
           </a>

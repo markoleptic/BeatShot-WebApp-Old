@@ -1,4 +1,7 @@
 import { Line } from "react-chartjs-2";
+import "chartjs-adapter-luxon";
+import { DateTime } from "luxon";
+
 //import { draw, generate } from "patternomaly";
 import React, { useRef, useEffect, useState } from "react";
 import {
@@ -9,6 +12,8 @@ import {
   LineElement,
   Title,
   Tooltip,
+  TimeScale,
+  TimeSeriesScale,
   Legend,
   Filler,
 } from "chart.js";
@@ -17,6 +22,8 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  TimeScale,
+  TimeSeriesScale,
   Title,
   Tooltip,
   Legend,
@@ -25,41 +32,26 @@ ChartJS.register(
 
 const LineChart = (props, canvas) => {
   var chartRef = useRef();
-  var [gradient, SetGradient] = useState();
+  var [gradient, setGradient] = useState();
+  var [xTick, setXTick] = useState();
 
-  const [{title, xAxisTitle, yAxisTitle, category, bDisplayPercentage }] = props.myOptions;
+  const { title, xAxisTitle, yAxisTitle, category, bDisplayPercentage } =
+    props.myOptions;
 
-  // const labels = [
-  //   "2022-1-23", 
-  //   "2022-1-23",
-  //   "2022-1-24",
-  //   "2022-1-25",
-  //   "2022-1-26",
-  //   "2022-1-27",
-  //   "2022-1-28",
-  //   "2022-2-01",
-  //   "2022-2-08",
-  //   "2022-2-16",
-  // ]
+  const labels = props.labels.map((element) =>
+    DateTime.fromISO(element.substring(0, 23), { zone: "utc" })
+  );
 
-  // const data2 = [
-  //   60000,
-  //   50000,
-  //   60000,
-  //   80000, 
-  //   40000,
-  //   75000,
-  //   40000, 
-  //   70000,
-  //   81000,
-  //   82000
-  // ]
+  let chartData = [];
 
+  for (let datapoint in props.data) {
+    chartData.push({ label: labels[datapoint], data: props.data[datapoint] });
+  }
   const data = {
-    labels: props.labels,
+    labels: labels,
     datasets: [
       {
-        label: "",
+        labels: labels,
         data: props.data,
         borderColor: "white",
         backgroundColor: gradient,
@@ -68,7 +60,7 @@ const LineChart = (props, canvas) => {
         pointStyle: "circle",
         pointRadius: 3,
         pointHoverRadius: 6,
-        pointBackgroundColor: "#fff"
+        pointBackgroundColor: "#fff",
       },
     ],
   };
@@ -77,6 +69,7 @@ const LineChart = (props, canvas) => {
     const chart = chartRef.current;
     //console.log(props.labels);
     if (chart) {
+      console.log(chart.scales);
       //chart.ctx.rect(0, 0, 0, chart.canvas.height);
       // eslint-disable-next-line react-hooks/exhaustive-deps
       gradient = chart.ctx.createLinearGradient(0, 0, 0, chart.canvas.height);
@@ -84,14 +77,23 @@ const LineChart = (props, canvas) => {
       gradient.addColorStop(0, "hsl(193, 81%, 58%, 0.8)");
       chart.ctxfillStyle = gradient;
       chart.ctx.fill();
-      SetGradient(gradient);
-      //console.log("CanvasRenderingContext2D", chart.ctx);
-      //console.log("HTMLCanvasElement", chart.canvas.height);
+      setGradient(gradient);
+      console.log("CanvasRenderingContext2D", chart.ctx);
+      console.log("HTMLCanvasElement", chart.canvas.height);
+
     }
   }, [chartRef]);
 
   const options = {
     tension: 0.3,
+    layout: {
+      padding: {
+        right: category === "score" ? 0: 0,
+        bottom: 0,
+        left:0,
+        top:0,
+      }
+    },
     maintainAspectRatio: true,
     font: {
       size: 12,
@@ -101,54 +103,87 @@ const LineChart = (props, canvas) => {
     },
     plugins: {
       legend: {
-        display:false
+        display: false,
       },
       responsive: true,
       maintainAspectRatio: true,
       title: {
         display: true,
+        align: 'center',
         text: title,
         color: "white",
         font: {
           size: 20,
           family: "Montserrat",
           weight: 800,
-          color: "white",
+          color: "hsl(193, 81%, 58%)",
         },
       },
       tooltip: {
-        callbacks: {
-          title: function(tooltipItem) {
-            return (tooltipItem[0].label.substr(0,10));
-          },
-          label: function(tooltipItem) {
-            if (category==="score") {
-            return (tooltipItem.formattedValue);
-            }
-            else if (category==="accuracy") {
-              return ((tooltipItem.formattedValue * 100) + "%")
-            }
-          },
-          labelTextColor: function(context) {
-            return "hsl(193, 81%, 58%)";
-          },
-        },
+        padding: "8",
+        displayColors: false,
         titleFont: {
           weight: "bold",
           family: "Montserrat",
           size: "14",
         },
         bodyFont: {
-          weight: 500,
+          weight: 800,
           family: "Montserrat",
           size: "14",
         },
-        padding: "8",
-        displayColors: false,
+        callbacks: {
+          label: function (tooltipItem) {
+            if (category === "score") {
+              return (tooltipItem.raw.toFixed(1));
+            } else if (category === "avgTimeOffset") {
+              console.log(tooltipItem.raw * 1000)
+              return (tooltipItem.raw * 1000 + "ms");
+            } else if (category === "accuracy" || category === "completion") {
+              return (tooltipItem.raw * 100).toFixed(2) + "%";
+            }
+          },
+          labelTextColor: function () {
+            return "hsl(193, 81%, 58%)";
+          },
+        },
       },
     },
     scales: {
       x: {
+        type: "timeseries",
+        offset: true,
+        //bounds: 'ticks',
+        //source: 'auto',
+        //grace: 0,
+        time: {
+          unit: 'day'
+        },
+        grid: {
+          display: true,
+          drawBorder: false,
+          drawOnChartArea: true,
+          drawTicks: true,
+          beginAtZero: true,
+          color: "hsl(227, 15%, 70%,0.4)",
+        },
+        ticks: {
+          //major : {
+          //  enabled: true,
+          //},
+          callback: function (value) {
+            return value;
+          },
+          autoSkip: true,
+          maxTicksLimit: 20,
+          source: "data",
+          color: "white",
+          font: {
+            size: 10,
+            weight: "100",
+            family: "Montserrat",
+          },
+        },
         title: {
           color: "white",
           font: {
@@ -158,40 +193,31 @@ const LineChart = (props, canvas) => {
             color: "white",
           },
           display: true,
+          position: 'bottom',
+          align: 'center',
           text: xAxisTitle,
           lineWidth: 1,
         },
-        align: "center",
-        grid: {
-          display: false,
-        },
-        ticks: {
-          callback: function(value) {
-            return this.getLabelForValue(value).substr(0,10);
-          },
-          color: "white",
-          font: {
-            size: 10,
-            weight: "100",
-            family: "Montserrat",
-            color: "white",
-          },
-          padding: 5,
-          grace: 5,
-        },
       },
       y: {
-        display: true,
+        offset: true,
         beginAtZero: true,
         grid: {
-          display: false,
+          display: true,
+          drawBorder: false,
+          drawOnChartArea: true,
+          drawTicks: false,
+          beginAtZero: false,
+          color: "hsl(227, 15%, 70%,0.4)",
         },
         ticks: {
-          callback: function(value) {
-            if (category==="accuracy") {
-              return this.getLabelForValue(value*100) + " %";
-            }  else if (category==="score") {
-              return this.getLabelForValue(value).substr(0,10);
+          callback: function (value) {
+            if (category === "accuracy" || category === "completion") {
+              return this.getLabelForValue(value * 100) + " %";
+            } else if (category === "score") {
+              return this.getLabelForValue(value/ 1000);
+            } else if (category === "avgTimeOffset") {
+              return this.getLabelForValue(value*1000);
             }
           },
           color: "white",
@@ -201,7 +227,6 @@ const LineChart = (props, canvas) => {
             weight: "100",
             color: "white",
           },
-          padding: 5,
         },
         title: {
           color: "white",
@@ -211,39 +236,39 @@ const LineChart = (props, canvas) => {
             weight: 1000,
             color: "white",
           },
+          alight: 'center',
           display: true,
           text: yAxisTitle,
         },
       },
-      percentage: {
-        display: bDisplayPercentage,
-        beginatZero: true,
-        position: "right",
-        title: {
-          color: "white",
-          font: {
-            size: 16,
-            family: "Montserrat",
-            weight: 1000,
-            color: "white",
-          },
-          display: false,
-          text: "%",
-        },
-        ticks: {
-          callback: function(value) {
-              return this.getLabelForValue(value*100) + " %";
-          },
-          color: "white",
-          font: {
-            family: "Montserrat",
-            size: 10,
-            weight: "100",
-            color: "white",
-          },
-          padding: 5,
-        },
-      },
+      // percentage: {
+      //   display: bDisplayPercentage,
+      //   beginatZero: true,
+      //   position: "right",
+      //   title: {
+      //     color: "white",
+      //     font: {
+      //       size: 16,
+      //       family: "Montserrat",
+      //       weight: 1000,
+      //       color: "white",
+      //     },
+      //     display: false,
+      //     text: "%",
+      //   },
+      //   ticks: {
+      //     callback: function (value) {
+      //       return this.getLabelForValue(value * 100) + "%";
+      //     },
+      //     color: "white",
+      //     font: {
+      //       family: "Montserrat",
+      //       size: 10,
+      //       weight: "100",
+      //       color: "white",
+      //     },
+      //   },
+      // },
     },
   };
 

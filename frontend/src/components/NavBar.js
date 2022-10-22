@@ -14,8 +14,9 @@ const NavBar = () => {
   useEffect(() => {
     if (auth?.username && auth?.accessToken) {
       setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
     }
-    else {setLoggedIn(false)}
   }, [visible, auth]);
 
   const Logout = useLogout();
@@ -25,14 +26,14 @@ const NavBar = () => {
 
   return (
     <header className="primary-header flex">
-      <a href="/">
+      <a className="link" href="/">
         <img className="logo" src={logo} alt="logo" />
       </a>
 
       <FontAwesomeIcon
         icon={faBars}
         onClick={() => setVisibilty(!visible)}
-        className="mobile-nav-toggle link"
+        className="mobile-nav-toggle link blue-hover"
         aria-controls="primary-navigation"
         aria-expanded="false"></FontAwesomeIcon>
       <nav>
@@ -42,34 +43,37 @@ const NavBar = () => {
           data-visible={visible}>
           <li className="uppercase">
             <Link
-              onClick={() => setVisibilty(false)}
-              className="link"
-              to="/patchnotes">
+              className="link text-white hover-blue"
+              to="/patchnotes"
+              onClick={() => setVisibilty(false)}>
               Patch Notes
             </Link>
           </li>
           <li className="uppercase">
             <Link
-              onClick={() => setVisibilty(false)}
-              className="link"
-              to={`/profile/${auth.username}`}>
+              className="link text-white hover-blue"
+              to={`/profile/${auth.username}`}
+              onClick={() => setVisibilty(false)}>
               Profile
             </Link>
           </li>
           <li className="uppercase">
             {loggedIn ? (
               <button
-                onClick={() => {setVisibilty(false); signOut()}}
-                className="fake-button link">
+                className="fake-button link text-white hover-blue"
+                onClick={() => {
+                  setVisibilty(false);
+                  signOut();
+                }}>
                 Logout
               </button>
             ) : (
               <Link
-                onClick={() => setVisibilty(false)}
-                className="link"
-                to="/login">
+                className="fake-button link text-white hover-blue"
+                to="/login"
+                onClick={() => setVisibilty(false)}>
                 Login
-              </Link>
+                </Link>
             )}
           </li>
         </ul>

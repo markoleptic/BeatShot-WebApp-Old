@@ -29,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
     accuracy: {
       type: DataTypes.FLOAT,
     },
+    completion: {
+      type: DataTypes.FLOAT,
+    },
     shotsFired: {
       type: DataTypes.INTEGER
     },
@@ -38,14 +41,13 @@ module.exports = (sequelize, DataTypes) => {
     targetsSpawned: {
       type: DataTypes.INTEGER,
     },
-    isBeatTrackMode: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
     totalPossibleDamage: {
       type: DataTypes.INTEGER,
     },
-    reactionTime: {
+    totalTimeOffset: {
+      type: DataTypes.FLOAT
+    },
+    avgTimeOffset: {
       type: DataTypes.FLOAT,
     },
     time: {

@@ -181,7 +181,7 @@ const RecoverAccount = () => {
         >
           Resend Email Confirmation Link
         </button>
-        <a className="link center-link fs-300" href="/register">
+        <a className="link text-white hover-blue fs-300" href="/register">
           Don't have an account?
         </a>
       </form>

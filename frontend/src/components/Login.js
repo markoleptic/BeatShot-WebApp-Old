@@ -194,11 +194,11 @@ const Login = () => {
           Login
         </button>
 
-        <a className="link center-link fs-300" href="/register">
+        <a className="link text-white hover-blue fs-300" href="/register">
           Don't have an account?
         </a>
 
-        <a className="link center-link fs-300" href="/recover">
+        <a className="link text-white hover-blue fs-300" href="/recover">
           Forgot Password or need another confirmation link?
         </a>
       </form>
