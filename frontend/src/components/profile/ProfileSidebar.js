@@ -28,7 +28,7 @@ const ProfileSidebar = () => {
             <Link
               to={`/profile/${auth.username}/history`}
               className="profile-sidebar-text text-center link hover-blue">
-              History
+              Placeholder
             </Link>
           </li>
           <li className="sidebar-item">

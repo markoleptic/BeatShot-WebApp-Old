@@ -1,65 +1,29 @@
-import { Line } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import "chartjs-adapter-luxon";
 import { DateTime } from "luxon";
 
 //import { draw, generate } from "patternomaly";
 import React, { useRef, useEffect, useState } from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  TimeScale,
-  TimeSeriesScale,
-  Legend,
-  Filler,
-} from "chart.js";
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  TimeScale,
-  TimeSeriesScale,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
-const LineChart = (props, canvas) => {
+const BarChart = (props, canvas) => {
   var chartRef = useRef();
   var [gradient, setGradient] = useState();
 
   const { title, xAxisTitle, yAxisTitle, category } =
     props.myOptions;
 
-  const labels = props.labels.map((element) =>
-    DateTime.fromISO(element.substring(0, 23), { zone: "utc" })
-  );
-
-  let chartData = [];
-
-  for (let datapoint in props.data) {
-    chartData.push({ label: labels[datapoint], data: props.data[datapoint] });
-  }
   const data = {
-    labels: labels,
+    labels: props.labels,
     datasets: [
       {
-        labels: labels,
+        labels: props.labels,
         data: props.data,
         borderColor: "white",
-        backgroundColor: gradient,
+        backgroundColor: "hsl(193, 81%, 58%, 0.8)",
         //generate(["#3dc5ebB3"]),
         fill: "origin",
-        pointStyle: "circle",
-        pointRadius: 3,
-        pointHoverRadius: 6,
-        pointBackgroundColor: "#fff",
       },
     ],
   };
@@ -84,7 +48,7 @@ const LineChart = (props, canvas) => {
   }, [chartRef]);
 
   const options = {
-    tension: 0.3,
+    type: 'bar',
     layout: {
       padding: {
         right: category === "score" ? 0: 0,
@@ -131,37 +95,26 @@ const LineChart = (props, canvas) => {
           size: "14",
         },
         callbacks: {
-          label: function (tooltipItem) {
-            if (category === "score") {
-              return (tooltipItem.raw.toFixed(1));
-            } else if (category === "avgTimeOffset") {
-              console.log(tooltipItem.raw * 1000)
-              return (tooltipItem.raw * 1000 + "ms");
-            } else if (category === "accuracy" || category === "completion") {
-              return (tooltipItem.raw * 100).toFixed(2) + "%";
-            }
-          },
           labelTextColor: function () {
             return "hsl(193, 81%, 58%)";
           },
         },
-      },
+     },
     },
     scales: {
       x: {
-        type: "timeseries",
-        offset: false,
+        //offset: true,
         //bounds: 'ticks',
         //source: 'auto',
         //grace: 0,
-        time: {
-          unit: 'day'
-        },
+        //time: {
+        //  unit: 'day'
+        //},
         grid: {
           display: true,
           drawBorder: false,
           drawOnChartArea: true,
-          drawTicks: false,
+          drawTicks: true,
           beginAtZero: true,
           color: "hsl(227, 15%, 70%,0.4)",
         },
@@ -169,13 +122,12 @@ const LineChart = (props, canvas) => {
           //major : {
           //  enabled: true,
           //},
-          callback: function (value) {
-            return value;
-          },
-          padding: 5,
+          //callback: function (value) {
+          //  return value;
+          //},
           //autoSkip: true,
-          maxTicksLimit: 20,
-          source: "data",
+          //maxTicksLimit: 20,
+          //source: "data",
           color: "white",
           font: {
             size: 10,
@@ -199,7 +151,6 @@ const LineChart = (props, canvas) => {
         },
       },
       y: {
-        offset: false,
         beginAtZero: true,
         grid: {
           display: true,
@@ -211,14 +162,9 @@ const LineChart = (props, canvas) => {
         },
         ticks: {
           callback: function (value) {
-            if (value===0) return "";
-            if (category === "accuracy" || category === "completion") {
-              return this.getLabelForValue(value * 100) + " %";
-            } else if (category === "score") {
-              return this.getLabelForValue(value/ 1000);
-            } else if (category === "avgTimeOffset") {
-              return this.getLabelForValue(value*1000);
-            }
+            if (category === "timePlayed") {
+              return (Math.round(value / 60 / 60 * 10) / 10);
+            } else return this.value;
           },
           color: "white",
           font: {
@@ -275,10 +221,10 @@ const LineChart = (props, canvas) => {
   return (
     <>
       <div className="chart">
-        <Line ref={chartRef} data={data} options={options} />
+        <Bar ref={chartRef} data={data} options={options} />
       </div>
     </>
   );
 };
 
-export default LineChart;
+export default BarChart;

@@ -256,7 +256,7 @@ const ProfileCharts = () => {
         <h2 className="stats-title">Statistics for {auth.username}</h2>
         <h4>Get started by selecting a game mode or song.</h4>
       </div>
-      <div className={errMsg ? "select-best-container" : "offscreen"}>
+      <div className={errMsg ? "responsive-centered-container" : "offscreen"}>
         <p
           ref={errRef}
           className={errMsg ? "errmsg" : "offscreen"}
@@ -264,7 +264,7 @@ const ProfileCharts = () => {
           {errMsg}
         </p>
       </div>
-      <div className="select-best-container">
+      <div className="responsive-centered-container">
         <div className="select-container">
           <div className="select-wrapper">
             <p className="select-caption fs-200">GameMode:</p>
