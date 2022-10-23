@@ -26,7 +26,7 @@ const Footer = () => {
           </a>
         </li>
         <li className="footer-icon-item">
-          <a className="footer-icon-link link hover-blue" href="https://discord.gg">
+          <a className="footer-icon-link link hover-blue" href="https://discord.gg/FKWGbtZXmU">
             <FontAwesomeIcon icon={faDiscord} />
           </a>
         </li>

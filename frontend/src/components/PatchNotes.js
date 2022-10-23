@@ -10,7 +10,7 @@ const PatchNotes = () => {
             <h2 className="pn-title">Patch Notes</h2>
           </div>
           <div className="content-main">
-            <div className="pn-wrapper">
+            {/* <div className="pn-wrapper">
               <div className="pn-version-date">
                 <h3 className="pn-version-number">Patch Notes 0.1.6</h3>
                 <p className="pn-date">October 25, 2022</p>
@@ -41,7 +41,7 @@ const PatchNotes = () => {
                   />
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             <div className="pn-wrapper">
               <div className="pn-version-date">
