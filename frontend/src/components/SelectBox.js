@@ -80,15 +80,15 @@ const SelectBox = ({ options, onChange, placeholder }) => {
 
 export default SelectBox;
 
-const getColor = (state, mode = "nonhover") => {
-  switch (mode) {
-    case "hover":
-      return state?.value?.includes("game-mode-select")
-        ? "rgba(255, 0, 0, 0.52)"
-        : "rgba(43, 192, 233, 0.5)"; // "hsl(193, 81%, 58%)";
-    default:
-      return state?.value?.includes("game-mode-select")
-        ? "rgba(255, 0, 0, 0.9)"
-        : "rgba(43, 192, 233, 1)";
-  }
-};
+// const getColor = (state, mode = "nonhover") => {
+//   switch (mode) {
+//     case "hover":
+//       return state?.value?.includes("game-mode-select")
+//         ? "rgba(255, 0, 0, 0.52)"
+//         : "rgba(43, 192, 233, 0.5)"; // "hsl(193, 81%, 58%)";
+//     default:
+//       return state?.value?.includes("game-mode-select")
+//         ? "rgba(255, 0, 0, 0.9)"
+//         : "rgba(43, 192, 233, 1)";
+//   }
+// };

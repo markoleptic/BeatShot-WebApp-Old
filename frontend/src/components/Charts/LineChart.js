@@ -33,9 +33,8 @@ ChartJS.register(
 const LineChart = (props, canvas) => {
   var chartRef = useRef();
   var [gradient, setGradient] = useState();
-  var [xTick, setXTick] = useState();
 
-  const { title, xAxisTitle, yAxisTitle, category, bDisplayPercentage } =
+  const { title, xAxisTitle, yAxisTitle, category } =
     props.myOptions;
 
   const labels = props.labels.map((element) =>

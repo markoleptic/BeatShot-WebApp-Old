@@ -105,7 +105,7 @@ const Register = () => {
       if (!err?.response) {
         setRegMsg("No Server Response.");
       } else if (err.response?.status === 400) {
-        setRegMsg(Object.values(err.response.data)[0].toString()+".");
+        setRegMsg(Object.values(err.response.data)[0].toString() + ".");
       } else {
         setRegMsg("Registration Failed.");
       }
@@ -128,18 +128,17 @@ const Register = () => {
 
   return (
     <div className="form-container">
+      <p ref={errRef} className={regMsgClassName} aria-live="assertive">
+        {regMsg}
+      </p>
 
-        <p ref={errRef} className={regMsgClassName} aria-live="assertive">
-          {regMsg}
-        </p>
+      <h2 className="form-title">Create an Account</h2>
+      <p className="fs-100 text-lightgrey">
+        Automatically save your scores in the cloud and gain access to visual
+        analysis of every aspect of your play.
+      </p>
 
-        <h2 className="form-title">Create an Account</h2>
-        <p className="fs-100 text-lightgrey">
-          Automatically save your scores in the cloud and gain access to visual
-          analysis of every aspect of your play.
-        </p>
-
-        <form className="form" onSubmit={handleRegister}>
+      <form className="form" onSubmit={handleRegister}>
         <div className="label-input-container">
           <label className="form-label" htmlFor="username">
             Username:
@@ -175,9 +174,9 @@ const Register = () => {
             <FontAwesomeIcon icon={faInfoCircle} />
             4 to 24 characters. <br />
           </p>
-          </div>
+        </div>
 
-          <div className="label-input-container">
+        <div className="label-input-container">
           <label className="form-label" htmlFor="email">
             Email:
             <FontAwesomeIcon
@@ -210,9 +209,9 @@ const Register = () => {
             <FontAwesomeIcon icon={faInfoCircle} />
             Must be a valid email. <br />
           </p>
-          </div>
+        </div>
 
-          <div className="label-input-container">
+        <div className="label-input-container">
           <label className="form-label" htmlFor="password">
             Password:
             <FontAwesomeIcon
@@ -246,9 +245,9 @@ const Register = () => {
             <br />
             Must include an uppercase letter, lowercase letter, and a number.
           </p>
-          </div>
+        </div>
 
-          <div className="label-input-container">
+        <div className="label-input-container">
           <label className="form-label" htmlFor="passwordMatch">
             Re-enter Password:
             <FontAwesomeIcon
@@ -284,23 +283,23 @@ const Register = () => {
             <FontAwesomeIcon icon={faInfoCircle} />
             Must match the first password input field.
           </p>
-          </div>
+        </div>
 
-          <button
-            disabled={
-              !validUsername ||
-              !validPassword ||
-              !validEmail ||
-              !validPasswordMatch
-                ? true
-                : false
-            }>
-            Sign Up
-          </button>
-          <a className="link text-white hover-blue fs-300 fs-300" href="/login">
+        <button
+          disabled={
+            !validUsername ||
+            !validPassword ||
+            !validEmail ||
+            !validPasswordMatch
+              ? true
+              : false
+          }>
+          Sign Up
+        </button>
+        <a className="link text-center text-white hover-blue fs-150" href="/login">
           Already have an account?
         </a>
-        </form>
+      </form>
     </div>
   );
 };

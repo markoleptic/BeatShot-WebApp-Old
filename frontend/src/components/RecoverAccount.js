@@ -1,7 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useAuthContext } from "../context/AuthProvider";
 import axios from "../api/axios";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -181,7 +179,7 @@ const RecoverAccount = () => {
         >
           Resend Email Confirmation Link
         </button>
-        <a className="link text-white hover-blue fs-300" href="/register">
+        <a className="link text-center text-white hover-blue fs-150" href="/register">
           Don't have an account?
         </a>
       </form>

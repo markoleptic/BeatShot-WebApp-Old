@@ -17,7 +17,7 @@ const handleLogin = async (req, res) => {
   });
   if (foundUser) {
     if (foundUser.confirmed === false) {
-      return res.status(400).json("not confirmed");
+      return res.status(400).json('Please confirm your email or request for a resend.');
     }
     // evaluate password
     const match = await bcrypt.compare(password, foundUser.password);
@@ -49,8 +49,10 @@ const handleLogin = async (req, res) => {
       // Send in body the short-lived access token
       res.status(200).json({username: foundUser.username, accessToken});
     } else {
-      res.status(401);
+      res.status(401).json('Incorrect password.');
     }
+  }  else {
+    res.status(401).json('User not found.');
   }
 };
 

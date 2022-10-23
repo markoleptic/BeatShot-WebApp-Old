@@ -24,7 +24,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
 
-  const [regMsg, setRegMsg] = useState("");
+  const [errMsg, setErrMsg] = useState("");
   const [checked, setChecked] = useState(false);
 
   // sets the userRef to what the user is currently focusing
@@ -34,7 +34,7 @@ const Login = () => {
 
   // clear error message on username, password, email, or passwordMatch change
   useEffect(() => {
-    setRegMsg("");
+    setErrMsg("");
   }, [username, password, email]);
 
   /* anytime the user changes the username field,
@@ -90,17 +90,13 @@ const Login = () => {
     } catch (err) {
       if (!err?.response) {
         console.log(err.response);
-        setRegMsg("No Server Response.");
+        setErrMsg("No Server Response.");
       } else if (err.response.data.toString() === "not confirmed") {
-        setRegMsg("Please confirm your email or request for a resend.");
-      } else if (err.response?.status === 400) {
-        console.log(err.response.data.toString());
-        setRegMsg("Missing Username/Email or Password.");
-      } else if (err.response?.status === 401) {
-        console.log(Object.values(err.response.data)[0].toString());
-        setRegMsg("Invalid Username, Email, or Password.");
+        setErrMsg("Please confirm your email or request for a resend.");
+      } else if (err.response?.status === 400 || err.response?.status === 401) {
+        setErrMsg(err.response.data);
       } else {
-        setRegMsg("Login Failed.");
+        setErrMsg("Login Failed.");
       }
       errRef.current.focus();
     }
@@ -117,9 +113,9 @@ const Login = () => {
     <div className="form-container">
       <p
         ref={errRef}
-        className={regMsg ? "errmsg" : "hide"}
+        className={errMsg ? "errmsg" : "hide"}
         aria-live="assertive">
-        {regMsg}
+        {errMsg}
       </p>
 
       <h2 className="form-title">Sign In</h2>
@@ -194,11 +190,11 @@ const Login = () => {
           Login
         </button>
 
-        <a className="link text-white hover-blue fs-300" href="/register">
+        <a className="link text-center text-white hover-blue fs-150" href="/register">
           Don't have an account?
         </a>
 
-        <a className="link text-white hover-blue fs-300" href="/recover">
+        <a className="link text-center text-white hover-blue fs-150" href="/recover">
           Forgot Password or need another confirmation link?
         </a>
       </form>

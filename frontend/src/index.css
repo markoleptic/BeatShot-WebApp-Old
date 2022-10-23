@@ -1,5 +1,3 @@
-/*@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");*/
-
 /* --------------- */
 /* Reset           */
 /* --------------- */
@@ -77,6 +75,7 @@ select {
   --fs-300: 1rem;
   --fs-200: 0.875rem;
   --fs-100: 0.75rem;
+  --fs-75: 0.65rem;
   --fs-50: 0.5rem;
   /* font-families */
   --ff-serif: "Montserrat", sans-serif;
@@ -399,6 +398,79 @@ form {
   color: rgba(62, 198, 235, 1);
 }
 
+/*-------------*/
+/* Patch Notes */
+/*-------------*/
+.pn-container {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  width: auto;
+  min-width: 400px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pn-wrapper {
+  padding: 1rem;
+  border-color:hsl(var(--clr-beatshot-lightblue));
+  box-shadow: 0px 0px 6px 0px hsl(var(--clr-beatshot-lightblue));
+  border-radius: 0.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+.pn-title{
+  text-align: center;
+  font-size: var(--fs-600);
+  font-weight: bold;
+  text-shadow: 0 0 4px rgba(62, 198, 235, 1);
+  color: rgba(62, 198, 235, 1);
+}
+.pn-version-number {
+  font-size: var(--fs-300);
+  font-weight: bold;
+  color: rgba(62, 198, 235, 1);
+}
+.pn-date {
+  font-size: var(--fs-100);
+  letter-spacing: 0.1rem;
+}
+.pn-version-date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pn-wrapper ul {
+  display:flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.pn-li-lvl1 {
+  padding-top: 0.15rem;
+  font-size: var(--fs-300);
+}
+.pn-icon-lvl1 {
+  color: rgba(62, 198, 235, 1);
+  font-size: var(--fs-100);
+  padding-right: 0.25rem;
+  vertical-align: 0rem;
+}
+.pn-li-lvl2,
+.pn-li-lvl3 {
+  padding-left: 1rem;
+  font-size: var(--fs-100);
+}
+.pn-icon-lvl2,
+.pn-icon-lvl3 {
+  color: rgba(62, 198, 235, 1);
+  font-size: 0.5rem;
+  vertical-align: 0rem;
+  padding-right: 0.25rem;
+}
+
 /* div.flex-container
 /*   div.profile-sidebar
      div.content
@@ -438,7 +510,6 @@ form {
 }
 .chart {
   display: flex;
-  background-color: hsl(var(--clr-sidebar));
   max-width: 800px;
   margin: auto;
   background-color: hsl(var(--clr-beatshot-darkblue));
@@ -748,6 +819,9 @@ li {
 }
 .fs-200 {
   font-size: var(--fs-200);
+}
+.fs-150 {
+  font-size: var(--fs-100);
 }
 .fs-100 {
   font-size: var(--fs-100);
