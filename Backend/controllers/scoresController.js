@@ -15,13 +15,12 @@ const saveScores = async (req, res) => {
   for (entry in foundScores) {
     times.push(foundScores[entry].time.toJSON());
   }
-  console.log(data);
   for (let scoreArray in data) {
     for (let scoreObject in data[scoreArray]) {
       let time = data[scoreArray][scoreObject].time;
       let splitTime = time.split("-");
-      splitTime[0] = splitTime[0].replaceAll(/\./g, "-");
-      splitTime[1] = splitTime[1].replaceAll(/\./g, ":");
+      splitTime[0] = splitTime[0].replace(/\./g, "-");
+      splitTime[1] = splitTime[1].replace(/\./g, ":");
       let formattedTime = splitTime[0]
         .concat("T", splitTime[1])
         .concat(".000Z");
