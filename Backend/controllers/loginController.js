@@ -32,7 +32,7 @@ const handleLogin = async (req, res) => {
       const refreshToken = jwt.sign(
         { username: foundUser.username },
         process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "30d" }
+        { expiresIn: "1825d" }
       );
       // save long-lived refresh token in database
       await users.update(
@@ -44,7 +44,7 @@ const handleLogin = async (req, res) => {
         httpOnly: true,
         sameSite: "None",
         secure: true,
-        maxAge: 24 * 60 * 60 * 30 * 1000,
+        maxAge: 24 * 60 * 60 * 365 * 5 * 1000,
       });
       // Send in body the short-lived access token
       res.status(200).json({username: foundUser.username, accessToken});

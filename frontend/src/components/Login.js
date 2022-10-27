@@ -137,7 +137,7 @@ const Login = () => {
           type="text"
           id="username"
           ref={userRef}
-          autoComplete="off"
+          autoComplete="on"
           onChange={(e) => setUsername(e.target.value)}
         />
         </div>
@@ -151,7 +151,7 @@ const Login = () => {
           type="email"
           id="email"
           placeholder="icantaim@beatshot.gg"
-          autoComplete="off"
+          autoComplete="on"
           onChange={(e) => setEmail(e.target.value)}
         />
         </div>
@@ -184,6 +184,7 @@ const Login = () => {
         </div>
 
         <button
+        id="login-button"
           disabled={
             !validPassword || (!validEmail && !validUsername) ? true : false
           }>

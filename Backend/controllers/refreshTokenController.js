@@ -14,10 +14,11 @@ const handleRefreshToken = async (req, res) => {
             if (err) {
                 return res.sendStatus(403);
             }
+            // create short-lived access token
             const accessToken = jwt.sign(
                 { "username": decoded.username },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '10m' }
+                { expiresIn: '30s' }
             );
             // send short-lived access token
             res.json({ username: decoded.username, accessToken })
