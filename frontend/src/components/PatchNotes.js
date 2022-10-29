@@ -10,10 +10,10 @@ const PatchNotes = () => {
             <h2 className="pn-title">Patch Notes</h2>
           </div>
           <div className="content-main">
-            {/* <div className="pn-wrapper">
+            <div className="pn-wrapper">
               <div className="pn-version-date">
-                <h3 className="pn-version-number">Patch Notes 0.1.6</h3>
-                <p className="pn-date">October 25, 2022</p>
+                <h3 className="pn-version-number">Patch Notes 0.2.0</h3>
+                <p className="pn-date">October 28, 2022</p>
               </div>
               <ul>
                 <li className="pn-li-lvl1">
@@ -21,27 +21,109 @@ const PatchNotes = () => {
                     icon={faCrosshairs}
                     className="pn-icon-lvl1"
                   />
+                  New Feature: Beatshot website integration
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      login to the game with your Beatshot account info (it
+                      remembers so you only have to do it once)
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      score analysis tab replaced with in-game web browser
+                      showing your profile statistics page (requires being
+                      logged in)
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      if you don't make an account, your scores will still be
+                      saved locally and will be uploaded if you ever do decide
+                      to make one
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      scores are automatically uploaded to database every time
+                      you complete a game mode
+                    </li>
+                  </ul>
                 </li>
                 <li className="pn-li-lvl1">
                   <FontAwesomeIcon
                     icon={faCrosshairs}
                     className="pn-icon-lvl1"
                   />
+                  BeatTrack improvements
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      targets now start reverse direction if they hit the edge
+                      of the spawn area
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      direction of BeatTrack targets now take into account the
+                      speed and cooldown of the game mode. This means it is much
+                      less likely to choose a path that would cause it to
+                      reverse directions (ie travel a short distance to edge of
+                      spawn area and forcibly reverse)
+                    </li>
+                  </ul>
                 </li>
                 <li className="pn-li-lvl1">
                   <FontAwesomeIcon
                     icon={faCrosshairs}
                     className="pn-icon-lvl1"
                   />
+                  UI Updates
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      fixed the linking of min/max target scale and min/max
+                      target speed so that entering a value in the text box
+                      while linked changes both the min and max values
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      login and register screens added
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      game now asks user if they want to save their scores
+                      before quitting from pause menu
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      patch notes now are now shown using in-game browser
+                    </li>
+                  </ul>
                 </li>
                 <li className="pn-li-lvl1">
                   <FontAwesomeIcon
                     icon={faCrosshairs}
                     className="pn-icon-lvl1"
                   />
+                  Other
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed a bug where the open file dialog wouldn't be
+                      interactable if in fullscreen mode (actually just switches
+                      to fullscreen windowed while selecting a song, and then
+                      switches back to fullscreen)
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed a game crash bug where Beat Grid would reference a
+                      deleted target (x2)
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Minor improvements to muzzle flash
+                    </li>
+                  </ul>
                 </li>
               </ul>
-            </div> */}
+            </div>
 
             <div className="pn-wrapper">
               <div className="pn-version-date">
@@ -61,13 +143,18 @@ const PatchNotes = () => {
                       Spawns 4, 9, 16, 25, or 36 targets that persist for the
                       whole song
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Music beats cause targets to "activate", which causes them
                       to become damagable and plays the usual color change,
                       before returning to white if not destroyed.{" "}
                     </li>
                     <ul>
-                      <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      <li className="pn-li-lvl2">
+                        <FontAwesomeIcon
+                          icon={faPlay}
+                          className="pn-icon-lvl2"
+                        />
                         Destroying a target plays the destroy animation and
                         briefly causes the target to disappear and reappear.
                       </li>
@@ -75,27 +162,37 @@ const PatchNotes = () => {
                   </ul>
                 </li>
                 <li className="pn-li-lvl1">
-                <FontAwesomeIcon icon={faCrosshairs} className="pn-icon-lvl1" />Misc:
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  Misc:
                   <ul>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Targets are less blindingly bright now
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Replaced some true/false comboboxes with checkboxes
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Added options to "lock" values such as min/max target size
                       using checkboxes
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Added some mutually exclusive settings into a combobox
                       near the top of game modes
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Updated destroy animation so it now properly scales with
                       target size.
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Fixed bullet projectile scaling (previously soccer ball
                       size lmao)
                     </li>
@@ -110,15 +207,21 @@ const PatchNotes = () => {
                 <p className="pn-date">September 21, 2022</p>
               </div>
               <ul>
-                <li className="pn-li-lvl1"><FontAwesomeIcon icon={faCrosshairs} className="pn-icon-lvl1" />
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
                   Added a scoring menu which is accessible on main menu and also
                   appears when song is finished.
                   <ul>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       shows most recently played game mode & song stats by
                       default when opening.
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       when you select a different game mode, you can select
                       different songs and it will show your most recent score
                       stats, and the average for all of that song. It also
@@ -135,33 +238,44 @@ const PatchNotes = () => {
                 <p className="pn-date">September 15, 2022</p>
               </div>
               <ul>
-                <li className="pn-li-lvl1"><FontAwesomeIcon icon={faCrosshairs} className="pn-icon-lvl1" />
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
                   Bug Fixes
                   <ul>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Fixed a bug where target spawn delay wasn't correctly
                       updating in GameModeSettings
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Fixed a bug where AASettings weren't being updated
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Fixed a bug where accuracy wasn't updating correctly in
                       Beat Track game mode
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Fixed a bug where accuracy was showing much lower than
                       intended after restarting a Beat Track game mode
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Fixed a lot of bugs that wouldn't save custom game modes
                       correctly or wouldn't save player scores for specific game
                       modes correctly
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       So yeah basically everything was broken
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Added a scuffed visualizer at the top of the spawn wall
                       that shows the frequency spectrum of each currently active
                       band channel
@@ -177,10 +291,15 @@ const PatchNotes = () => {
                 <p className="pn-date">September 13, 2022</p>
               </div>
               <ul>
-                <li className="pn-li-lvl1"><FontAwesomeIcon icon={faCrosshairs} className="pn-icon-lvl1" />
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
                   Custom Game Mode Saving
                   <ul>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Players can now save and load custom game modes using the
                       GameModes menu (inside main menu). Doesn't allow user to
                       override a base game mode, but will override a custom game
@@ -190,42 +309,68 @@ const PatchNotes = () => {
                     </li>
                   </ul>
                 </li>
-                <li className="pn-li-lvl1"><FontAwesomeIcon icon={faCrosshairs} className="pn-icon-lvl1" />
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
                   Scoring Update
                   <ul>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Unique high scores are now saved based on the following
                       parameters:
                       <ul>
-                        <li className="pn-li-lvl3"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl3" />
+                        <li className="pn-li-lvl3">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            className="pn-icon-lvl3"
+                          />
                           GameMode name (including custom game modes)
                         </li>
-                        <li className="pn-li-lvl3"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl3" />
+                        <li className="pn-li-lvl3">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            className="pn-icon-lvl3"
+                          />
                           Song Title from metadata if possible, otherwise uses
                           filename.
                         </li>
                       </ul>
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Scoring is now (roughly) normalized by setting a maximum
                       possible score of 100,000 and dividing by the max possible
                       targets that could spawn (Song length divided by target
                       spawn cooldown), based on the game mode loaded. This sets
                       the max score for a single target.{" "}
                       <ul>
-                        <li className="pn-li-lvl3"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl3" />
+                        <li className="pn-li-lvl3">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            className="pn-icon-lvl3"
+                          />
                           Players receive the max score by destroying a target
                           within +-0.05s of the peak green color. The score then
                           drops off linearly from the peak based on the time
                           away from the peak color, down to half of the max
                           score.
                         </li>
-                        <li className="pn-li-lvl3"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl3" />
+                        <li className="pn-li-lvl3">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            className="pn-icon-lvl3"
+                          />
                           This isn't perfect because a target won't always spawn
                           exactly on the target spawn cooldown due to the
                           spawning being tied to beats.
                         </li>
-                        <li className="pn-li-lvl3"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl3" />
+                        <li className="pn-li-lvl3">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            className="pn-icon-lvl3"
+                          />
                           Fixed an issue where scoring wasn't taking the Spawn
                           Beat Delay into account.
                         </li>
@@ -242,46 +387,65 @@ const PatchNotes = () => {
                 <p className="pn-date">September 10, 2022</p>
               </div>
               <ul>
-                <li className="pn-li-lvl1"><FontAwesomeIcon icon={faCrosshairs} className="pn-icon-lvl1" />
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
                   New GameMode: BeatTrack
                   <ul>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       One target, crosshair on target grants score + changes
                       color to green, shooting does nothing
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Accuracy and score is implemented, but scoring is very
                       simple and numbers aren't tuned. Other gamemodes share the
                       same "high score" at this point in time.
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Sometimes the target will start to clip through
                       walls/floor lol
                     </li>
                   </ul>
                 </li>
                 <li></li>
-                <li className="pn-li-lvl1"><FontAwesomeIcon icon={faCrosshairs} className="pn-icon-lvl1" />
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
                   More Options for Spawn Beat Delay (previously named something
                   longer)
                   <ul>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       added description to this and Target Spawn cooldown, as
                       these are probably unclear to a new player
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       if no spawn delay is selected, only one AudioAnalyzer is
                       used (compared to two, in order to accomplish a delay)
                     </li>
                   </ul>
                 </li>
-                <li className="pn-li-lvl1"><FontAwesomeIcon icon={faCrosshairs} className="pn-icon-lvl1" />
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
                   Miscellaneous
                   <ul>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       UI text overlapping improvements
                     </li>
-                    <li className="pn-li-lvl2"><FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       smaller file size since I'm now using "Shipping" build
                       instead of "Development"
                     </li>
@@ -296,7 +460,11 @@ const PatchNotes = () => {
                 <p className="pn-date">September 8, 2022</p>
               </div>
               <ul>
-                <li className="pn-li-lvl1"><FontAwesomeIcon icon={faCrosshairs} className="pn-icon-lvl1" />
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
                   Initial public "early alpha" build, mainly to collect feedback
                   and response.
                 </li>
