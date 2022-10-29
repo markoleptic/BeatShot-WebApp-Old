@@ -104,21 +104,25 @@ const PatchNotes = () => {
                   />
                   Other
                   <ul>
+                  <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      disabled Lumen Global Illumination and Lumen reflections because it was using too many resources. Now use screen space global illumination and reflections. Performance should be much better than previous version
+                    </li>
                     <li className="pn-li-lvl2">
                       <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
-                      Fixed a bug where the open file dialog wouldn't be
+                      fixed a bug where the open file dialog wouldn't be
                       interactable if in fullscreen mode (actually just switches
                       to fullscreen windowed while selecting a song, and then
                       switches back to fullscreen)
                     </li>
                     <li className="pn-li-lvl2">
                       <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
-                      Fixed a game crash bug where Beat Grid would reference a
+                      fixed a game crash bug where Beat Grid would reference a
                       deleted target (x2)
                     </li>
                     <li className="pn-li-lvl2">
                       <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
-                      Minor improvements to muzzle flash
+                      minor improvements to muzzle flash
                     </li>
                   </ul>
                 </li>
