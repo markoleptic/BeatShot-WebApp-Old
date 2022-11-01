@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import LineChart from "../Charts/LineChart";
+import { DateTime } from "luxon";
 import { useAuthContext } from "../../context/AuthProvider";
 import SelectBox from "../SelectBox";
 import { usePlayerDataContext } from "../../context/PlayerData";
@@ -44,6 +45,31 @@ const ProfileCharts = () => {
     try {
       getGameModes(data);
       getSongTitles(data);
+
+      /* get the most recent score object and display the corresponding
+       * game mode and song */
+      if (data) {
+        let maxDate = DateTime.max(
+          ...data.map((x) => {
+            return (DateTime.fromISO(x.time))
+            })
+        )
+        let maxDateScoreObject;
+        for (let score in data) {
+          if (maxDate.equals(DateTime.fromISO(data[score].time))) {
+            maxDateScoreObject = data[score];
+          }
+        }
+        if (maxDateScoreObject.gameModeActorName === "Custom" &&
+        maxDateScoreObject.customGameModeName !== "") {
+          handleGameModeSelect(maxDateScoreObject.customGameModeName);
+          handleSongSelect(maxDateScoreObject.songTitle);
+        }
+        else {
+          handleGameModeSelect(maxDateScoreObject.gameModeActorName)
+          handleSongSelect(maxDateScoreObject.songTitle)
+        }
+      }
     } catch (err) {
       console.log(err.message);
       setErrMsg(err.message);
@@ -141,7 +167,7 @@ const ProfileCharts = () => {
       );
       setBestTimeOffset(
         Math.round(
-          Math.max(...values.map((value) => value.timeOffset)) * 1000
+          Math.min(...values.map((value) => value.timeOffset)) * 1000
         ) + " ms"
       );
       setAvgScore(
@@ -196,29 +222,36 @@ const ProfileCharts = () => {
         });
       }
     }
-    setSongOptions(getUnique(matchingSongTitles));
+    let matchingSongs = getUnique(matchingSongTitles)
+    setSongOptions(matchingSongs);
+    if (matchingSongs.length > 0) {
+      setSelectedSong(matchingSongs[0].value);
+    }
+    else {
+      setSelectedSong('');
+    }
   };
 
-  /* searches for score objects matching user selected song */
+  /* searches for songs matching the game mode */
   const handleSongSelect = async (newValue) => {
     setSelectedSong(newValue);
-    var matchingGameModes = [];
-    for (var scoreObject in data) {
-      if (data[scoreObject].songTitle === newValue) {
-        if (matchingGameModes.gameModeActorName === "") {
-          matchingGameModes.push({
-            value: data[scoreObject].customGameModeName,
-            label: data[scoreObject].customGameModeName,
-          });
-        } else {
-          matchingGameModes.push({
-            value: data[scoreObject].gameModeActorName,
-            label: data[scoreObject].gameModeActorName,
-          });
-        }
-      }
-    }
-    setGameModeOptions(getUnique(matchingGameModes));
+    // var matchingGameModes = [];
+    // for (var scoreObject in data) {
+    //   if (data[scoreObject].songTitle === newValue.value) {
+    //     if (matchingGameModes.gameModeActorName === "") {
+    //       matchingGameModes.push({
+    //         value: data[scoreObject].customGameModeName.value,
+    //         label: data[scoreObject].customGameModeName.value,
+    //       });
+    //     } else {
+    //       matchingGameModes.push({
+    //         value: data[scoreObject].gameModeActorName.value,
+    //         label: data[scoreObject].gameModeActorName.value,
+    //       });
+    //     }
+    //   }
+    // }
+    // setGameModeOptions(getUnique(matchingGameModes));
   };
 
   const scoreOptions = {
@@ -270,9 +303,11 @@ const ProfileCharts = () => {
             <p className="select-caption fs-200">GameMode:</p>
             <div className="select-wrapper">
               <SelectBox
-                onChange={(newValue) => handleGameModeSelect(newValue.value)}
+                id="game-mode-select"
+                onChange={(value) => handleGameModeSelect(value.value)}
                 placeholder={"Filter by game mode"}
                 options={gameModeOptions}
+                value={{label: selectedGameMode, value: selectedGameMode}}
               />
             </div>
           </div>
@@ -280,9 +315,11 @@ const ProfileCharts = () => {
             <p className="select-caption fs-200">Song:</p>
             <div className="select-wrapper">
               <SelectBox
-                onChange={(newValue) => handleSongSelect(newValue.value)}
+                id="song-select"
+                onChange={(value) => handleSongSelect(value.value)}
                 placeholder={"Filter by song"}
                 options={songOptions}
+                value={{label: selectedSong, value: selectedSong}}
               />
             </div>
           </div>

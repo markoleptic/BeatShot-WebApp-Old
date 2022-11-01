@@ -68,7 +68,7 @@ const LineChart = (props, canvas) => {
     const chart = chartRef.current;
     //console.log(props.labels);
     if (chart) {
-      console.log(chart.scales);
+      //console.log(chart.scales);
       //chart.ctx.rect(0, 0, 0, chart.canvas.height);
       // eslint-disable-next-line react-hooks/exhaustive-deps
       gradient = chart.ctx.createLinearGradient(0, 0, 0, chart.canvas.height);
@@ -77,8 +77,8 @@ const LineChart = (props, canvas) => {
       chart.ctxfillStyle = gradient;
       chart.ctx.fill();
       setGradient(gradient);
-      console.log("CanvasRenderingContext2D", chart.ctx);
-      console.log("HTMLCanvasElement", chart.canvas.height);
+      //console.log("CanvasRenderingContext2D", chart.ctx);
+      //console.log("HTMLCanvasElement", chart.canvas.height);
 
     }
   }, [chartRef]);

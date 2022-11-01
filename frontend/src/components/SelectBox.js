@@ -60,16 +60,17 @@ export const coloredSelectStyles = (menuOpen) => ({
   }),
 });
 
-const SelectBox = ({ options, onChange, placeholder }) => {
+const SelectBox = ({ options, onChange, placeholder, value, id }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   return (
     <>
       <div onClick={() => setMenuIsOpen(!menuIsOpen)}>
         <Select
-          className="game-mode-select"
-          id="game-mode-select"
+          className={id}
+          id={id}
           options={options}
           onChange={onChange}
+          value={value}
           placeholder={placeholder}
           styles={coloredSelectStyles(menuIsOpen)}
         />
