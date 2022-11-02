@@ -287,7 +287,7 @@ const ProfileCharts = () => {
     <>
       <div className="stats-header">
         <h2 className="stats-title">Statistics for {auth.username}</h2>
-        <h4>Get started by selecting a game mode or song.</h4>
+        <h4 className="stats-subtitle">Get started by selecting a game mode or song.</h4>
       </div>
       <div className={errMsg ? "responsive-centered-container" : "offscreen"}>
         <p

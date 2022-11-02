@@ -12,11 +12,11 @@ const Home = () => {
           <div className="centered-bordered-container padding-1rem">
             <div>
               <p className="fs-200 text-center">
-                Welcome to the official website for Beatshot, the free-to-play
+                Welcome to the official website for Beatshot, the
                 rhythm-based aim trainer coming soon to Steam. Until then, you
                 can download alpha versions on
                 <a
-                  className="fs-200 text-white link hover-blue "
+                  className="fs-200 text-white link hover-blue bold-font"
                   href="https://github.com/markoleptic/BeatShot">
                   &nbsp;Github
                 </a>
@@ -26,7 +26,7 @@ const Home = () => {
             <p className="fs-200 text-center">
               To gain access to visual analysis for all your game modes and
               songs played,
-              <Link className="link fs-200 text-white hover-blue" to={`/login`}>
+              <Link className="link fs-200 text-white hover-blue bold-font" to={`/login`}>
                 &nbsp;create an account
               </Link>
               .

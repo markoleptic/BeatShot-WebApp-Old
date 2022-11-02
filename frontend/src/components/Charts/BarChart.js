@@ -144,7 +144,7 @@ const BarChart = (props, canvas) => {
           font: {
             size: 16,
             family: "Montserrat",
-            weight: 1000,
+            weight: 500,
             color: "white",
           },
           display: true,
@@ -183,7 +183,7 @@ const BarChart = (props, canvas) => {
           font: {
             size: 16,
             family: "Montserrat",
-            weight: 1000,
+            weight: 500,
             color: "white",
           },
           alight: 'center',

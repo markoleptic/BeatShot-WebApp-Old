@@ -38,7 +38,7 @@ const LineChart = (props, canvas) => {
     props.myOptions;
 
   const labels = props.labels.map((element) =>
-    DateTime.fromISO(element.substring(0, 23), { zone: "utc" })
+    DateTime.fromISO(element, { zone: "local" })
   );
 
   let chartData = [];
@@ -109,11 +109,11 @@ const LineChart = (props, canvas) => {
         display: true,
         align: 'center',
         text: title,
-        color: "white",
+        color: "hsl(193, 81%, 58%)",
         font: {
           size: 20,
           family: "Montserrat",
-          weight: 800,
+          weight: 700,
           color: "hsl(193, 81%, 58%)",
         },
       },
@@ -121,12 +121,12 @@ const LineChart = (props, canvas) => {
         padding: "8",
         displayColors: false,
         titleFont: {
-          weight: "bold",
+          weight: 700,
           family: "Montserrat",
           size: "14",
         },
         bodyFont: {
-          weight: 800,
+          weight: 500,
           family: "Montserrat",
           size: "14",
         },
@@ -188,7 +188,7 @@ const LineChart = (props, canvas) => {
           font: {
             size: 16,
             family: "Montserrat",
-            weight: 1000,
+            weight: 500,
             color: "white",
           },
           display: true,
@@ -233,7 +233,7 @@ const LineChart = (props, canvas) => {
           font: {
             size: 16,
             family: "Montserrat",
-            weight: 1000,
+            weight: 500,
             color: "white",
           },
           alight: 'center',

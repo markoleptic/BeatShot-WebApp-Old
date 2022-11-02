@@ -14,17 +14,12 @@ const saveScores = async (req, res) => {
   const times = [];
   for (entry in foundScores) {
     times.push(foundScores[entry].time.toJSON());
+    console.log("FoundScoresTime: " + foundScores[entry].time.toJSON());
   }
   for (let scoreArray in data) {
     for (let scoreObject in data[scoreArray]) {
-      let time = data[scoreArray][scoreObject].time;
-      let splitTime = time.split("-");
-      splitTime[0] = splitTime[0].replace(/\./g, "-");
-      splitTime[1] = splitTime[1].replace(/\./g, ":");
-      let formattedTime = splitTime[0]
-        .concat("T", splitTime[1])
-        .concat(".000Z");
-      if (times.includes(formattedTime) === false) {
+      console.log("RequestScoresTime: " + data[scoreArray][scoreObject].time);
+      if (times.includes(data[scoreArray][scoreObject].time) === false) {
         scores.create({
           userID: foundUser.userID,
           gameModeActorName: data[scoreArray][scoreObject].gameModeActorName,

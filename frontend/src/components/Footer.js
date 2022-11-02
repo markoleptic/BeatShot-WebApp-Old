@@ -15,7 +15,7 @@ const Footer = () => {
           <h2 className="footer-logo-text">BeatShot</h2>
         </div>
         <div className="footer-text-container">
-          <p className="footer-description-text">the free-to-play rhythm-based aim trainer</p>
+          <p className="footer-description-text">the rhythm-based aim trainer</p>
         </div>
       </div>
 
