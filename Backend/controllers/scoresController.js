@@ -14,11 +14,9 @@ const saveScores = async (req, res) => {
   const times = [];
   for (entry in foundScores) {
     times.push(foundScores[entry].time.toJSON());
-    console.log("FoundScoresTime: " + foundScores[entry].time.toJSON());
   }
   for (let scoreArray in data) {
     for (let scoreObject in data[scoreArray]) {
-      console.log("RequestScoresTime: " + data[scoreArray][scoreObject].time);
       if (times.includes(data[scoreArray][scoreObject].time) === false) {
         scores.create({
           userID: foundUser.userID,
@@ -37,7 +35,7 @@ const saveScores = async (req, res) => {
             data[scoreArray][scoreObject].totalPossibleDamage,
           totalTimeOffset: data[scoreArray][scoreObject].totalTimeOffset,
           avgTimeOffset: data[scoreArray][scoreObject].avgTimeOffset,
-          time: formattedTime,
+          time: data[scoreArray][scoreObject].time,
         });
       }
     }
