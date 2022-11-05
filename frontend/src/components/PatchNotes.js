@@ -12,6 +12,118 @@ const PatchNotes = () => {
           <div className="content-main">
             <div className="pn-wrapper">
               <div className="pn-version-date">
+                <h3 className="pn-version-number">Patch Notes 0.2.1</h3>
+                <p className="pn-date">November 4, 2022</p>
+              </div>
+              <ul>
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  New Feature: Spread Type
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Dynamic Spread
+                      <ul>
+                        <li className="pn-li-lvl3">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            className="pn-icon-lvl2"
+                          />
+                          Dynamic Spread changes the horizontal/vertical spread
+                          based on performance, where better performances lowers
+                          the spread.
+                        </li>
+                        <li className="pn-li-lvl3">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            className="pn-icon-lvl2"
+                          />
+                          Random: chooses random point in dynamically sized
+                          spawn area
+                        </li>
+                        <li className="pn-li-lvl3">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            className="pn-icon-lvl2"
+                          />
+                          EdgeOnly: chooses random point on edge of dynamically
+                          sized spread
+                        </li>
+                      </ul>
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Static Spread
+                      <li className="pn-li-lvl3">
+                        <FontAwesomeIcon
+                          icon={faPlay}
+                          className="pn-icon-lvl2"
+                        />
+                        Removed Narrow/Wide Spread as Variant Game Modes
+                      </li>
+                      <li className="pn-li-lvl3">
+                        <FontAwesomeIcon
+                          icon={faPlay}
+                          className="pn-icon-lvl2"
+                        />
+                        now implemented using StaticWide and StaticNarrow
+                      </li>
+                    </li>
+                  </ul>
+                </li>
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  New Feature: Dynamic Spread sizing
+                  <li className="pn-li-lvl2">
+                    <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    interpolates between min target size and max target size
+                    based on performance, where better performance shrinks the
+                    target.
+                  </li>
+                </li>
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  New Feature: Game Mode Difficulties
+                  <li className="pn-li-lvl2">
+                    <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                    added 3 difficulties for the core game modes
+                  </li>
+                </li>
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  Miscellaneous
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed Best Reaction time (was showing max instead of min)
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed BeatGrid targets destroying ~3 seconds early
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed issue where inactive BeatGrid targets were damageable
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
+            <div className="pn-wrapper">
+              <div className="pn-version-date">
                 <h3 className="pn-version-number">Patch Notes 0.2.0</h3>
                 <p className="pn-date">October 28, 2022</p>
               </div>
@@ -104,9 +216,12 @@ const PatchNotes = () => {
                   />
                   Other
                   <ul>
-                  <li className="pn-li-lvl2">
+                    <li className="pn-li-lvl2">
                       <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
-                      disabled Lumen Global Illumination and Lumen reflections because it was using too many resources. Now use screen space global illumination and reflections. Performance should be much better than previous version
+                      disabled Lumen Global Illumination and Lumen reflections
+                      because it was using too many resources. Now use screen
+                      space global illumination and reflections. Performance
+                      should be much better than previous version
                     </li>
                     <li className="pn-li-lvl2">
                       <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
