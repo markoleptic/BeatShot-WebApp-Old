@@ -49,11 +49,18 @@ const getScores = async (req, res) => {
     const foundUser = await users.findOne({
       where: { username: userID },
     });
-    const foundScores = await scores.findAll(
-      { raw: true, nest: true },
-      { where: { userID: foundUser.userID } }
-    );
-    res.status(200).json(foundScores);
+    if (foundUser) {
+      console.log(foundUser.userID);
+      const foundScores = await scores.findAll(
+        { raw: true, 
+          nest: true,
+          where: { userID: foundUser.userID }
+         }
+      );
+      res.status(200).json(foundScores);
+    } else {
+      res.status(401).json('User not found.');
+    }
   } catch (error) {
     console.log(error);
     return res.status(400).json("not confirmed");
