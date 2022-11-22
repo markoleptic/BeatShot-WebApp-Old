@@ -8,8 +8,10 @@ const saveScores = async (req, res) => {
     where: { username: req.params.userid },
   });
   const foundScores = await scores.findAll(
-    { raw: true, nest: true },
-    { where: { userID: foundUser.userID } }
+    { raw: true,
+      nest: true,
+      where: { userID: foundUser.userID }
+    }
   );
   const times = [];
   for (entry in foundScores) {
@@ -18,7 +20,7 @@ const saveScores = async (req, res) => {
   for (let scoreArray in data) {
     for (let scoreObject in data[scoreArray]) {
       if (times.includes(data[scoreArray][scoreObject].time) === false) {
-        scores.create({
+	 scores.create({
           userID: foundUser.userID,
           gameModeActorName: data[scoreArray][scoreObject].gameModeActorName,
           customGameModeName: data[scoreArray][scoreObject].customGameModeName,
