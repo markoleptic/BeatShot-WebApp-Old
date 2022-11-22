@@ -16,19 +16,19 @@ module.exports = {
     "port": process.env.db_port,
     "dialect": process.env.db_dialect,
   },
-  "live": {
-    "username": process.env.db_username_live,
-    "password": process.env.db_password_live,
-    "database": process.env.db_database_live,
-    "host": process.env.db_host_live,
+  "production": {
+    "username": process.env.db_username_production,
+    "password": process.env.db_password_production,
+    "database": process.env.db_database_production,
+    "host": process.env.db_host_production,
     "port": process.env.db_port,
     "dialect": process.env.db_dialect,
   },
-  "docker-live": {
-    "username": process.env.db_username_live,
-    "password": process.env.db_password_live,
-    "database": process.env.db_database_live,
-    "host": process.env.db_host_live,
+  "docker-production": {
+    "username": process.env.db_username_production,
+    "password": process.env.db_password_production,
+    "database": process.env.db_database_production,
+    "host": process.env.db_host_production,
     "port": process.env.db_port,
     "dialect": process.env.db_dialect,
   }
