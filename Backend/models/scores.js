@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
     },
     shotsFired: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER
     },
     targetsHit: {
       type: DataTypes.INTEGER,
@@ -45,17 +45,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
     totalTimeOffset: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.FLOAT
     },
     avgTimeOffset: {
       type: DataTypes.FLOAT,
     },
     time: {
-      type: DataTypes.DATE(3),
+      type: DataTypes.DATE,
     },
-    streak: {
-      type: DataTypes.INTEGER,
-    }
   });
   return scores;
 };
