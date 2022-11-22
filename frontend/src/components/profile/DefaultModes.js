@@ -5,10 +5,11 @@ import { useAuthContext } from "../../context/AuthProvider";
 import SelectBox from "../SelectBox";
 import { usePlayerDataContext } from "../../context/PlayerData";
 
-const ProfileCharts = () => {
+const DefaultModes = () => {
   // Select box options
   const [gameModeOptions, setGameModeOptions] = useState([]);
   const [songOptions, setSongOptions] = useState([]);
+  const [difficultyOptions, setDifficultyOptions] = useState([]);
 
   // Data passed to Line Chart
   const [scores, setScores] = useState();
@@ -17,16 +18,19 @@ const ProfileCharts = () => {
   // Best/Average Text Box values
   const [bestScore, setBestScore] = useState();
   const [bestAccuracy, setBestAccuracy] = useState();
+  const [bestStreak, setBestStreak] = useState();
   const [bestCompletion, setBestCompletion] = useState();
   const [bestTimeOffset, setBestTimeOffset] = useState();
   const [avgScore, setAvgScore] = useState();
   const [avgAccuracy, setAvgAccuracy] = useState();
+  const [avgStreak, setAvgStreak] = useState();
   const [avgCompletion, setAvgCompletion] = useState();
   const [avgTimeOffset, setAvgTimeOffset] = useState();
 
   // Tracks currently selected options from Select boxes
   const [selectedGameMode, setSelectedGameMode] = useState("");
   const [selectedSong, setSelectedSong] = useState("");
+  const [selectedDifficulty, setSelectedDifficulty] = useState("");
 
   // Hooks
   const { auth } = useAuthContext();
@@ -37,39 +41,68 @@ const ProfileCharts = () => {
   useEffect(() => {
     setErrMsg("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameModeOptions, songOptions]);
+  }, [gameModeOptions, songOptions, difficultyOptions]);
 
   /* initial useEffect that gets data from PlayerDataContext
    * and calls functions to populate the options dropdowns */
   useEffect(() => {
     try {
-      getGameModes(data);
-      getSongTitles(data);
-
-      /* get the most recent score object and display the corresponding
-       * game mode and song */
-      if (data) {
-        let maxDate = DateTime.max(
-          ...data.map((x) => {
-            return (DateTime.fromISO(x.time))
-            })
-        )
-        let maxDateScoreObject;
-        for (let score in data) {
-          if (maxDate.equals(DateTime.fromISO(data[score].time))) {
-            maxDateScoreObject = data[score];
+      let datesArray = [];
+      let gameModeArray = [];
+      let songTitleArray = [];
+      let difficultyArray = [];
+      for (let object in data) {
+        if (
+          data[object].gameModeActorName !== "Custom" &&
+          data[object].customGameModeName === ""
+        ) {
+          datesArray.push(data[object]);
+          /* sets the game modes options */
+          if (
+            !gameModeArray.some(
+              (e) => e.label === data[object].gameModeActorName
+            )
+          ) {
+            gameModeArray.push({
+              value: data[object].gameModeActorName,
+              label: data[object].gameModeActorName,
+            });
+          }
+          /* sets the song options */
+          if (!songTitleArray.some((e) => e.label === data[object].songTitle)) {
+            songTitleArray.push({
+              value: data[object].songTitle,
+              label: data[object].songTitle,
+            });
+          }
+          /* sets the difficulty options */
+          if (
+            !difficultyArray.some((e) => e.label === data[object].difficulty)
+          ) {
+            difficultyArray.push({
+              value: data[object].difficulty,
+              label: data[object].difficulty,
+            });
           }
         }
-        if (maxDateScoreObject.gameModeActorName === "Custom" &&
-        maxDateScoreObject.customGameModeName !== "") {
-          handleGameModeSelect(maxDateScoreObject.customGameModeName);
-          handleSongSelect(maxDateScoreObject.songTitle);
-        }
-        else {
-          handleGameModeSelect(maxDateScoreObject.gameModeActorName)
-          handleSongSelect(maxDateScoreObject.songTitle)
+      }
+      /* get the most recent score object and display the corresponding
+       * game mode and song */
+      let maxDateScoreObject = datesArray[0];
+      for (let object in datesArray) {
+        if (
+          DateTime.fromISO(maxDateScoreObject.time) <=
+          DateTime.fromISO(datesArray[object].time)
+        ) {
+          maxDateScoreObject = datesArray[object];
         }
       }
+      setGameModeOptions(gameModeArray);
+      setSongOptions(songTitleArray);
+      setDifficultyOptions(difficultyArray);
+      handleGameModeSelect(maxDateScoreObject.gameModeActorName);
+      handleSongSelect(maxDateScoreObject.songTitle);
+      handleDifficultySelect(maxDateScoreObject.difficulty);
     } catch (err) {
       console.log(err.message);
       setErrMsg(err.message);
@@ -77,67 +110,22 @@ const ProfileCharts = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  /* sets the game mode options based on get request */
-  const getGameModes = (data) => {
-    let gameModeArray = [];
-    data.map((x) => {
-      if (x.gameModeActorName === "Custom" && x.customGameModeName !== "") {
-        return gameModeArray.push({
-          value: x.customGameModeName,
-          label: x.customGameModeName,
-        });
-      } else {
-        return gameModeArray.push({
-          value: x.gameModeActorName,
-          label: x.gameModeActorName,
-        });
-      }
-    });
-    setGameModeOptions(getUnique(gameModeArray));
-  };
-
-  /* sets the song options based on get request */
-  const getSongTitles = (data) => {
-    let songTitleArray = [];
-    data.map((x) =>
-      songTitleArray.push({
-        value: x.songTitle,
-        label: x.songTitle,
-      })
-    );
-    setSongOptions(getUnique(songTitleArray));
-  };
-
-  /* returns a unique array so duplicates aren't displayed in dropdowns */
-  const getUnique = (data) => {
-    let tempArray = [];
-    let unique = data.filter((element) => {
-      let isDupe = tempArray.includes(element.value);
-      if (!isDupe) {
-        tempArray.push(element.value);
-        return true;
-      }
-      return false;
-    });
-    return unique;
-  };
-
   /* updates the charts and info boxes when selected gamemode or song changes */
   useEffect(() => {
     const getScores = () => {
       let scoreMap = new Map();
       for (let scoreObject in data) {
         if (
-          ((data[scoreObject].customGameModeName === "" &&
-            data[scoreObject].gameModeActorName === selectedGameMode) ||
-            (data[scoreObject].customGameModeName === selectedGameMode &&
-              data[scoreObject].gameModeActorName === "Custom")) &&
-          data[scoreObject].songTitle === selectedSong
+          data[scoreObject].gameModeActorName === selectedGameMode &&
+          data[scoreObject].songTitle === selectedSong &&
+          data[scoreObject].difficulty === selectedDifficulty
         ) {
           scoreMap.set(data[scoreObject].time, {
             score: data[scoreObject].score,
             highScore: data[scoreObject].highScore,
             accuracy: data[scoreObject].accuracy,
+            streak: data[scoreObject].streak,
+            difficulty: data[scoreObject].difficulty,
             completion: data[scoreObject].completion,
             timeOffset: data[scoreObject].avgTimeOffset,
           });
@@ -148,6 +136,7 @@ const ProfileCharts = () => {
       const values = [...sortedScoreMap.values()];
       setScores(values);
       setDates(keys);
+      // bests
       setBestScore(
         Math.round(
           (Math.max(...values.map((value) => value.highScore)) * 10) / 10
@@ -158,6 +147,7 @@ const ProfileCharts = () => {
           10 +
           "%"
       );
+      setBestStreak(Math.max(...values.map((value) => value.streak)));
       setBestCompletion(
         Math.round(
           Math.max(...values.map((value) => value.completion)) * 1000
@@ -170,6 +160,7 @@ const ProfileCharts = () => {
           Math.min(...values.map((value) => value.timeOffset)) * 1000
         ) + " ms"
       );
+      // averages
       setAvgScore(
         Math.round(
           values
@@ -185,6 +176,13 @@ const ProfileCharts = () => {
         ) /
           10 +
           "%"
+      );
+      setAvgStreak(
+        Math.round(
+          values
+            .map((value) => value.streak)
+            .reduce((p, c, i, a) => p + c / a.length, 0)
+        )
       );
       setAvgCompletion(
         Math.round(
@@ -205,16 +203,17 @@ const ProfileCharts = () => {
     };
     getScores();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGameMode, selectedSong]);
+  }, [selectedGameMode, selectedSong, selectedDifficulty]);
 
   /* searches for score objects matching user selected game mode */
   const handleGameModeSelect = async (newValue) => {
     setSelectedGameMode(newValue);
-    var matchingSongTitles = [];
-    for (var scoreObject in data) {
+    let matchingSongTitles = [];
+    //let matchingDifficulties = [];
+    for (let scoreObject in data) {
       if (
-        data[scoreObject].gameModeActorName === newValue ||
-        data[scoreObject].customGameModeName === newValue
+        data[scoreObject].gameModeActorName === newValue &&
+        !matchingSongTitles.some((e) => e.value === data[scoreObject].songTitle)
       ) {
         matchingSongTitles.push({
           value: data[scoreObject].songTitle,
@@ -222,36 +221,40 @@ const ProfileCharts = () => {
         });
       }
     }
-    let matchingSongs = getUnique(matchingSongTitles)
-    setSongOptions(matchingSongs);
-    if (matchingSongs.length > 0) {
-      setSelectedSong(matchingSongs[0].value);
-    }
-    else {
-      setSelectedSong('');
-    }
+    setSongOptions(matchingSongTitles);
+    setSelectedDifficulty("");
+    // if (matchingSongTitles.length > 0) {
+    //   handleSongSelect(matchingSongTitles[0].value);
+    //   //setSelectedSong(matchingSongTitles[0].value);
+    // } else {
+    //   setSelectedSong("");
+    //   setSelectedDifficulty("");
+    // }
   };
 
   /* searches for songs matching the game mode */
   const handleSongSelect = async (newValue) => {
     setSelectedSong(newValue);
-    // var matchingGameModes = [];
-    // for (var scoreObject in data) {
-    //   if (data[scoreObject].songTitle === newValue.value) {
-    //     if (matchingGameModes.gameModeActorName === "") {
-    //       matchingGameModes.push({
-    //         value: data[scoreObject].customGameModeName.value,
-    //         label: data[scoreObject].customGameModeName.value,
-    //       });
-    //     } else {
-    //       matchingGameModes.push({
-    //         value: data[scoreObject].gameModeActorName.value,
-    //         label: data[scoreObject].gameModeActorName.value,
-    //       });
-    //     }
-    //   }
-    // }
-    // setGameModeOptions(getUnique(matchingGameModes));
+    let matchingDifficulties = [];
+    for (let scoreObject in data) {
+      if (
+        data[scoreObject].gameModeActorName === selectedGameMode &&
+        data[scoreObject].songTitle === newValue &&
+        !matchingDifficulties.some(
+          (e) => e.value === data[scoreObject].difficulty
+        )
+      ) {
+        matchingDifficulties.push({
+          value: data[scoreObject].difficulty,
+          label: data[scoreObject].difficulty,
+        });
+      }
+    }
+    setDifficultyOptions(matchingDifficulties);
+  };
+
+  const handleDifficultySelect = async (newValue) => {
+    setSelectedDifficulty(newValue);
   };
 
   const scoreOptions = {
@@ -266,6 +269,13 @@ const ProfileCharts = () => {
     xAxisTitle: "Date",
     yAxisTitle: "Hit Rate (%)",
     category: "accuracy",
+    bDisplayPercentage: false,
+  };
+  const streakOptions = {
+    title: "Streak vs Time",
+    xAxisTitle: "Date",
+    yAxisTitle: "Consecutive Targets Hit",
+    category: "streak",
     bDisplayPercentage: false,
   };
   const completionOptions = {
@@ -287,7 +297,9 @@ const ProfileCharts = () => {
     <>
       <div className="stats-header">
         <h2 className="stats-title">Statistics for {auth.username}</h2>
-        <h4 className="stats-subtitle">Get started by selecting a game mode or song.</h4>
+        <h4 className="stats-subtitle">
+          Get started by selecting a game mode or song.
+        </h4>
       </div>
       <div className={errMsg ? "responsive-centered-container" : "offscreen"}>
         <p
@@ -307,7 +319,7 @@ const ProfileCharts = () => {
                 onChange={(value) => handleGameModeSelect(value.value)}
                 placeholder={"Filter by game mode"}
                 options={gameModeOptions}
-                value={{label: selectedGameMode, value: selectedGameMode}}
+                value={{ label: selectedGameMode, value: selectedGameMode }}
               />
             </div>
           </div>
@@ -319,14 +331,28 @@ const ProfileCharts = () => {
                 onChange={(value) => handleSongSelect(value.value)}
                 placeholder={"Filter by song"}
                 options={songOptions}
-                value={{label: selectedSong, value: selectedSong}}
+                value={{ label: selectedSong, value: selectedSong }}
+              />
+            </div>
+          </div>
+          <div className="select-wrapper">
+            <p className="select-caption fs-200">Difficulty:</p>
+            <div className="select-wrapper">
+              <SelectBox
+                id="difficulty-select"
+                onChange={(value) => handleDifficultySelect(value.value)}
+                placeholder={"Filter by Difficulty"}
+                options={difficultyOptions}
+                value={{ label: selectedDifficulty, value: selectedDifficulty }}
               />
             </div>
           </div>
         </div>
         <div
           className={
-            selectedGameMode !== "" && selectedSong !== ""
+            selectedGameMode !== "" &&
+            selectedSong !== "" &&
+            selectedDifficulty !== ""
               ? "best-avg-container"
               : "hide"
           }>
@@ -342,6 +368,10 @@ const ProfileCharts = () => {
               <li className="table-row">
                 <div className="col col-1">Accuracy:</div>
                 <div className="col col-2">{bestAccuracy}</div>
+              </li>
+              <li className="table-row">
+                <div className="col col-1">Streak:</div>
+                <div className="col col-2">{bestStreak}</div>
               </li>
               <li className="table-row">
                 <div className="col col-1">Reaction Time:</div>
@@ -367,6 +397,10 @@ const ProfileCharts = () => {
                 <div className="col col-2">{avgAccuracy}</div>
               </li>
               <li className="table-row">
+                <div className="col col-1">Streak:</div>
+                <div className="col col-2">{avgStreak}</div>
+              </li>
+              <li className="table-row">
                 <div className="col col-1">Reaction Time:</div>
                 <div className="col col-2">{avgTimeOffset}</div>
               </li>
@@ -378,43 +412,61 @@ const ProfileCharts = () => {
           </div>
         </div>
       </div>
-      <div>
-        {selectedGameMode !== "" && selectedSong !== "" && (
-          <LineChart
-            labels={dates}
-            data={scores.map((value) => value.score)}
-            myOptions={scoreOptions}
-          />
-        )}
-      </div>
-      <div>
-        {selectedGameMode !== "" && selectedSong !== "" && (
-          <LineChart
-            labels={dates}
-            data={scores.map((value) => value.accuracy)}
-            myOptions={accuracyOptions}
-          />
-        )}
-      </div>
-      <div>
-        {selectedGameMode !== "" && selectedSong !== "" && (
-          <LineChart
-            labels={dates}
-            data={scores.map((value) => value.completion)}
-            myOptions={completionOptions}
-          />
-        )}
-      </div>
-      <div>
-        {selectedGameMode !== "" && selectedSong !== "" && (
-          <LineChart
-            labels={dates}
-            data={scores.map((value) => value.timeOffset)}
-            myOptions={avgTimeOffsetOptions}
-          />
-        )}
+      <div 
+        className={
+          selectedGameMode !== "" &&
+          selectedSong !== "" &&
+          selectedDifficulty !== ""
+            ? ""
+            : "hide"
+        }>
+        <div>
+          {selectedGameMode !== "" && selectedSong !== "" && (
+            <LineChart
+              labels={dates}
+              data={scores.map((value) => value.score)}
+              myOptions={scoreOptions}
+            />
+          )}
+        </div>
+        <div>
+          {selectedGameMode !== "" && selectedSong !== "" && (
+            <LineChart
+              labels={dates}
+              data={scores.map((value) => value.accuracy)}
+              myOptions={accuracyOptions}
+            />
+          )}
+        </div>
+        <div>
+          {selectedGameMode !== "" && selectedSong !== "" && (
+            <LineChart
+              labels={dates}
+              data={scores.map((value) => value.streak)}
+              myOptions={streakOptions}
+            />
+          )}
+        </div>
+        <div>
+          {selectedGameMode !== "" && selectedSong !== "" && (
+            <LineChart
+              labels={dates}
+              data={scores.map((value) => value.completion)}
+              myOptions={completionOptions}
+            />
+          )}
+        </div>
+        <div>
+          {selectedGameMode !== "" && selectedSong !== "" && (
+            <LineChart
+              labels={dates}
+              data={scores.map((value) => value.timeOffset)}
+              myOptions={avgTimeOffsetOptions}
+            />
+          )}
+        </div>
       </div>
     </>
   );
 };
-export default ProfileCharts;
+export default DefaultModes;

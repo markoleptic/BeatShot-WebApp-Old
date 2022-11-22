@@ -12,37 +12,30 @@ const ProfileSidebar = () => {
         <ul className="sidebar-list">
           <li className="sidebar-item">
             <Link
-              to={`/profile/${auth.username}/overview`}
+              to={`/profile/${auth.username}/stats/overview`}
               className="profile-sidebar-text text-center link hover-blue">
               Overview
             </Link>
           </li>
           <li className="sidebar-item">
             <Link
-              to={`/profile/${auth.username}/charts`}
+              to={`/profile/${auth.username}/stats/defaultmodes`}
               className="profile-sidebar-text text-center link hover-blue">
-              Charts
+              Default Modes
             </Link>
           </li>
           <li className="sidebar-item">
             <Link
-              to={`/profile/${auth.username}/history`}
+              to={`/profile/${auth.username}/stats/custommodes`}
               className="profile-sidebar-text text-center link hover-blue">
-              Placeholder
+              Custom Modes
             </Link>
           </li>
           <li className="sidebar-item">
             <Link
-              to={`/profile/${auth.username}`}
+              to={`/profile/${auth.username}/stats/history`}
               className="profile-sidebar-text text-center link hover-blue">
-              Placeholder
-            </Link>
-          </li>
-          <li className="sidebar-item">
-            <Link
-              to={`/profile/${auth.username}`}
-              className="profile-sidebar-text text-center link hover-blue">
-              Placeholder
+              History
             </Link>
           </li>
         </ul>

@@ -1,8 +1,9 @@
 import { useAuthContext } from "../../context/AuthProvider";
 import ProfileSidebar from "./ProfileSidebar";
-import ProfileCharts from "./ProfileCharts";
+import DefaultModes from "./DefaultModes";
 import ProfileOverview from "./ProfileOverview";
 import ProfileHistory from "./ProfileHistory";
+import CustomModes from "./CustomModes";
 import { PlayerDataProvider } from "../../context/PlayerData";
 import { Routes, Route } from "react-router-dom";
 
@@ -20,11 +21,15 @@ const Profile = () => {
                 element={<ProfileOverview />}
               />
               <Route
-                path={`/${auth.username}/charts`}
-                element={<ProfileCharts />}
+                path={`/${auth.username}/stats/defaultmodes`}
+                element={<DefaultModes />}
               />
               <Route
-                path={`/${auth.username}/history`}
+                path={`/${auth.username}/stats/custommodes`}
+                element={<CustomModes />}
+              />
+              <Route
+                path={`/${auth.username}/stats/history`}
                 element={<ProfileHistory />}
               />
               <Route path={"/*"} element={<ProfileOverview />} />

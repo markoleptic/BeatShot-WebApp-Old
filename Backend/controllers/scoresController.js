@@ -8,8 +8,10 @@ const saveScores = async (req, res) => {
     where: { username: req.params.userid },
   });
   const foundScores = await scores.findAll(
-    { raw: true, nest: true },
-    { where: { userID: foundUser.userID } }
+    { raw: true, 
+      nest: true,
+      where: { userID: foundUser.userID }
+    }
   );
   const times = [];
   for (entry in foundScores) {
@@ -36,6 +38,8 @@ const saveScores = async (req, res) => {
           totalTimeOffset: data[scoreArray][scoreObject].totalTimeOffset,
           avgTimeOffset: data[scoreArray][scoreObject].avgTimeOffset,
           time: data[scoreArray][scoreObject].time,
+          streak: data[scoreArray][scoreObject].streak,
+          difficulty: data[scoreArray][scoreObject].difficulty,
         });
       }
     }
@@ -50,7 +54,6 @@ const getScores = async (req, res) => {
       where: { username: userID },
     });
     if (foundUser) {
-      console.log(foundUser.userID);
       const foundScores = await scores.findAll(
         { raw: true, 
           nest: true,

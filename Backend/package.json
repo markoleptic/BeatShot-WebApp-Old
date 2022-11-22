@@ -19,6 +19,7 @@
     "fs": "^0.0.1-security",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
+    "luxon": "^3.1.0",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.8.0",
     "path": "^0.12.7",
@@ -27,6 +28,6 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20",
-    "sequelize-cli": "^6.5.1"
+    "sequelize-cli": "^6.5.2"
   }
 }

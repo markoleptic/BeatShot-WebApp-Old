@@ -79,7 +79,6 @@ const LineChart = (props, canvas) => {
       setGradient(gradient);
       //console.log("CanvasRenderingContext2D", chart.ctx);
       //console.log("HTMLCanvasElement", chart.canvas.height);
-
     }
   }, [chartRef]);
 
@@ -135,10 +134,11 @@ const LineChart = (props, canvas) => {
             if (category === "score") {
               return (tooltipItem.raw.toFixed(1));
             } else if (category === "avgTimeOffset") {
-              console.log(tooltipItem.raw * 1000)
               return (tooltipItem.raw * 1000 + "ms");
             } else if (category === "accuracy" || category === "completion") {
               return (tooltipItem.raw * 100).toFixed(2) + "%";
+            } else {
+              return (tooltipItem.raw.toFixed(0));
             }
           },
           labelTextColor: function () {
@@ -218,6 +218,8 @@ const LineChart = (props, canvas) => {
               return this.getLabelForValue(value/ 1000);
             } else if (category === "avgTimeOffset") {
               return this.getLabelForValue(value*1000);
+            } else {
+              return this.getLabelForValue(value);
             }
           },
           color: "white",

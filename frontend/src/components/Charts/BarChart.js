@@ -96,7 +96,12 @@ const BarChart = (props, canvas) => {
         callbacks: {
           label: function (tooltipItem) {
             if (category === "timePlayed") {
-              return (Math.round(tooltipItem.raw / 60 / 60 * 100) / 100) + " hours";
+              if ((tooltipItem.raw / 60 / 60) < 1) {
+                return (Math.round(tooltipItem.raw / 60 * 10) / 10) + " minutes";
+              }
+              else {
+                return (Math.round(tooltipItem.raw / 60 / 60 * 100) / 100) + " hours";
+              }
             }
           },
           labelTextColor: function () {

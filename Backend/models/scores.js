@@ -51,7 +51,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
     },
     time: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE(3),
+    },
+    streak: {
+      type: DataTypes.INTEGER,
+    },
+    difficulty: {
+      type: DataTypes.STRING,
     },
   });
   return scores;
