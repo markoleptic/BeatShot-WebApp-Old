@@ -12,6 +12,160 @@ const PatchNotes = () => {
           <div className="content-main">
             <div className="pn-wrapper">
               <div className="pn-version-date">
+                <h3 className="pn-version-number">Patch Notes 0.3.0</h3>
+                <p className="pn-date">November 23, 2022</p>
+              </div>
+              <ul>
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  New: Custom Crosshair
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Added crosshair customization in the settings menu
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Inner gap, line width/height, outline width and opacity,
+                      and color
+                    </li>
+                  </ul>
+                </li>
+
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  New: Floating Combat Text
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Added floating text that appears on top of a recently
+                      destroyed target, showing the player's current consecutive
+                      targets destroyed (intervals of 5)
+                    </li>
+                  </ul>
+                </li>
+
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  New: Recoil, Firerate, Bullet Decals
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Csgo-style recoil added, meaning that the spray pattern is
+                      the same every time
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Automatic fire rate added
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Settings to control both are shootable settings on the
+                      wall to the left, along with show/hide bullet decals
+                    </li>
+                  </ul>
+                </li>
+
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  More Settings
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Global Illumination, Reflection Quality, Shading Quality,
+                      Visual Effect Quality, FPS counter
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Added CSGO sensitivity option
+                    </li>
+                  </ul>
+                </li>
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  Player Movement Updates
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Added ability to walk, jump, and crouch.
+                    </li>
+                  </ul>
+                </li>
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  User Interface
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Changed font for current song length to be monospaced
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Made the player hud box static sized so it doesn't
+                      constantly change size based on different values
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Added a streak tracker to the player hud which shows the
+                      max number of targets destroyed in a row for the current
+                      session
+                    </li>
+                  </ul>
+                </li>
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  Miscellaneous
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Removed unused assets from project
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed a bug where restarting from the post game menu
+                      wouldn't unpause the game
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed a bug where the website wasn't correctly querying
+                      the specific user's scores
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Remove unused fonts
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed a bug where scores weren't being saved to database
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
+            <div className="pn-wrapper">
+              <div className="pn-version-date">
                 <h3 className="pn-version-number">Patch Notes 0.2.1</h3>
                 <p className="pn-date">November 4, 2022</p>
               </div>
@@ -57,20 +211,22 @@ const PatchNotes = () => {
                     <li className="pn-li-lvl2">
                       <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
                       Static Spread
-                      <li className="pn-li-lvl3">
-                        <FontAwesomeIcon
-                          icon={faPlay}
-                          className="pn-icon-lvl2"
-                        />
-                        Removed Narrow/Wide Spread as Variant Game Modes
-                      </li>
-                      <li className="pn-li-lvl3">
-                        <FontAwesomeIcon
-                          icon={faPlay}
-                          className="pn-icon-lvl2"
-                        />
-                        now implemented using StaticWide and StaticNarrow
-                      </li>
+                      <ul>
+                        <li className="pn-li-lvl3">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            className="pn-icon-lvl2"
+                          />
+                          Removed Narrow/Wide Spread as Variant Game Modes
+                        </li>
+                        <li className="pn-li-lvl3">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            className="pn-icon-lvl2"
+                          />
+                          now implemented using StaticWide and StaticNarrow
+                        </li>
+                      </ul>
                     </li>
                   </ul>
                 </li>
@@ -80,12 +236,14 @@ const PatchNotes = () => {
                     className="pn-icon-lvl1"
                   />
                   New Feature: Dynamic Spread sizing
-                  <li className="pn-li-lvl2">
-                    <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
-                    interpolates between min target size and max target size
-                    based on performance, where better performance shrinks the
-                    target.
-                  </li>
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      interpolates between min target size and max target size
+                      based on performance, where better performance shrinks the
+                      target.
+                    </li>
+                  </ul>
                 </li>
                 <li className="pn-li-lvl1">
                   <FontAwesomeIcon
@@ -93,10 +251,12 @@ const PatchNotes = () => {
                     className="pn-icon-lvl1"
                   />
                   New Feature: Game Mode Difficulties
-                  <li className="pn-li-lvl2">
-                    <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
-                    added 3 difficulties for the core game modes
-                  </li>
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      added 3 difficulties for the core game modes
+                    </li>
+                  </ul>
                 </li>
                 <li className="pn-li-lvl1">
                   <FontAwesomeIcon
@@ -115,7 +275,8 @@ const PatchNotes = () => {
                     </li>
                     <li className="pn-li-lvl2">
                       <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
-                      Fixed issue where inactive BeatGrid targets were damageable
+                      Fixed issue where inactive BeatGrid targets were
+                      damageable
                     </li>
                   </ul>
                 </li>
