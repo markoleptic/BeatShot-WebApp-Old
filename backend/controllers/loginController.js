@@ -5,7 +5,7 @@ const { Op } = require("sequelize");
 require("dotenv").config();
 
 const handleLogin = async (req, res) => {
-  var { username, email, password } = req.body;
+  const { username, email, password } = req.body;
   if ((!username && !email) || !password)
     return res
       .status(400)
@@ -17,7 +17,9 @@ const handleLogin = async (req, res) => {
   });
   if (foundUser) {
     if (foundUser.confirmed === false) {
-      return res.status(400).json('Please confirm your email or request for a resend.');
+      return res
+        .status(400)
+        .json("Please confirm your email or request for a resend.");
     }
     // evaluate password
     const match = await bcrypt.compare(password, foundUser.password);
@@ -47,12 +49,12 @@ const handleLogin = async (req, res) => {
         maxAge: 24 * 60 * 60 * 365 * 5 * 1000,
       });
       // Send in body the short-lived access token
-      res.status(200).json({username: foundUser.username, accessToken});
+      res.status(200).json({ username: foundUser.username, accessToken: accessToken });
     } else {
-      res.status(401).json('Incorrect password.');
+      res.status(401).json("Incorrect password.");
     }
-  }  else {
-    res.status(401).json('User not found.');
+  } else {
+    res.status(401).json("User not found.");
   }
 };
 

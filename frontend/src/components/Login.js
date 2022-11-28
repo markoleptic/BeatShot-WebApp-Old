@@ -81,7 +81,7 @@ const Login = () => {
       if (response) {
         const accessToken = response.data?.accessToken;
         const responseUsername = response.data.username;
-        setAuth({username: responseUsername, accessToken });
+        setAuth({username: responseUsername, accessToken: accessToken });
         setUsername("");
         setEmail("");
         setPassword("");

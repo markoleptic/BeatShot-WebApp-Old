@@ -21,7 +21,7 @@ const handleRefreshToken = async (req, res) => {
                 { expiresIn: '30s' }
             );
             // send short-lived access token
-            res.json({ username: decoded.username, accessToken })
+            res.json({ username: decoded.username, accessToken: accessToken })
         }
     );
 }
