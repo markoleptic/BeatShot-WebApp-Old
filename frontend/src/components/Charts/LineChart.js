@@ -40,9 +40,7 @@ const LineChart = (props, canvas) => {
   const labels = props.labels.map((element) =>
     DateTime.fromISO(element, { zone: "local" })
   );
-
   let chartData = [];
-
   for (let datapoint in props.data) {
     chartData.push({ label: labels[datapoint], data: props.data[datapoint] });
   }

@@ -1,5 +1,4 @@
 const { users, scores } = require("../models");
-const { Op } = require("sequelize");
 require("dotenv").config();
 
 const saveScores = async (req, res) => {

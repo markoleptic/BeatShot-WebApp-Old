@@ -44,18 +44,17 @@ const DefaultModes = () => {
   }, [gameModeOptions, songOptions, difficultyOptions]);
 
   /* initial useEffect that gets data from PlayerDataContext
-   * and calls functions to populate the options dropdowns */
+   * and populates the dates array and game mode options */
   useEffect(() => {
     try {
       let datesArray = [];
       let gameModeArray = [];
-      let songTitleArray = [];
-      let difficultyArray = [];
       for (let object in data) {
         if (
           data[object].gameModeActorName !== "Custom" &&
           data[object].customGameModeName === ""
         ) {
+          /* sets the dates for the scores */
           datesArray.push(data[object]);
           /* sets the game modes options */
           if (
@@ -68,26 +67,9 @@ const DefaultModes = () => {
               label: data[object].gameModeActorName,
             });
           }
-          /* sets the song options */
-          if (!songTitleArray.some((e) => e.label === data[object].songTitle)) {
-            songTitleArray.push({
-              value: data[object].songTitle,
-              label: data[object].songTitle,
-            });
-          }
-          /* sets the difficulty options */
-          if (
-            !difficultyArray.some((e) => e.label === data[object].difficulty)
-          ) {
-            difficultyArray.push({
-              value: data[object].difficulty,
-              label: data[object].difficulty,
-            });
-          }
         }
       }
-      /* get the most recent score object and display the corresponding
-       * game mode and song */
+      /* get the most recently played game mode */
       let maxDateScoreObject = datesArray[0];
       for (let object in datesArray) {
         if (
@@ -97,12 +79,11 @@ const DefaultModes = () => {
           maxDateScoreObject = datesArray[object];
         }
       }
+      gameModeArray = gameModeArray.sort((a, b) =>
+        a.value.localeCompare(b.value)
+      );
       setGameModeOptions(gameModeArray);
-      setSongOptions(songTitleArray);
-      setDifficultyOptions(difficultyArray);
-      handleGameModeSelect(maxDateScoreObject.gameModeActorName);
-      handleSongSelect(maxDateScoreObject.songTitle);
-      handleDifficultySelect(maxDateScoreObject.difficulty);
+      setSelectedGameMode(maxDateScoreObject.gameModeActorName);
     } catch (err) {
       console.log(err.message);
       setErrMsg(err.message);
@@ -147,7 +128,6 @@ const DefaultModes = () => {
           10 +
           "%"
       );
-      setBestStreak(Math.max(...values.map((value) => value.streak)));
       setBestCompletion(
         Math.round(
           Math.max(...values.map((value) => value.completion)) * 1000
@@ -160,6 +140,7 @@ const DefaultModes = () => {
           Math.min(...values.map((value) => value.timeOffset)) * 1000
         ) + " ms"
       );
+      setBestStreak(Math.max(...values.map((value) => value.streak)));
       // averages
       setAvgScore(
         Math.round(
@@ -205,58 +186,99 @@ const DefaultModes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGameMode, selectedSong, selectedDifficulty]);
 
-  /* searches for score objects matching user selected game mode */
-  const handleGameModeSelect = async (newValue) => {
-    setSelectedGameMode(newValue);
+  /* searches for songs matching the game mode */
+  const updateSongOptions = (newSelectedGameMode) => {
+    setSelectedSong("");
     let matchingSongTitles = [];
-    //let matchingDifficulties = [];
+    let maxDateScoreObject;
     for (let scoreObject in data) {
       if (
-        data[scoreObject].gameModeActorName === newValue &&
+        data[scoreObject].gameModeActorName === newSelectedGameMode &&
         !matchingSongTitles.some((e) => e.value === data[scoreObject].songTitle)
       ) {
+        if (matchingSongTitles.length === 0) {
+          maxDateScoreObject = data[scoreObject];
+        }
+        if (
+          matchingSongTitles.length > 0 &&
+          DateTime.fromISO(maxDateScoreObject.time) <=
+            DateTime.fromISO(data[scoreObject].time)
+        ) {
+          maxDateScoreObject = data[scoreObject];
+        }
         matchingSongTitles.push({
           value: data[scoreObject].songTitle,
           label: data[scoreObject].songTitle,
         });
       }
     }
+    matchingSongTitles = matchingSongTitles.sort((a, b) =>
+      a.value.localeCompare(b.value)
+    );
     setSongOptions(matchingSongTitles);
-    setSelectedDifficulty("");
-    // if (matchingSongTitles.length > 0) {
-    //   handleSongSelect(matchingSongTitles[0].value);
-    //   //setSelectedSong(matchingSongTitles[0].value);
-    // } else {
-    //   setSelectedSong("");
-    //   setSelectedDifficulty("");
-    // }
+    if (matchingSongTitles.length > 0) {
+      setSelectedSong(maxDateScoreObject.songTitle);
+    }
   };
 
-  /* searches for songs matching the game mode */
-  const handleSongSelect = async (newValue) => {
-    setSelectedSong(newValue);
+  /* searches for difficulties matching the selected song and game mode */
+  const updateDifficultyOptions = (newSelectedSong, newSelectedGameMode) => {
+    setSelectedDifficulty("");
     let matchingDifficulties = [];
+    let maxDateScoreObject;
     for (let scoreObject in data) {
       if (
-        data[scoreObject].gameModeActorName === selectedGameMode &&
-        data[scoreObject].songTitle === newValue &&
+        data[scoreObject].songTitle === newSelectedSong &&
+        data[scoreObject].gameModeActorName === newSelectedGameMode &&
         !matchingDifficulties.some(
           (e) => e.value === data[scoreObject].difficulty
         )
       ) {
+        if (matchingDifficulties.length === 0) {
+          maxDateScoreObject = data[scoreObject];
+        }
+        if (
+          matchingDifficulties.length > 0 &&
+          DateTime.fromISO(maxDateScoreObject.time) <=
+            DateTime.fromISO(data[scoreObject].time)
+        ) {
+          maxDateScoreObject = data[scoreObject];
+        }
+        console.log(data[scoreObject]);
         matchingDifficulties.push({
           value: data[scoreObject].difficulty,
           label: data[scoreObject].difficulty,
         });
       }
     }
+    matchingDifficulties = matchingDifficulties.sort((a, b) =>
+      a.value.localeCompare(b.value)
+    );
     setDifficultyOptions(matchingDifficulties);
+    if (matchingDifficulties.length > 0) {
+      setSelectedDifficulty(maxDateScoreObject.difficulty);
+    }
   };
 
+  useEffect(() => {
+    updateSongOptions(selectedGameMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedGameMode, data]);
+
+  useEffect(() => {
+    updateDifficultyOptions(selectedSong, selectedGameMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedSong, selectedGameMode, data]);
+
+  const handleGameModeSelect = async (newValue) => {
+    setSelectedGameMode(newValue);
+  };
+  const handleSongSelect = async (newValue) => {
+    setSelectedSong(newValue);
+  };
   const handleDifficultySelect = async (newValue) => {
     setSelectedDifficulty(newValue);
   };
-
   const scoreOptions = {
     title: "Score vs Time",
     xAxisTitle: "Date",
@@ -412,12 +434,12 @@ const DefaultModes = () => {
           </div>
         </div>
       </div>
-      <div 
+      <div
         className={
           selectedGameMode !== "" &&
           selectedSong !== "" &&
           selectedDifficulty !== ""
-            ? ""
+            ? "content-main"
             : "hide"
         }>
         <div>

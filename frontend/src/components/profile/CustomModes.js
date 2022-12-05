@@ -47,7 +47,6 @@ const CustomModes = () => {
     try {
       let datesArray = [];
       let gameModeArray = [];
-      let songTitleArray = [];
       for (let object in data) {
         if (
           data[object].gameModeActorName === "Custom" &&
@@ -65,17 +64,9 @@ const CustomModes = () => {
               label: data[object].customGameModeName,
             });
           }
-          /* sets the song options */
-          if (!songTitleArray.some((e) => e.label === data[object].songTitle)) {
-            songTitleArray.push({
-              value: data[object].songTitle,
-              label: data[object].songTitle,
-            });
-          }
         }
       }
-      /* get the most recent score object and display the corresponding
-       * game mode and song */
+      /* get the most recently played game mode */
       let maxDateScoreObject = datesArray[0];
       for (let object in datesArray) {
         if (
@@ -86,9 +77,7 @@ const CustomModes = () => {
         }
       }
       setGameModeOptions(gameModeArray);
-      setSongOptions(songTitleArray);
-      handleGameModeSelect(maxDateScoreObject.customGameModeName);
-      handleSongSelect(maxDateScoreObject.songTitle);
+      setSelectedGameMode(maxDateScoreObject.customGameModeName);
     } catch (err) {
       console.log(err.message);
       setErrMsg(err.message);
@@ -190,26 +179,49 @@ const CustomModes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGameMode, selectedSong]);
 
-  /* searches for score objects matching user selected game mode */
-  const handleGameModeSelect = async (newValue) => {
-    setSelectedGameMode(newValue);
+  /* searches for songs matching the game mode */
+  const updateSongOptions = (newSelectedGameMode) => {
+    setSelectedSong("");
     let matchingSongTitles = [];
+    let maxDateScoreObject;
     for (let scoreObject in data) {
       if (
-        data[scoreObject].customGameModeName === newValue &&
+        data[scoreObject].customGameModeName === newSelectedGameMode &&
         !matchingSongTitles.some((e) => e.value === data[scoreObject].songTitle)
       ) {
+        if (matchingSongTitles.length === 0) {
+          maxDateScoreObject = data[scoreObject];
+        }
+        if (
+          matchingSongTitles.length > 0 &&
+          DateTime.fromISO(maxDateScoreObject.time) <=
+            DateTime.fromISO(data[scoreObject].time)
+        ) {
+          maxDateScoreObject = data[scoreObject];
+        }
         matchingSongTitles.push({
           value: data[scoreObject].songTitle,
           label: data[scoreObject].songTitle,
         });
       }
     }
+    matchingSongTitles = matchingSongTitles.sort((a, b) =>
+      a.value.localeCompare(b.value)
+    );
     setSongOptions(matchingSongTitles);
-    setSelectedSong("");
+    if (matchingSongTitles.length > 0) {
+      setSelectedSong(maxDateScoreObject.songTitle);
+    }
   };
 
-  /* searches for songs matching the game mode */
+  useEffect(() => {
+    updateSongOptions(selectedGameMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedGameMode, data]);
+
+  const handleGameModeSelect = async (newValue) => {
+    setSelectedGameMode(newValue);
+  };
   const handleSongSelect = async (newValue) => {
     setSelectedSong(newValue);
   };

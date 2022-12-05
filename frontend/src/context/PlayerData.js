@@ -30,8 +30,15 @@ export const PlayerDataProvider = ({ children }) => {
             withCredentials: true,
           }
         );
+        /* this is where we make changes to importing from the database after adding a newly tracked category,
+         * such as setting the difficulty to None so that legacy scores will still be shown in some category */
         if (response) {
           const responseData = await response.data;
+          for (let scores in responseData) {
+            if (responseData[scores].difficulty === "") {
+              responseData[scores].difficulty = "None";
+            }
+          }
           setData(responseData);
         }
       } catch (err) {
