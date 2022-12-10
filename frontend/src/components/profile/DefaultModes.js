@@ -193,7 +193,7 @@ const DefaultModes = () => {
         }
       }
     }
-    if (mostRecent !== null) {
+    if (mostRecent !== null && mostRecent.gameModeActorName !== "") {
       setSelectedGameMode(mostRecent.gameModeActorName);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -220,48 +220,48 @@ const DefaultModes = () => {
         }
       }
     }
-    if (mostRecent !== null) {
+    if (mostRecent !== null && mostRecent.songTitle !== "") {
       setSelectedSong(mostRecent.songTitle);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [songOptions]);
 
-  // useEffect(() => {
-  //   if (difficultyOptions.length === 0 ) {
-  //     return;
-  //   }
-  //   let mostRecent = null;
-  //   for (let object in data) {
-  //     if (
-  //       data[object].gameModeActorName !== "Custom" &&
-  //       data[object].customGameModeName === "" &&
-  //       difficultyOptions.some((e) => e.value === data[object].difficulty)
-  //     ) {
-  //       if (mostRecent === null) {
-  //         mostRecent = data[object];
-  //       } else if (
-  //         DateTime.fromISO(mostRecent.time) <=
-  //         DateTime.fromISO(data[object].time)
-  //       ) {
-  //         mostRecent = data[object];
-  //       }
-  //     }
-  //   }
-  //   if (mostRecent !== null) {
-  //     setSelectedDifficulty(mostRecent.difficulty);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [difficultyOptions]);
+  useEffect(() => {
+    if (difficultyOptions.length === 0 ) {
+      return;
+    }
+    let mostRecent = null;
+    for (let object in data) {
+      if (
+        data[object].gameModeActorName !== "Custom" &&
+        data[object].customGameModeName === "" &&
+        difficultyOptions.some((e) => e.value === data[object].difficulty)
+      ) {
+        if (mostRecent === null) {
+          mostRecent = data[object];
+        } else if (
+          DateTime.fromISO(mostRecent.time) <=
+          DateTime.fromISO(data[object].time)
+        ) {
+          mostRecent = data[object];
+        }
+      }
+    }
+    if (mostRecent !== null && mostRecent.difficulty!=="") {
+      setSelectedDifficulty(mostRecent.difficulty);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [difficultyOptions]);
 
   useEffect(() => {
     updateSongOptions(selectedGameMode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGameMode]);
 
-  // useEffect(() => {
-  //   updateDifficultyOptions(selectedSong);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selectedSong]);
+  useEffect(() => {
+    updateDifficultyOptions(selectedSong);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedSong]);
 
   /* searches for songs matching the game mode */
   const updateSongOptions = (newSelectedGameMode) => {
@@ -280,40 +280,36 @@ const DefaultModes = () => {
     matchingSongTitles = matchingSongTitles.sort((a, b) =>
       a.value.localeCompare(b.value)
     );
+    if (matchingSongTitles.length === 0) {
+      return;
+    }
     setSongOptions(matchingSongTitles);
   };
 
   /* searches for difficulties matching the selected song and game mode */
-  // const updateDifficultyOptions = (newSelectedSong) => {
-  //   let matchingDifficulties = [];
-  //   for (let scoreObject in data) {
-  //     if (
-  //       data[scoreObject].songTitle === newSelectedSong &&
-  //       data[scoreObject].gameModeActorName === selectedGameMode &&
-  //       !matchingDifficulties.some(
-  //         (e) => e.value === data[scoreObject].difficulty
-  //       )
-  //     ) {
-  //       matchingDifficulties.push({
-  //         value: data[scoreObject].difficulty,
-  //         label: data[scoreObject].difficulty,
-  //       });
-  //     }
-  //   }
-  //   matchingDifficulties = matchingDifficulties.sort((a, b) =>
-  //     a.value.localeCompare(b.value)
-  //   );
-  //   setDifficultyOptions(matchingDifficulties);
-  // };
-
-  const handleGameModeSelect = (newValue) => {
-    setSelectedGameMode(newValue);
-  };
-  const handleSongSelect = (newValue) => {
-    setSelectedSong(newValue);
-  };
-  const handleDifficultySelect = (newValue) => {
-    setSelectedDifficulty(newValue);
+  const updateDifficultyOptions = (newSelectedSong) => {
+    let matchingDifficulties = [];
+    for (let scoreObject in data) {
+      if (
+        data[scoreObject].songTitle === newSelectedSong &&
+        data[scoreObject].gameModeActorName === selectedGameMode &&
+        !matchingDifficulties.some(
+          (e) => e.value === data[scoreObject].difficulty
+        )
+      ) {
+        matchingDifficulties.push({
+          value: data[scoreObject].difficulty,
+          label: data[scoreObject].difficulty,
+        });
+      }
+    }
+    matchingDifficulties = matchingDifficulties.sort((a, b) =>
+      a.value.localeCompare(b.value)
+    );
+    if (matchingDifficulties.length === 0) {
+      return;
+    }
+    setDifficultyOptions(matchingDifficulties);
   };
 
   const scoreOptions = {
@@ -375,7 +371,7 @@ const DefaultModes = () => {
             <div className="select-wrapper">
               <SelectBox
                 id="game-mode-select"
-                onChange={(value) => handleGameModeSelect(value.value)}
+                onChange={(value) => setSelectedGameMode(value.value)}
                 placeholder={"Filter by game mode"}
                 options={gameModeOptions}
                 value={{ label: selectedGameMode, value: selectedGameMode }}
@@ -387,7 +383,7 @@ const DefaultModes = () => {
             <div className="select-wrapper">
               <SelectBox
                 id="song-select"
-                onChange={(value) => handleSongSelect(value.value)}
+                onChange={(value) => setSelectedSong(value.value)}
                 placeholder={"Filter by song"}
                 options={songOptions}
                 value={{ label: selectedSong, value: selectedSong }}
@@ -399,7 +395,7 @@ const DefaultModes = () => {
             <div className="select-wrapper">
               <SelectBox
                 id="difficulty-select"
-                onChange={(value) => handleDifficultySelect(value.value)}
+                onChange={(value) => setSelectedDifficulty(value.value)}
                 placeholder={"Filter by Difficulty"}
                 options={difficultyOptions}
                 value={{ label: selectedDifficulty, value: selectedDifficulty }}

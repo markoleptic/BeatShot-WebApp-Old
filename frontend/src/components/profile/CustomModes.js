@@ -167,6 +167,9 @@ const CustomModes = () => {
   }, [selectedGameMode, selectedSong]);
 
   useEffect(() => {
+    if (gameModeOptions.length === 0) {
+      return;
+    }
     let mostRecent = null;
     for (let object in data) {
       if (
@@ -184,13 +187,16 @@ const CustomModes = () => {
         }
       }
     }
-    if (mostRecent !== null) {
+    if (mostRecent !== null && mostRecent.customGameModeName !== "") {
       setSelectedGameMode(mostRecent.customGameModeName);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameModeOptions]);
 
   useEffect(() => {
+    if (songOptions.length === 0) {
+      return;
+    }
     let mostRecent = null;
     for (let object in data) {
       if (
@@ -208,7 +214,7 @@ const CustomModes = () => {
         }
       }
     }
-    if (mostRecent !== null) {
+    if (mostRecent !== null && mostRecent.songTitle !== "") {
       setSelectedSong(mostRecent.songTitle);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -237,13 +243,10 @@ const CustomModes = () => {
     matchingSongTitles = matchingSongTitles.sort((a, b) =>
       a.value.localeCompare(b.value)
     );
+    if (matchingSongTitles.length === 0) {
+      return;
+    }
     setSongOptions(matchingSongTitles);
-  };
-  const handleGameModeSelect = (newValue) => {
-    setSelectedGameMode(newValue);
-  };
-  const handleSongSelect = (newValue) => {
-    setSelectedSong(newValue);
   };
 
   const scoreOptions = {
@@ -305,7 +308,7 @@ const CustomModes = () => {
             <div className="select-wrapper">
               <SelectBox
                 id="game-mode-select"
-                onChange={(value) => handleGameModeSelect(value.value)}
+                onChange={(value) => setSelectedGameMode(value.value)}
                 placeholder={"Filter by game mode"}
                 options={gameModeOptions}
                 value={{ label: selectedGameMode, value: selectedGameMode }}
@@ -317,7 +320,7 @@ const CustomModes = () => {
             <div className="select-wrapper">
               <SelectBox
                 id="song-select"
-                onChange={(value) => handleSongSelect(value.value)}
+                onChange={(value) => setSelectedSong(value.value)}
                 placeholder={"Filter by song"}
                 options={songOptions}
                 value={{ label: selectedSong, value: selectedSong }}
