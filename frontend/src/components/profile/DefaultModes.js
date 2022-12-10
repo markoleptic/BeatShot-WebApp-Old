@@ -221,9 +221,7 @@ const DefaultModes = () => {
           }
         }
       }
-      if (mostRecent !== null && mostRecent.songTitle !== "") {
-        setSelectedSong(mostRecent.songTitle);
-      }
+      setSelectedSong(mostRecent.songTitle || "");
     };
     if (songOptions.length !== 0) {
       findMostRecentSongOption(songOptions);
@@ -249,9 +247,7 @@ const DefaultModes = () => {
           }
         }
       }
-      if (mostRecent !== null && mostRecent.difficulty !== "") {
-        setSelectedDifficulty(mostRecent.difficulty);
-      }
+      setSelectedDifficulty(mostRecent.difficulty || "");
     };
     if (difficultyOptions.length !== 0) {
       findMostRecentDifficultyOption(difficultyOptions);
@@ -281,17 +277,11 @@ const DefaultModes = () => {
           }
         }
       }
-      if (matchingSongTitles.length === 0) {
-        return;
-      }
       let sorted = matchingSongTitles.sort((a, b) =>
         a.value.localeCompare(b.value)
       );
-      setSongOptions(sorted);
+      setSongOptions(sorted || []);
     };
-    if (selectedGameMode === "") {
-      return;
-    }
     updateSongOptions(selectedGameMode);
   }, [selectedGameMode, data]);
 
@@ -321,17 +311,11 @@ const DefaultModes = () => {
           }
         }
       }
-      if (matchingDifficulties.length === 0) {
-        return;
-      }
       let sorted = matchingDifficulties.sort((a, b) =>
         a.value.localeCompare(b.value)
       );
-      setDifficultyOptions(sorted);
+      setDifficultyOptions(sorted || []);
     };
-    if (selectedGameMode === "" || selectedSong === "") {
-      return;
-    }
     updateDifficultyOptions(selectedSong);
   }, [selectedGameMode, selectedSong, data]);
 
