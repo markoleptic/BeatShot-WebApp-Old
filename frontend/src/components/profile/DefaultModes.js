@@ -226,32 +226,32 @@ const DefaultModes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [songOptions]);
 
-  useEffect(() => {
-    if (difficultyOptions.length === 0 ) {
-      return;
-    }
-    let mostRecent = null;
-    for (let object in data) {
-      if (
-        data[object].gameModeActorName !== "Custom" &&
-        data[object].customGameModeName === "" &&
-        difficultyOptions.some((e) => e.value === data[object].difficulty)
-      ) {
-        if (mostRecent === null) {
-          mostRecent = data[object];
-        } else if (
-          DateTime.fromISO(mostRecent.time) <=
-          DateTime.fromISO(data[object].time)
-        ) {
-          mostRecent = data[object];
-        }
-      }
-    }
-    if (mostRecent !== null && mostRecent.difficulty!=="") {
-      setSelectedDifficulty(mostRecent.difficulty);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [difficultyOptions]);
+  // useEffect(() => {
+  //   if (difficultyOptions.length === 0 ) {
+  //     return;
+  //   }
+  //   let mostRecent = null;
+  //   for (let object in data) {
+  //     if (
+  //       data[object].gameModeActorName !== "Custom" &&
+  //       data[object].customGameModeName === "" &&
+  //       difficultyOptions.some((e) => e.value === data[object].difficulty)
+  //     ) {
+  //       if (mostRecent === null) {
+  //         mostRecent = data[object];
+  //       } else if (
+  //         DateTime.fromISO(mostRecent.time) <=
+  //         DateTime.fromISO(data[object].time)
+  //       ) {
+  //         mostRecent = data[object];
+  //       }
+  //     }
+  //   }
+  //   if (mostRecent !== null && mostRecent.difficulty!=="") {
+  //     setSelectedDifficulty(mostRecent.difficulty);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [difficultyOptions]);
 
   useEffect(() => {
     updateSongOptions(selectedGameMode);
