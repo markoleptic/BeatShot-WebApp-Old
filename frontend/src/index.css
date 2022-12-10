@@ -552,6 +552,20 @@ form {
   padding-right: 1rem;
   padding-left: 1rem;
 }
+.empty-chart {
+  display: flex;
+  max-width: 800px;
+  height:400px;
+  margin: auto;
+  background-color: hsl(var(--clr-beatshot-darkblue));
+  box-shadow: 0px 0px 6px 0px hsl(var(--clr-beatshot-lightblue));
+  border-radius: 0.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
 .stats-header {
   display:flex;
   flex-direction: column;

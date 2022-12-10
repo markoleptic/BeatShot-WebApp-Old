@@ -45,14 +45,12 @@ const CustomModes = () => {
    * and calls functions to populate the options dropdowns */
   useEffect(() => {
     try {
-      let datesArray = [];
       let gameModeArray = [];
       for (let object in data) {
         if (
           data[object].gameModeActorName === "Custom" &&
           data[object].customGameModeName !== ""
         ) {
-          datesArray.push(data[object]);
           /* sets the game modes options */
           if (
             !gameModeArray.some(
@@ -66,24 +64,61 @@ const CustomModes = () => {
           }
         }
       }
-      /* get the most recently played game mode */
-      let maxDateScoreObject = datesArray[0];
-      for (let object in datesArray) {
-        if (
-          DateTime.fromISO(maxDateScoreObject.time) <=
-          DateTime.fromISO(datesArray[object].time)
-        ) {
-          maxDateScoreObject = datesArray[object];
-        }
-      }
       setGameModeOptions(gameModeArray);
-      setSelectedGameMode(maxDateScoreObject.customGameModeName);
     } catch (err) {
       console.log(err.message);
       setErrMsg(err.message);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
+
+  useEffect(() => {
+    let mostRecent = null;
+    for (let object in data) {
+      if (
+        data[object].gameModeActorName === "Custom" &&
+        data[object].customGameModeName !== "" &&
+        gameModeOptions.some((e) => e.value === data[object].customGameModeName)
+      ) {
+        if (mostRecent === null) {
+          mostRecent = data[object];
+        } else if (
+          DateTime.fromISO(mostRecent.time) <=
+          DateTime.fromISO(data[object].time)
+        ) {
+          mostRecent = data[object];
+        }
+      }
+    }
+    if (mostRecent !== null) {
+      setSelectedGameMode(mostRecent.customGameModeName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameModeOptions]);
+
+  useEffect(() => {
+    let mostRecent = null;
+    for (let object in data) {
+      if (
+        data[object].gameModeActorName === "Custom" &&
+        data[object].customGameModeName !== "" &&
+        songOptions.some((e) => e.value === data[object].songTitle)
+      ) {
+        if (mostRecent === null) {
+          mostRecent = data[object];
+        } else if (
+          DateTime.fromISO(mostRecent.time) <=
+          DateTime.fromISO(data[object].time)
+        ) {
+          mostRecent = data[object];
+        }
+      }
+    }
+    if (mostRecent !== null) {
+      setSelectedSong(mostRecent.songTitle);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [songOptions]);
 
   /* updates the charts and info boxes when selected gamemode or song changes */
   useEffect(() => {
@@ -183,22 +218,11 @@ const CustomModes = () => {
   const updateSongOptions = (newSelectedGameMode) => {
     setSelectedSong("");
     let matchingSongTitles = [];
-    let maxDateScoreObject;
     for (let scoreObject in data) {
       if (
         data[scoreObject].customGameModeName === newSelectedGameMode &&
         !matchingSongTitles.some((e) => e.value === data[scoreObject].songTitle)
       ) {
-        if (matchingSongTitles.length === 0) {
-          maxDateScoreObject = data[scoreObject];
-        }
-        if (
-          matchingSongTitles.length > 0 &&
-          DateTime.fromISO(maxDateScoreObject.time) <=
-            DateTime.fromISO(data[scoreObject].time)
-        ) {
-          maxDateScoreObject = data[scoreObject];
-        }
         matchingSongTitles.push({
           value: data[scoreObject].songTitle,
           label: data[scoreObject].songTitle,
@@ -209,15 +233,12 @@ const CustomModes = () => {
       a.value.localeCompare(b.value)
     );
     setSongOptions(matchingSongTitles);
-    if (matchingSongTitles.length > 0) {
-      setSelectedSong(maxDateScoreObject.songTitle);
-    }
   };
 
   useEffect(() => {
     updateSongOptions(selectedGameMode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGameMode, data]);
+  }, [selectedGameMode]);
 
   const handleGameModeSelect = async (newValue) => {
     setSelectedGameMode(newValue);
@@ -306,11 +327,7 @@ const CustomModes = () => {
           </div>
         </div>
         <div
-          className={
-            selectedGameMode !== "" && selectedSong !== ""
-              ? "best-avg-container"
-              : "hide"
-          }>
+          className={"best-avg-container"}>
           <div className="best-container">
             <ul className="best-list">
               <li className="table-header">
@@ -367,53 +384,60 @@ const CustomModes = () => {
           </div>
         </div>
       </div>
-      <div
-        className={
-          selectedGameMode !== "" && selectedSong !== "" ? "" : "hide"
-        }>
+      <div className={"content-main"}>
         <div>
-          {selectedGameMode !== "" && selectedSong !== "" && (
+          {selectedGameMode !== "" && selectedSong !== "" ? (
             <LineChart
               labels={dates}
               data={scores.map((value) => value.score)}
               myOptions={scoreOptions}
             />
+          ) : (
+            <div className="empty-chart" />
           )}
         </div>
         <div>
-          {selectedGameMode !== "" && selectedSong !== "" && (
+          {selectedGameMode !== "" && selectedSong !== "" ? (
             <LineChart
               labels={dates}
               data={scores.map((value) => value.accuracy)}
               myOptions={accuracyOptions}
             />
+          ) : (
+            <div className="empty-chart" />
           )}
         </div>
         <div>
-          {selectedGameMode !== "" && selectedSong !== "" && (
+          {selectedGameMode !== "" && selectedSong !== "" ? (
             <LineChart
               labels={dates}
               data={scores.map((value) => value.streak)}
               myOptions={streakOptions}
             />
+          ) : (
+            <div className="empty-chart" />
           )}
         </div>
         <div>
-          {selectedGameMode !== "" && selectedSong !== "" && (
+          {selectedGameMode !== "" && selectedSong !== "" ? (
             <LineChart
               labels={dates}
               data={scores.map((value) => value.completion)}
               myOptions={completionOptions}
             />
+          ) : (
+            <div className="empty-chart" />
           )}
         </div>
         <div>
-          {selectedGameMode !== "" && selectedSong !== "" && (
+          {selectedGameMode !== "" && selectedSong !== "" ? (
             <LineChart
               labels={dates}
               data={scores.map((value) => value.timeOffset)}
               myOptions={avgTimeOffsetOptions}
             />
+          ) : (
+            <div className="empty-chart" />
           )}
         </div>
       </div>
