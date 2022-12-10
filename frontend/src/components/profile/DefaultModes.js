@@ -291,12 +291,12 @@ const DefaultModes = () => {
         }
       }
     }
-    matchingSongTitles = matchingSongTitles.sort((a, b) =>
-      a.value.localeCompare(b.value)
-    );
     if (matchingSongTitles.length === 0) {
       return;
     }
+    matchingSongTitles = matchingSongTitles.sort((a, b) =>
+      a.value.localeCompare(b.value)
+    );
     setSongOptions(matchingSongTitles);
   };
 
@@ -326,12 +326,12 @@ const DefaultModes = () => {
         }
       }
     }
-    matchingDifficulties = matchingDifficulties.sort((a, b) =>
-      a.value.localeCompare(b.value)
-    );
     if (matchingDifficulties.length === 0) {
       return;
     }
+    matchingDifficulties = matchingDifficulties.sort((a, b) =>
+      a.value.localeCompare(b.value)
+    );
     setDifficultyOptions(matchingDifficulties);
   };
 
