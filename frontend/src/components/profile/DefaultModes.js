@@ -66,14 +66,8 @@ const DefaultModes = () => {
           }
         }
       }
-      if (gameModeArray.length > 1) {
-        let sorted = gameModeArray.sort((a, b) => a.value.localeCompare(b.value));
-        setGameModeOptions(sorted || []);
-      }
-      else {
-        setGameModeOptions(gameModeArray || []);
-      }
-
+      let sorted = gameModeArray.sort((a, b) => a.value.localeCompare(b.value));
+      setGameModeOptions(sorted || []);
     } catch (err) {
       console.log(err);
       setErrMsg(err.message);
@@ -177,9 +171,6 @@ const DefaultModes = () => {
 
   useEffect(() => {
     const findMostRecentGameModeOption = (gameModeOptions) => {
-      if (gameModeOptions.length === 0) {
-        return;
-      }
       let mostRecent = null;
       for (let object in data) {
         if (
@@ -199,9 +190,7 @@ const DefaultModes = () => {
           }
         }
       }
-      if (mostRecent !== null && mostRecent.gameModeActorName !== "") {
-        setSelectedGameMode(mostRecent.gameModeActorName);
-      }
+      setSelectedGameMode(mostRecent.gameModeActorName || "");
     };
     if (gameModeOptions.length !== 0) {
       findMostRecentGameModeOption(gameModeOptions);
@@ -283,14 +272,10 @@ const DefaultModes = () => {
           }
         }
       }
-      if (matchingSongTitles.length > 1) {
-        let sorted = matchingSongTitles.sort((a, b) =>
-          a.value.localeCompare(b.value)
-        );
-        setSongOptions(sorted || []);
-      } else {
-        setSongOptions(matchingSongTitles || []);
-      }
+      let sorted = matchingSongTitles.sort((a, b) =>
+        a.value.localeCompare(b.value)
+      );
+      setSongOptions(sorted || []);
     };
     updateSongOptions(selectedGameMode);
   }, [selectedGameMode, data]);
@@ -321,14 +306,10 @@ const DefaultModes = () => {
           }
         }
       }
-      // if (matchingDifficulties.length > 1) {
-      //   let sorted = matchingDifficulties.sort((a, b) =>
-      //     a.value.localeCompare(b.value)
-      //   );
-      //   setDifficultyOptions(sorted || []);
-      // } else {
-      setDifficultyOptions(matchingDifficulties || []);
-      // }
+      let sorted = matchingDifficulties.sort((a, b) =>
+        a.value.localeCompare(b.value)
+      );
+      setDifficultyOptions(sorted || []);
     };
     updateDifficultyOptions(selectedSong);
   }, [selectedGameMode, selectedSong, data]);

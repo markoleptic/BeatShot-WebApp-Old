@@ -167,90 +167,86 @@ const CustomModes = () => {
   }, [selectedGameMode, selectedSong]);
 
   useEffect(() => {
-    if (gameModeOptions.length === 0) {
-      return;
-    }
-    let mostRecent = null;
-    for (let object in data) {
-      if (
-        data[object].gameModeActorName === "Custom" &&
-        data[object].customGameModeName !== "" &&
-        gameModeOptions.some((e) => e.value === data[object].customGameModeName)
-      ) {
-        if (mostRecent === null) {
-          mostRecent = data[object];
-        } else if (
-          DateTime.fromISO(mostRecent.time) <=
-          DateTime.fromISO(data[object].time)
+    const findMostRecentGameModeOption = (gameModeOptions) => {
+      let mostRecent = null;
+      for (let object in data) {
+        if (
+          data[object].gameModeActorName === "Custom" &&
+          data[object].customGameModeName !== "" &&
+          gameModeOptions.some(
+            (e) => e.value === data[object].customGameModeName
+          )
         ) {
-          mostRecent = data[object];
+          if (mostRecent === null) {
+            mostRecent = data[object];
+          } else if (
+            DateTime.fromISO(mostRecent.time) <=
+            DateTime.fromISO(data[object].time)
+          ) {
+            mostRecent = data[object];
+          }
         }
       }
+        setSelectedGameMode(mostRecent.customGameModeName || "");
+    };
+    if (gameModeOptions.length !== 0) {
+      findMostRecentGameModeOption(gameModeOptions);
     }
-    if (mostRecent !== null && mostRecent.customGameModeName !== "") {
-      setSelectedGameMode(mostRecent.customGameModeName);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameModeOptions]);
+  }, [gameModeOptions, data]);
 
   useEffect(() => {
-    if (songOptions.length === 0) {
-      return;
-    }
-    let mostRecent = null;
-    for (let object in data) {
-      if (
-        data[object].gameModeActorName === "Custom" &&
-        data[object].customGameModeName !== "" &&
-        songOptions.some((e) => e.value === data[object].songTitle)
-      ) {
-        if (mostRecent === null) {
-          mostRecent = data[object];
-        } else if (
-          DateTime.fromISO(mostRecent.time) <=
-          DateTime.fromISO(data[object].time)
+    const findMostRecentSongOption = (songOptions) => {
+      if (songOptions.length === 0) {
+        return;
+      }
+      let mostRecent = null;
+      for (let object in data) {
+        if (
+          data[object].gameModeActorName === "Custom" &&
+          data[object].customGameModeName !== "" &&
+          songOptions.some((e) => e.value === data[object].songTitle)
         ) {
-          mostRecent = data[object];
+          if (mostRecent === null) {
+            mostRecent = data[object];
+          } else if (
+            DateTime.fromISO(mostRecent.time) <=
+            DateTime.fromISO(data[object].time)
+          ) {
+            mostRecent = data[object];
+          }
         }
       }
+      setSelectedSong(mostRecent.songTitle || "");
+    };
+    if (songOptions.length !== 0) {
+      findMostRecentSongOption(songOptions);
     }
-    if (mostRecent !== null && mostRecent.songTitle !== "") {
-      setSelectedSong(mostRecent.songTitle);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [songOptions]);
+  }, [songOptions, data]);
 
   useEffect(() => {
-    if (selectedGameMode === "") {
-      return;
-    }
+    /* searches for songs matching the game mode */
+    const updateSongOptions = (newSelectedGameMode) => {
+      let matchingSongTitles = [];
+      for (let scoreObject in data) {
+        if (
+          data[scoreObject].customGameModeName === newSelectedGameMode &&
+          !matchingSongTitles.some(
+            (e) => e.value === data[scoreObject].songTitle
+          )
+        ) {
+          matchingSongTitles.push({
+            value: data[scoreObject].songTitle,
+            label: data[scoreObject].songTitle,
+          });
+        }
+      }
+      let sorted = matchingSongTitles.sort((a, b) =>
+        a.value.localeCompare(b.value)
+      );
+      setSongOptions(sorted || []);
+    };
     updateSongOptions(selectedGameMode);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGameMode]);
-
-  /* searches for songs matching the game mode */
-  const updateSongOptions = (newSelectedGameMode) => {
-    setSelectedSong("");
-    let matchingSongTitles = [];
-    for (let scoreObject in data) {
-      if (
-        data[scoreObject].customGameModeName === newSelectedGameMode &&
-        !matchingSongTitles.some((e) => e.value === data[scoreObject].songTitle)
-      ) {
-        matchingSongTitles.push({
-          value: data[scoreObject].songTitle,
-          label: data[scoreObject].songTitle,
-        });
-      }
-    }
-    matchingSongTitles = matchingSongTitles.sort((a, b) =>
-      a.value.localeCompare(b.value)
-    );
-    if (matchingSongTitles.length === 0) {
-      return;
-    }
-    setSongOptions(matchingSongTitles);
-  };
+  }, [selectedGameMode, data]);
 
   const scoreOptions = {
     title: "Score vs Time",
