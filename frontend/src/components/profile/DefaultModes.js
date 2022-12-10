@@ -321,14 +321,14 @@ const DefaultModes = () => {
           }
         }
       }
-      if (matchingDifficulties.length > 1) {
-        let sorted = matchingDifficulties.sort((a, b) =>
-          a.value.localeCompare(b.value)
-        );
-        setDifficultyOptions(sorted || []);
-      } else {
-        setDifficultyOptions(matchingDifficulties || []);
-      }
+      // if (matchingDifficulties.length > 1) {
+      //   let sorted = matchingDifficulties.sort((a, b) =>
+      //     a.value.localeCompare(b.value)
+      //   );
+      //   setDifficultyOptions(sorted || []);
+      // } else {
+      setDifficultyOptions(matchingDifficulties || []);
+      // }
     };
     updateDifficultyOptions(selectedSong);
   }, [selectedGameMode, selectedSong, data]);
