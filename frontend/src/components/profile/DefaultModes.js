@@ -66,8 +66,14 @@ const DefaultModes = () => {
           }
         }
       }
-      let sorted = gameModeArray.sort((a, b) => a.value.localeCompare(b.value));
-      setGameModeOptions(sorted);
+      if (gameModeArray.length > 1) {
+        let sorted = gameModeArray.sort((a, b) => a.value.localeCompare(b.value));
+        setGameModeOptions(sorted || []);
+      }
+      else {
+        setGameModeOptions(gameModeArray || []);
+      }
+
     } catch (err) {
       console.log(err);
       setErrMsg(err.message);
@@ -277,10 +283,14 @@ const DefaultModes = () => {
           }
         }
       }
-      let sorted = matchingSongTitles.sort((a, b) =>
-        a.value.localeCompare(b.value)
-      );
-      setSongOptions(sorted || []);
+      if (matchingSongTitles.length > 1) {
+        let sorted = matchingSongTitles.sort((a, b) =>
+          a.value.localeCompare(b.value)
+        );
+        setSongOptions(sorted || []);
+      } else {
+        setSongOptions(matchingSongTitles || []);
+      }
     };
     updateSongOptions(selectedGameMode);
   }, [selectedGameMode, data]);
@@ -311,10 +321,14 @@ const DefaultModes = () => {
           }
         }
       }
-      let sorted = matchingDifficulties.sort((a, b) =>
-        a.value.localeCompare(b.value)
-      );
-      setDifficultyOptions(sorted || []);
+      if (matchingDifficulties.length > 1) {
+        let sorted = matchingDifficulties.sort((a, b) =>
+          a.value.localeCompare(b.value)
+        );
+        setDifficultyOptions(sorted || []);
+      } else {
+        setDifficultyOptions(matchingDifficulties || []);
+      }
     };
     updateDifficultyOptions(selectedSong);
   }, [selectedGameMode, selectedSong, data]);
