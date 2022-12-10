@@ -35,7 +35,7 @@ export const PlayerDataProvider = ({ children }) => {
         if (response) {
           const responseData = await response.data;
           for (let scores in responseData) {
-            if (responseData[scores].difficulty === "") {
+            if (responseData[scores].difficulty === "" || responseData[scores].difficulty === null) {
               responseData[scores].difficulty = "None";
             }
           }
