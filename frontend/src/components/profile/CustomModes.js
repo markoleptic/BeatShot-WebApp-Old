@@ -221,6 +221,9 @@ const CustomModes = () => {
   }, [songOptions]);
 
   useEffect(() => {
+    if (selectedGameMode === "") {
+      return;
+    }
     updateSongOptions(selectedGameMode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGameMode]);
