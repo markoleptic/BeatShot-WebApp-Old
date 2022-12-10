@@ -72,54 +72,6 @@ const CustomModes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  useEffect(() => {
-    let mostRecent = null;
-    for (let object in data) {
-      if (
-        data[object].gameModeActorName === "Custom" &&
-        data[object].customGameModeName !== "" &&
-        gameModeOptions.some((e) => e.value === data[object].customGameModeName)
-      ) {
-        if (mostRecent === null) {
-          mostRecent = data[object];
-        } else if (
-          DateTime.fromISO(mostRecent.time) <=
-          DateTime.fromISO(data[object].time)
-        ) {
-          mostRecent = data[object];
-        }
-      }
-    }
-    if (mostRecent !== null) {
-      setSelectedGameMode(mostRecent.customGameModeName);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameModeOptions]);
-
-  useEffect(() => {
-    let mostRecent = null;
-    for (let object in data) {
-      if (
-        data[object].gameModeActorName === "Custom" &&
-        data[object].customGameModeName !== "" &&
-        songOptions.some((e) => e.value === data[object].songTitle)
-      ) {
-        if (mostRecent === null) {
-          mostRecent = data[object];
-        } else if (
-          DateTime.fromISO(mostRecent.time) <=
-          DateTime.fromISO(data[object].time)
-        ) {
-          mostRecent = data[object];
-        }
-      }
-    }
-    if (mostRecent !== null) {
-      setSelectedSong(mostRecent.songTitle);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [songOptions]);
-
   /* updates the charts and info boxes when selected gamemode or song changes */
   useEffect(() => {
     const getScores = () => {
@@ -214,6 +166,59 @@ const CustomModes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGameMode, selectedSong]);
 
+  useEffect(() => {
+    let mostRecent = null;
+    for (let object in data) {
+      if (
+        data[object].gameModeActorName === "Custom" &&
+        data[object].customGameModeName !== "" &&
+        gameModeOptions.some((e) => e.value === data[object].customGameModeName)
+      ) {
+        if (mostRecent === null) {
+          mostRecent = data[object];
+        } else if (
+          DateTime.fromISO(mostRecent.time) <=
+          DateTime.fromISO(data[object].time)
+        ) {
+          mostRecent = data[object];
+        }
+      }
+    }
+    if (mostRecent !== null) {
+      setSelectedGameMode(mostRecent.customGameModeName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameModeOptions]);
+
+  useEffect(() => {
+    let mostRecent = null;
+    for (let object in data) {
+      if (
+        data[object].gameModeActorName === "Custom" &&
+        data[object].customGameModeName !== "" &&
+        songOptions.some((e) => e.value === data[object].songTitle)
+      ) {
+        if (mostRecent === null) {
+          mostRecent = data[object];
+        } else if (
+          DateTime.fromISO(mostRecent.time) <=
+          DateTime.fromISO(data[object].time)
+        ) {
+          mostRecent = data[object];
+        }
+      }
+    }
+    if (mostRecent !== null) {
+      setSelectedSong(mostRecent.songTitle);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [songOptions]);
+
+  useEffect(() => {
+    updateSongOptions(selectedGameMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedGameMode]);
+
   /* searches for songs matching the game mode */
   const updateSongOptions = (newSelectedGameMode) => {
     setSelectedSong("");
@@ -234,12 +239,6 @@ const CustomModes = () => {
     );
     setSongOptions(matchingSongTitles);
   };
-
-  useEffect(() => {
-    updateSongOptions(selectedGameMode);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGameMode]);
-
   const handleGameModeSelect = async (newValue) => {
     setSelectedGameMode(newValue);
   };
@@ -326,8 +325,7 @@ const CustomModes = () => {
             </div>
           </div>
         </div>
-        <div
-          className={"best-avg-container"}>
+        <div className={"best-avg-container"}>
           <div className="best-container">
             <ul className="best-list">
               <li className="table-header">

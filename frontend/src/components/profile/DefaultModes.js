@@ -69,89 +69,13 @@ const DefaultModes = () => {
       gameModeArray = gameModeArray.sort((a, b) =>
         a.value.localeCompare(b.value)
       );
-      setGameModeOptions(gameModeArray)
+      setGameModeOptions(gameModeArray);
     } catch (err) {
       console.log(err);
       setErrMsg(err.message);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
-
-  useEffect(() => {
-    let mostRecent = null;
-    for (let object in data) {
-      if (
-        data[object].gameModeActorName !== "Custom" &&
-        data[object].customGameModeName === "" &&
-        gameModeOptions.some((e) => e.value === data[object].gameModeActorName)
-      ) {
-        if (mostRecent===null) {
-          mostRecent = data[object];
-        }
-        else if (
-          DateTime.fromISO(mostRecent.time) <=
-          DateTime.fromISO(data[object].time)
-        ) {
-          mostRecent = data[object];
-        }
-      }
-    }
-    if (mostRecent !== null) {
-      setSelectedGameMode(mostRecent.gameModeActorName);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameModeOptions]);
-
-  useEffect(() => {
-    let mostRecent = null;
-    for (let object in data) {
-      if (
-        data[object].gameModeActorName !== "Custom" &&
-        data[object].customGameModeName === "" &&
-        songOptions.some((e) => e.value === data[object].songTitle)
-      ) {
-        if (mostRecent === null) {
-          mostRecent = data[object];
-        }
-        else if (
-          DateTime.fromISO(mostRecent.time) <=
-          DateTime.fromISO(data[object].time)
-        ) {
-          mostRecent = data[object];
-        }
-      }
-    }
-    if (mostRecent !== null) {
-      setSelectedSong(mostRecent.songTitle);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [songOptions]);
-
-  useEffect(() => {
-    let mostRecent = null;
-    for (let object in data) {
-      if (
-        data[object].gameModeActorName !== "Custom" &&
-        data[object].customGameModeName === "" && difficultyOptions.some(
-          (e) => e.value === data[object].difficulty)
-      ) {
-        if (mostRecent === null) {
-          mostRecent = data[object];
-        }
-        else if (
-          DateTime.fromISO(mostRecent.time) <=
-          DateTime.fromISO(data[object].time)
-        ) {
-          mostRecent = data[object];
-        }
-      }
-    }
-    if (mostRecent !== null) {
-      console.log(mostRecent);
-      setSelectedDifficulty(mostRecent.difficulty);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [difficultyOptions]);
 
   /* updates the charts and info boxes when selected gamemode or song changes */
   useEffect(() => {
@@ -248,6 +172,88 @@ const DefaultModes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGameMode, selectedSong, selectedDifficulty]);
 
+  useEffect(() => {
+    let mostRecent = null;
+    for (let object in data) {
+      if (
+        data[object].gameModeActorName !== "Custom" &&
+        data[object].customGameModeName === "" &&
+        gameModeOptions.some((e) => e.value === data[object].gameModeActorName)
+      ) {
+        if (mostRecent === null) {
+          mostRecent = data[object];
+        } else if (
+          DateTime.fromISO(mostRecent.time) <=
+          DateTime.fromISO(data[object].time)
+        ) {
+          mostRecent = data[object];
+        }
+      }
+    }
+    if (mostRecent !== null) {
+      setSelectedGameMode(mostRecent.gameModeActorName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameModeOptions]);
+
+  useEffect(() => {
+    let mostRecent = null;
+    for (let object in data) {
+      if (
+        data[object].gameModeActorName !== "Custom" &&
+        data[object].customGameModeName === "" &&
+        songOptions.some((e) => e.value === data[object].songTitle)
+      ) {
+        if (mostRecent === null) {
+          mostRecent = data[object];
+        } else if (
+          DateTime.fromISO(mostRecent.time) <=
+          DateTime.fromISO(data[object].time)
+        ) {
+          mostRecent = data[object];
+        }
+      }
+    }
+    if (mostRecent !== null) {
+      setSelectedSong(mostRecent.songTitle);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [songOptions]);
+
+  useEffect(() => {
+    let mostRecent = null;
+    for (let object in data) {
+      if (
+        data[object].gameModeActorName !== "Custom" &&
+        data[object].customGameModeName === "" &&
+        difficultyOptions.some((e) => e.value === data[object].difficulty)
+      ) {
+        if (mostRecent === null) {
+          mostRecent = data[object];
+        } else if (
+          DateTime.fromISO(mostRecent.time) <=
+          DateTime.fromISO(data[object].time)
+        ) {
+          mostRecent = data[object];
+        }
+      }
+    }
+    if (mostRecent !== null) {
+      setSelectedDifficulty(mostRecent.difficulty);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [difficultyOptions]);
+
+  useEffect(() => {
+    updateSongOptions(selectedGameMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedGameMode]);
+
+  useEffect(() => {
+    updateDifficultyOptions(selectedSong);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedSong]);
+
   /* searches for songs matching the game mode */
   const updateSongOptions = (newSelectedGameMode) => {
     setSelectedSong("");
@@ -270,13 +276,13 @@ const DefaultModes = () => {
   };
 
   /* searches for difficulties matching the selected song and game mode */
-  const updateDifficultyOptions = (newSelectedSong, newSelectedGameMode) => {
+  const updateDifficultyOptions = (newSelectedSong) => {
     setSelectedDifficulty("");
     let matchingDifficulties = [];
     for (let scoreObject in data) {
       if (
         data[scoreObject].songTitle === newSelectedSong &&
-        data[scoreObject].gameModeActorName === newSelectedGameMode &&
+        data[scoreObject].gameModeActorName === selectedGameMode &&
         !matchingDifficulties.some(
           (e) => e.value === data[scoreObject].difficulty
         )
@@ -292,17 +298,7 @@ const DefaultModes = () => {
     );
     setDifficultyOptions(matchingDifficulties);
   };
-
-  useEffect(() => {
-    updateSongOptions(selectedGameMode);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGameMode]);
-
-  useEffect(() => {
-    updateDifficultyOptions(selectedSong, selectedGameMode);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedSong]);
-
+  
   const handleGameModeSelect = async (newValue) => {
     setSelectedGameMode(newValue);
   };
@@ -312,6 +308,7 @@ const DefaultModes = () => {
   const handleDifficultySelect = async (newValue) => {
     setSelectedDifficulty(newValue);
   };
+
   const scoreOptions = {
     title: "Score vs Time",
     xAxisTitle: "Date",
@@ -403,8 +400,7 @@ const DefaultModes = () => {
             </div>
           </div>
         </div>
-        <div
-          className={"best-avg-container"}>
+        <div className={"best-avg-container"}>
           <div className="best-container">
             <ul className="best-list">
               <li className="table-header">
@@ -469,7 +465,9 @@ const DefaultModes = () => {
               data={scores.map((value) => value.score)}
               myOptions={scoreOptions}
             />
-          ) : <div className="empty-chart"/>}
+          ) : (
+            <div className="empty-chart" />
+          )}
         </div>
         <div>
           {selectedGameMode !== "" && selectedSong !== "" ? (
@@ -478,7 +476,9 @@ const DefaultModes = () => {
               data={scores.map((value) => value.accuracy)}
               myOptions={accuracyOptions}
             />
-          ) : <div className="empty-chart"/>}
+          ) : (
+            <div className="empty-chart" />
+          )}
         </div>
         <div>
           {selectedGameMode !== "" && selectedSong !== "" ? (
@@ -487,7 +487,9 @@ const DefaultModes = () => {
               data={scores.map((value) => value.streak)}
               myOptions={streakOptions}
             />
-          ) : <div className="empty-chart"/>}
+          ) : (
+            <div className="empty-chart" />
+          )}
         </div>
         <div>
           {selectedGameMode !== "" && selectedSong !== "" ? (
@@ -496,7 +498,9 @@ const DefaultModes = () => {
               data={scores.map((value) => value.completion)}
               myOptions={completionOptions}
             />
-          ) : <div className="empty-chart"/>}
+          ) : (
+            <div className="empty-chart" />
+          )}
         </div>
         <div>
           {selectedGameMode !== "" && selectedSong !== "" ? (
@@ -505,7 +509,9 @@ const DefaultModes = () => {
               data={scores.map((value) => value.timeOffset)}
               myOptions={avgTimeOffsetOptions}
             />
-          ) : <div className="empty-chart"/>}
+          ) : (
+            <div className="empty-chart" />
+          )}
         </div>
       </div>
     </>
