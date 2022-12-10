@@ -227,7 +227,7 @@ const DefaultModes = () => {
   }, [songOptions]);
 
   useEffect(() => {
-    if (difficultyOptions.length === 0 ) {
+    if (difficultyOptions.length === 0) {
       return;
     }
     let mostRecent = null;
@@ -247,7 +247,7 @@ const DefaultModes = () => {
         }
       }
     }
-    if (mostRecent !== null && mostRecent.difficulty!=="") {
+    if (mostRecent !== null && mostRecent.difficulty !== "") {
       setSelectedDifficulty(mostRecent.difficulty);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -273,14 +273,22 @@ const DefaultModes = () => {
   const updateSongOptions = (newSelectedGameMode) => {
     let matchingSongTitles = [];
     for (let scoreObject in data) {
-      if (
-        data[scoreObject].gameModeActorName === newSelectedGameMode &&
-        !matchingSongTitles.some((e) => e.value === data[scoreObject].songTitle)
-      ) {
-        matchingSongTitles.push({
-          value: data[scoreObject].songTitle,
-          label: data[scoreObject].songTitle,
-        });
+      if (data[scoreObject].gameModeActorName === newSelectedGameMode) {
+        if (matchingSongTitles.length === 0) {
+          matchingSongTitles.push({
+            value: data[scoreObject].songTitle,
+            label: data[scoreObject].songTitle,
+          });
+        } else if (
+          !matchingSongTitles.some(
+            (e) => e.value === data[scoreObject].songTitle
+          )
+        ) {
+          matchingSongTitles.push({
+            value: data[scoreObject].songTitle,
+            label: data[scoreObject].songTitle,
+          });
+        }
       }
     }
     matchingSongTitles = matchingSongTitles.sort((a, b) =>
@@ -295,18 +303,27 @@ const DefaultModes = () => {
   /* searches for difficulties matching the selected song and game mode */
   const updateDifficultyOptions = (newSelectedSong) => {
     let matchingDifficulties = [];
+    console.log(newSelectedSong,selectedGameMode)
     for (let scoreObject in data) {
       if (
         data[scoreObject].songTitle === newSelectedSong &&
-        data[scoreObject].gameModeActorName === selectedGameMode &&
-        !matchingDifficulties.some(
-          (e) => e.value === data[scoreObject].difficulty
-        )
+        data[scoreObject].gameModeActorName === selectedGameMode
       ) {
-        matchingDifficulties.push({
-          value: data[scoreObject].difficulty,
-          label: data[scoreObject].difficulty,
-        });
+        if (matchingDifficulties.length === 0) {
+          matchingDifficulties.push({
+            value: data[scoreObject].difficulty,
+            label: data[scoreObject].difficulty,
+          });
+        } else if (
+          !matchingDifficulties.some(
+            (e) => e.value === data[scoreObject].difficulty
+          )
+        ) {
+          matchingDifficulties.push({
+            value: data[scoreObject].difficulty,
+            label: data[scoreObject].difficulty,
+          });
+        }
       }
     }
     matchingDifficulties = matchingDifficulties.sort((a, b) =>
