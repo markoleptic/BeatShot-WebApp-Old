@@ -239,10 +239,10 @@ const CustomModes = () => {
     );
     setSongOptions(matchingSongTitles);
   };
-  const handleGameModeSelect = async (newValue) => {
+  const handleGameModeSelect = (newValue) => {
     setSelectedGameMode(newValue);
   };
-  const handleSongSelect = async (newValue) => {
+  const handleSongSelect = (newValue) => {
     setSelectedSong(newValue);
   };
 

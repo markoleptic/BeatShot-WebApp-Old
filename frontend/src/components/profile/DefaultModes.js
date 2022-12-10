@@ -173,6 +173,9 @@ const DefaultModes = () => {
   }, [selectedGameMode, selectedSong, selectedDifficulty]);
 
   useEffect(() => {
+    if (gameModeOptions.length === 0) {
+      return;
+    }
     let mostRecent = null;
     for (let object in data) {
       if (
@@ -197,6 +200,9 @@ const DefaultModes = () => {
   }, [gameModeOptions]);
 
   useEffect(() => {
+    if (songOptions.length === 0) {
+      return;
+    }
     let mostRecent = null;
     for (let object in data) {
       if (
@@ -221,6 +227,9 @@ const DefaultModes = () => {
   }, [songOptions]);
 
   useEffect(() => {
+    if (difficultyOptions.length === 0 ) {
+      return;
+    }
     let mostRecent = null;
     for (let object in data) {
       if (
@@ -256,7 +265,6 @@ const DefaultModes = () => {
 
   /* searches for songs matching the game mode */
   const updateSongOptions = (newSelectedGameMode) => {
-    setSelectedSong("");
     let matchingSongTitles = [];
     for (let scoreObject in data) {
       if (
@@ -277,7 +285,6 @@ const DefaultModes = () => {
 
   /* searches for difficulties matching the selected song and game mode */
   const updateDifficultyOptions = (newSelectedSong) => {
-    setSelectedDifficulty("");
     let matchingDifficulties = [];
     for (let scoreObject in data) {
       if (
@@ -298,14 +305,14 @@ const DefaultModes = () => {
     );
     setDifficultyOptions(matchingDifficulties);
   };
-  
-  const handleGameModeSelect = async (newValue) => {
+
+  const handleGameModeSelect = (newValue) => {
     setSelectedGameMode(newValue);
   };
-  const handleSongSelect = async (newValue) => {
+  const handleSongSelect = (newValue) => {
     setSelectedSong(newValue);
   };
-  const handleDifficultySelect = async (newValue) => {
+  const handleDifficultySelect = (newValue) => {
     setSelectedDifficulty(newValue);
   };
 
