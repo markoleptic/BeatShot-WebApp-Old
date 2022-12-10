@@ -258,10 +258,10 @@ const DefaultModes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedGameMode]);
 
-  useEffect(() => {
-    updateDifficultyOptions(selectedSong);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedSong]);
+  // useEffect(() => {
+  //   updateDifficultyOptions(selectedSong);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selectedSong]);
 
   /* searches for songs matching the game mode */
   const updateSongOptions = (newSelectedGameMode) => {
@@ -284,27 +284,27 @@ const DefaultModes = () => {
   };
 
   /* searches for difficulties matching the selected song and game mode */
-  const updateDifficultyOptions = (newSelectedSong) => {
-    let matchingDifficulties = [];
-    for (let scoreObject in data) {
-      if (
-        data[scoreObject].songTitle === newSelectedSong &&
-        data[scoreObject].gameModeActorName === selectedGameMode &&
-        !matchingDifficulties.some(
-          (e) => e.value === data[scoreObject].difficulty
-        )
-      ) {
-        matchingDifficulties.push({
-          value: data[scoreObject].difficulty,
-          label: data[scoreObject].difficulty,
-        });
-      }
-    }
-    matchingDifficulties = matchingDifficulties.sort((a, b) =>
-      a.value.localeCompare(b.value)
-    );
-    setDifficultyOptions(matchingDifficulties);
-  };
+  // const updateDifficultyOptions = (newSelectedSong) => {
+  //   let matchingDifficulties = [];
+  //   for (let scoreObject in data) {
+  //     if (
+  //       data[scoreObject].songTitle === newSelectedSong &&
+  //       data[scoreObject].gameModeActorName === selectedGameMode &&
+  //       !matchingDifficulties.some(
+  //         (e) => e.value === data[scoreObject].difficulty
+  //       )
+  //     ) {
+  //       matchingDifficulties.push({
+  //         value: data[scoreObject].difficulty,
+  //         label: data[scoreObject].difficulty,
+  //       });
+  //     }
+  //   }
+  //   matchingDifficulties = matchingDifficulties.sort((a, b) =>
+  //     a.value.localeCompare(b.value)
+  //   );
+  //   setDifficultyOptions(matchingDifficulties);
+  // };
 
   const handleGameModeSelect = (newValue) => {
     setSelectedGameMode(newValue);
