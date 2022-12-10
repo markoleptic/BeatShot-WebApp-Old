@@ -66,10 +66,8 @@ const DefaultModes = () => {
           }
         }
       }
-      gameModeArray = gameModeArray.sort((a, b) =>
-        a.value.localeCompare(b.value)
-      );
-      setGameModeOptions(gameModeArray);
+      let sorted = gameModeArray.sort((a, b) => a.value.localeCompare(b.value));
+      setGameModeOptions(sorted);
     } catch (err) {
       console.log(err);
       setErrMsg(err.message);
@@ -294,16 +292,14 @@ const DefaultModes = () => {
     if (matchingSongTitles.length === 0) {
       return;
     }
-    matchingSongTitles = matchingSongTitles.sort((a, b) =>
-      a.value.localeCompare(b.value)
-    );
-    setSongOptions(matchingSongTitles);
+    let sorted = matchingSongTitles.sort((a, b) => a.value.localeCompare(b.value));
+    setSongOptions(sorted);
   };
 
   /* searches for difficulties matching the selected song and game mode */
   const updateDifficultyOptions = (newSelectedSong) => {
     let matchingDifficulties = [];
-    console.log(newSelectedSong,selectedGameMode)
+    console.log(newSelectedSong, selectedGameMode);
     for (let scoreObject in data) {
       if (
         data[scoreObject].songTitle === newSelectedSong &&
@@ -329,10 +325,8 @@ const DefaultModes = () => {
     if (matchingDifficulties.length === 0) {
       return;
     }
-    matchingDifficulties = matchingDifficulties.sort((a, b) =>
-      a.value.localeCompare(b.value)
-    );
-    setDifficultyOptions(matchingDifficulties);
+    let sorted = matchingDifficulties.sort((a, b) => a.value.localeCompare(b.value));
+    setDifficultyOptions(sorted);
   };
 
   const scoreOptions = {
