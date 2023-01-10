@@ -10,6 +10,158 @@ const PatchNotes = () => {
             <h2 className="pn-title">Patch Notes</h2>
           </div>
           <div className="content-main">
+
+            <div className="pn-wrapper">
+              <div className="pn-version-date">
+                <h3 className="pn-version-number">Patch Notes 0.4.0</h3>
+                <p className="pn-date">January 9, 2022</p>
+              </div>
+              <ul>
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  Game Modes
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      New custom game mode option: Move Targets Forward
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      SingleBeat and MultiBeat now only have one dynamic option
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Added tooltip descriptors for most custom game mode
+                      options
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Significantly improved the random target spawning
+                      algorithm
+                    </li>
+                  </ul>
+                </li>
+
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  Login System
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      All in game web browser windows now fade in, instead of
+                      having an abrupt change shown when the url of the browser
+                      is changed
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      If the screen requires authentication, it only fades in
+                      after it receives an http response
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      If the game fails to load the user's profile, it now only asks them to
+                      sign in again once
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      The post game menu no longer shows the score web browser
+                      if the user has not signed in to the game
+                    </li>
+                  </ul>
+                </li>
+
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  Settings
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Added framerate limit options for the menu and in game
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Added save/delete text that appears any time a setting is
+                      saved or a custom game mode is deleted
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      The fps counter now also appears in menus in addition to
+                      in the game
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      The sensitivity slider now snaps to values of 0.1
+                      increments
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      The new sensitivity boxes now start empty and the current
+                      sensitivity box now correctly shows the stored player's
+                      sensitivity
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed a bug where the Hex Value input was inputting
+                      incorrect values into the sliders and text boxes.
+                    </li>
+
+                  </ul>
+                </li>
+                <li className="pn-li-lvl1">
+                  <FontAwesomeIcon
+                    icon={faCrosshairs}
+                    className="pn-icon-lvl1"
+                  />
+                  Miscellaneous
+                  <ul>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed a bug where the path for a selected song wasn't
+                      being properly read
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Added an error message for when a user selects an invalid
+                      song path
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed a major issue where the target spawner wasn't taking
+                      in to account all of the most recently spawned targets
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed a bug where the game wasn't sending the game mode
+                      difficulty to the database
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      The website game mode, song select, and difficulty boxes
+                      now update their values in a more efficient manner
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Fixed an error that would leave the PostGameMenu on the
+                      screen if a song wasn't selected from the open file dialog
+                    </li>
+                    <li className="pn-li-lvl2">
+                      <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
+                      Probably a few more changes that I forgot
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
             <div className="pn-wrapper">
               <div className="pn-version-date">
                 <h3 className="pn-version-number">Patch Notes 0.3.0</h3>
