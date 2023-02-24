@@ -153,26 +153,24 @@ const LineChart = (props, canvas) => {
         //source: 'auto',
         //grace: 0,
         time: {
-          unit: 'day'
+          unit: "day",
+          displayFormats: {
+            day: "LLL c",
+          },
         },
         grid: {
           display: true,
-          drawBorder: false,
+          drawBorder: true,
           drawOnChartArea: true,
           drawTicks: false,
           beginAtZero: true,
           color: "hsl(227, 15%, 70%,0.4)",
         },
         ticks: {
-          //major : {
-          //  enabled: true,
-          //},
-          callback: function (value) {
-            return value;
-          },
           padding: 5,
-          //autoSkip: true,
-          maxTicksLimit: 20,
+          autoSkip: true,
+          stepSize: 1,
+          minRotation: 40,
           source: "data",
           color: "white",
           font: {

@@ -566,6 +566,14 @@ form {
   padding-left: 1rem;
 }
 
+.heatmap-chart {
+  display: flex;
+  height:200px;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+}
+
 .stats-header {
   display:flex;
   flex-direction: column;

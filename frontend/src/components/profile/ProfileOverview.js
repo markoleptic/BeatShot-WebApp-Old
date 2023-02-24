@@ -1,18 +1,18 @@
 import { usePlayerDataContext } from "../../context/PlayerData";
 import { useState, useEffect, useRef } from "react";
+import { DateTime } from "luxon";
 import BarChart from "../Charts/BarChart";
+import Heatmap from "../Charts/HeatMap";
 
 const ProfileOverview = () => {
   const { data, errMsg, setErrMsg } = usePlayerDataContext();
   const [totalTimePlayed, setTotalTimePlayed] = useState();
+  const [timePlayedHeatmap, setTimePlayedHeatmap] = useState([]);
+  const [heatmapLabels, setHeatmapLabels] = useState([]);
   const [gameModes, setGameModes] = useState();
   const [customGameModes, setCustomGameModes] = useState();
-  const [gameModeSpecificTimePlayed, setGameModeSpecificTimePlayed] = useState(
-    []
-  );
-  const [customGameModeSpecificTimePlayed, setCustomGameModeSpecificTimePlayed] = useState(
-    []
-  );
+  const [gameModeSpecificTimePlayed, setGameModeSpecificTimePlayed] = useState([]);
+  const [customGameModeSpecificTimePlayed, setCustomGameModeSpecificTimePlayed] = useState([]);
   const [mostPlayedGameMode, setMostPlayedGameMode] = useState();
   const [mostPlayedCustomGameMode, setMostPlayedCustomGameMode] = useState();
   const [mostPlayedGameModeHours, setMostPlayedGameModeHours] = useState();
@@ -70,6 +70,7 @@ const ProfileOverview = () => {
     getMostPlayedGameModes(gameModeArray);
     setCustomGameModes(customGameModeArray);
     getMostPlayedCustomGameModes(customGameModeArray);
+    getHeatMapData(data, generateCalendar());
   };
 
   const getTotalTimePlayed = () => {
@@ -108,6 +109,40 @@ const ProfileOverview = () => {
       Math.round(([...sortedPlayTimeMap.values()][0] / 60 / 60) * 100) / 100
     );
   };
+
+  function startOfToday() {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
+  }
+
+  function generateCalendar()  {
+    const dateArr = [];
+    const end = startOfToday();
+    let dt = new Date(new Date().setDate(end.getDate() - 365));
+    while (dt <= end) {
+      dateArr.push({
+        x: DateTime.fromJSDate(dt).toISO(),
+        y: DateTime.fromJSDate(dt).weekday,
+        d: DateTime.fromJSDate(dt),
+        v: 0,
+      });
+      dt = new Date(dt.setDate(dt.getDate() + 1));
+    }
+    return dateArr;
+  }
+  
+  const getHeatMapData = (data, calendar) => {
+    let copyCalendar = calendar;
+    for (let object in data) {
+      copyCalendar[DateTime.fromISO(data[object].time).ordinal - 1].v += parseInt(data[object].songLength);
+    }
+    const labels = {
+      label: [...copyCalendar.map((value) => value.x)],
+      value: [...copyCalendar.map((value) => value)]
+    }
+    setHeatmapLabels(labels);
+    setTimePlayedHeatmap(copyCalendar);
+  }
 
   const getMostPlayedCustomGameModes = (gameModes) => {
     let customPlayTimeMap = new Map();
@@ -214,6 +249,12 @@ const ProfileOverview = () => {
           myOptions={customGameModeTimePlayedOptions}
         />
       </div>
+      <div>
+        <Heatmap
+          labels={heatmapLabels}
+          data={timePlayedHeatmap}
+        />
+        </div>
     </>
   );
 };
