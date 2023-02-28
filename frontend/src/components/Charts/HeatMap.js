@@ -45,16 +45,22 @@ function labelCallback(tooltipItem) {
       weeklyPlays += tooltipItem.dataset.data[i].v;
     }
   }
-  if ((weeklyPlays / 60 / 60) < 1) {
-    return ("Total for week: " + Math.round(weeklyPlays / 60 * 10) / 10) + " minutes";
-  }
-  else {
-    return ("Total for week: " + Math.round(weeklyPlays / 60 / 60 * 100) / 100) + " hours";
+  if (weeklyPlays / 60 / 60 < 1) {
+    return (
+      "Total for week: " + Math.round((weeklyPlays / 60) * 10) / 10 + " minutes"
+    );
+  } else {
+    return (
+      "Total for week: " +
+      Math.round((weeklyPlays / 60 / 60) * 100) / 100 +
+      " hours"
+    );
   }
 }
 
 const Heatmap = (props, canvas) => {
   //const maxPlayed = Math.max(...props.data);
+  console.log(props.data)
   let labels = [];
   for (let datapoint in props.data) {
     labels.push({ label: datapoint });
@@ -70,8 +76,8 @@ const Heatmap = (props, canvas) => {
         borderWidth: 1,
         hoverBackgroundColor: "yellow",
         hoverBorderColor: "yellowgreen",
-        width: ({chart}) => (chart.chartArea || {}).width / 53 - 1,
-        height: ({chart}) => (chart.chartArea || {}).height / 7 - 1,
+        width: ({ chart }) => (chart.chartArea || {}).width / 53 - 1,
+        height: ({ chart }) => (chart.chartArea || {}).height / 7 - 1,
         backgroundColor: function (context) {
           if (!context.raw) {
             return 0;
@@ -129,11 +135,15 @@ const Heatmap = (props, canvas) => {
             return "hsl(193, 81%, 58%)";
           },
           afterTitle: function (tooltipItem) {
-            if (( tooltipItem[0].raw.v / 60 / 60) < 1) {
-              return (Math.round( tooltipItem[0].raw.v / 60 * 10) / 10) + " minutes";
-            }
-            else {
-              return (Math.round( tooltipItem[0].raw.v / 60 / 60 * 100) / 100) + " hours";
+            if (tooltipItem[0].raw.v / 60 / 60 < 1) {
+              return (
+                Math.round((tooltipItem[0].raw.v / 60) * 10) / 10 + " minutes"
+              );
+            } else {
+              return (
+                Math.round((tooltipItem[0].raw.v / 60 / 60) * 100) / 100 +
+                " hours"
+              );
             }
           },
         },

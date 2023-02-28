@@ -89,6 +89,7 @@ const CustomModes = () => {
             streak: data[scoreObject].streak,
             completion: data[scoreObject].completion,
             timeOffset: data[scoreObject].avgTimeOffset,
+            locationAccuracy: data[scoreObject].locationAccuracy,
           });
         }
       }

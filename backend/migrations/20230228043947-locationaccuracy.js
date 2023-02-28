@@ -3,8 +3,9 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.addColumn('scores', 'streak', {
-      type: Sequelize.INTEGER
+    await queryInterface.addColumn('scores', 'locationAccuracy', {
+      type: Sequelize.JSON,
+      allowNull: true
     });
     /**
      * Add altering commands here.
@@ -15,7 +16,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.removeColumn('scores', 'streak');
+    await queryInterface.removeColumn('scores', 'locationAccuracy');
     /**
      * Add reverting commands here.
      *

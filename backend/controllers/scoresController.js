@@ -39,6 +39,7 @@ const saveScores = async (req, res) => {
           time: data[scoreArray][scoreObject].time,
           streak: data[scoreArray][scoreObject].streak,
           difficulty: data[scoreArray][scoreObject].difficulty,
+          locationAccuracy: data[scoreArray][scoreObject].locationAccuracy,
         });
       }
     }

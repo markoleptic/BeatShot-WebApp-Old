@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     scoreID: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      allowNull:false,
-      primaryKey:true
+      allowNull: false,
+      primaryKey: true,
     },
     gameModeActorName: {
       type: DataTypes.STRING,
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
     },
     shotsFired: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     targetsHit: {
       type: DataTypes.INTEGER,
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
     totalTimeOffset: {
-      type: DataTypes.FLOAT
+      type: DataTypes.FLOAT,
     },
     avgTimeOffset: {
       type: DataTypes.FLOAT,
@@ -58,6 +58,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     difficulty: {
       type: DataTypes.STRING,
+    },
+    locationAccuracy: {
+      type: DataTypes.JSON,
+      allowNull: true,
     },
   });
   return scores;
