@@ -87,21 +87,19 @@ const DefaultModes = () => {
           data[scoreObject].songTitle === selectedSong &&
           data[scoreObject].difficulty === selectedDifficulty
         ) {
-          let accuracyArr = Object.values(data[scoreObject].locationAccuracy);
-          let accuracyArr2 = [];
-          console.log(accuracyArr);
+          let locAccArr = [];
           if (data[scoreObject].locationAccuracy !== null) {
+            let accuracyArr = Object.values(data[scoreObject].locationAccuracy);
             for (let row in accuracyArr) {
               for (let col in accuracyArr[row].accuracy) {
-                console.log(row, col)
-                accuracyArr2.push({
-                  x: row,
-                  y: col,
+                locAccArr.push({
+                  x: col,
+                  y: row,
                   v: accuracyArr[row].accuracy[col],
                 });
               }
             }
-            setLocAcc(accuracyArr2);
+            setLocAcc(locAccArr);
           }
           scoreMap.set(data[scoreObject].time, {
             score: data[scoreObject].score,
@@ -111,7 +109,7 @@ const DefaultModes = () => {
             difficulty: data[scoreObject].difficulty,
             completion: data[scoreObject].completion,
             timeOffset: data[scoreObject].avgTimeOffset,
-            locationAccuracy: accuracyArr2,
+            locationAccuracy: locAccArr,
           });
         }
       }

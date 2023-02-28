@@ -4,6 +4,7 @@ import { DateTime } from "luxon";
 import { useAuthContext } from "../../context/AuthProvider";
 import SelectBox from "../SelectBox";
 import { usePlayerDataContext } from "../../context/PlayerData";
+import LocationAccuracyHeatmap from "../Charts/LocationAccuracyMap";
 
 const CustomModes = () => {
   // Select box options
@@ -25,6 +26,7 @@ const CustomModes = () => {
   const [avgStreak, setAvgStreak] = useState();
   const [avgCompletion, setAvgCompletion] = useState();
   const [avgTimeOffset, setAvgTimeOffset] = useState();
+  const [locAcc, setLocAcc] = useState([]);
 
   // Tracks currently selected options from Select boxes
   const [selectedGameMode, setSelectedGameMode] = useState("");
@@ -82,6 +84,21 @@ const CustomModes = () => {
           data[scoreObject].gameModeActorName === "Custom" &&
           data[scoreObject].songTitle === selectedSong
         ) {
+          let locAccArr = [];
+          if (data[scoreObject].locationAccuracy !== null) {
+            console.log("buh")
+            let accuracyArr = Object.values(data[scoreObject].locationAccuracy);
+            for (let colNum in accuracyArr) {
+              for (let rowNum in accuracyArr[colNum].accuracy) {
+                locAccArr.push({
+                  x: rowNum,
+                  y: colNum,
+                  v: accuracyArr[colNum].accuracy[rowNum],
+                });
+              }
+            }
+            setLocAcc(locAccArr);
+          }
           scoreMap.set(data[scoreObject].time, {
             score: data[scoreObject].score,
             highScore: data[scoreObject].highScore,
@@ -89,7 +106,7 @@ const CustomModes = () => {
             streak: data[scoreObject].streak,
             completion: data[scoreObject].completion,
             timeOffset: data[scoreObject].avgTimeOffset,
-            locationAccuracy: data[scoreObject].locationAccuracy,
+            locationAccuracy: locAccArr,
           });
         }
       }
@@ -284,6 +301,12 @@ const CustomModes = () => {
     category: "avgTimeOffset",
     bDisplayPercentage: false,
   };
+  const locationAccuracyOptions = {
+    title: "Location Accuracy Heatmap",
+    xAxisTitle: "",
+    yAxisTitle: "",
+    type: "locationAccuracy",
+  };
 
   return (
     <>
@@ -436,6 +459,17 @@ const CustomModes = () => {
               labels={dates}
               data={scores.map((value) => value.timeOffset)}
               myOptions={avgTimeOffsetOptions}
+            />
+          ) : (
+            <div className="empty-chart" />
+          )}
+        </div>
+        <div>
+          {selectedGameMode !== "" && selectedSong !== "" ? (
+            <LocationAccuracyHeatmap
+              labels={null}
+              data={scores.map((value) => value.locationAccuracy)}
+              myOptions={locationAccuracyOptions}
             />
           ) : (
             <div className="empty-chart" />
