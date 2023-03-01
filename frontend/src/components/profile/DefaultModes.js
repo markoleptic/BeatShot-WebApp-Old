@@ -27,7 +27,6 @@ const DefaultModes = () => {
   const [avgStreak, setAvgStreak] = useState();
   const [avgCompletion, setAvgCompletion] = useState();
   const [avgTimeOffset, setAvgTimeOffset] = useState();
-  const [locAcc, setLocAcc] = useState([]);
 
   // Tracks currently selected options from Select boxes
   const [selectedGameMode, setSelectedGameMode] = useState("");
@@ -99,7 +98,6 @@ const DefaultModes = () => {
                 });
               }
             }
-            setLocAcc(locAccArr);
           }
           scoreMap.set(data[scoreObject].time, {
             score: data[scoreObject].score,
@@ -545,7 +543,7 @@ const DefaultModes = () => {
           {selectedGameMode !== "" && selectedSong !== "" ? (
             <LocationAccuracyHeatmap
               labels={null}
-              data={locAcc}
+              data={scores.map((value) => value.locationAccuracy)}
               myOptions={locationAccuracyOptions}
             />
           ) : (

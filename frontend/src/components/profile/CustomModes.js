@@ -26,7 +26,6 @@ const CustomModes = () => {
   const [avgStreak, setAvgStreak] = useState();
   const [avgCompletion, setAvgCompletion] = useState();
   const [avgTimeOffset, setAvgTimeOffset] = useState();
-  const [locAcc, setLocAcc] = useState([]);
 
   // Tracks currently selected options from Select boxes
   const [selectedGameMode, setSelectedGameMode] = useState("");
@@ -86,18 +85,16 @@ const CustomModes = () => {
         ) {
           let locAccArr = [];
           if (data[scoreObject].locationAccuracy !== null) {
-            console.log("buh")
             let accuracyArr = Object.values(data[scoreObject].locationAccuracy);
-            for (let colNum in accuracyArr) {
-              for (let rowNum in accuracyArr[colNum].accuracy) {
+            for (let row in accuracyArr) {
+              for (let col in accuracyArr[row].accuracy) {
                 locAccArr.push({
-                  x: rowNum,
-                  y: colNum,
-                  v: accuracyArr[colNum].accuracy[rowNum],
+                  x: col,
+                  y: row,
+                  v: accuracyArr[row].accuracy[col],
                 });
               }
             }
-            setLocAcc(locAccArr);
           }
           scoreMap.set(data[scoreObject].time, {
             score: data[scoreObject].score,

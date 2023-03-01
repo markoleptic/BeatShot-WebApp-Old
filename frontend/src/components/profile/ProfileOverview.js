@@ -120,11 +120,17 @@ const ProfileOverview = () => {
     const end = startOfToday();
     let dt = new Date(new Date().setDate(end.getDate() - 365));
     while (dt <= end) {
+      let v = 0;
+      for (let object in data) {
+        if (DateTime.fromJSDate(dt).ordinal === DateTime.fromISO(data[object].time).ordinal) {
+          v += parseInt(data[object].songLength)
+        }
+      }
       dateArr.push({
         x: DateTime.fromJSDate(dt).toISO(),
         y: DateTime.fromJSDate(dt).weekday,
         d: DateTime.fromJSDate(dt),
-        v: 0,
+        v: v,
       });
       dt = new Date(dt.setDate(dt.getDate() + 1));
     }
@@ -133,15 +139,13 @@ const ProfileOverview = () => {
   
   const getHeatMapData = (data, calendar) => {
     let copyCalendar = calendar;
-    for (let object in data) {
-      copyCalendar[DateTime.fromISO(data[object].time).ordinal - 1].v += parseInt(data[object].songLength);
-    }
     const labels = {
       label: [...copyCalendar.map((value) => value.x)],
       value: [...copyCalendar.map((value) => value)]
     }
     setHeatmapLabels(labels);
     setTimePlayedHeatmap(copyCalendar);
+    console.log(copyCalendar)
   }
 
   const getMostPlayedCustomGameModes = (gameModes) => {

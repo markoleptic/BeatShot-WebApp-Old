@@ -5,12 +5,12 @@ import { Chart } from "react-chartjs-2";
 import { MatrixController, MatrixElement } from "chartjs-chart-matrix";
 ChartJS.register(MatrixController, MatrixElement, ...registerables);
 
-function startOfToday() {
+/* function startOfToday() {
   const d = new Date();
   return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
-}
+} */
 
-function generateData() {
+/* function generateData() {
   const data = [];
   const end = startOfToday();
   let dt = new Date(new Date().setDate(end.getDate() - 365));
@@ -24,7 +24,7 @@ function generateData() {
     dt = new Date(dt.setDate(dt.getDate() + 1));
   }
   return data;
-}
+} */
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -60,7 +60,6 @@ function labelCallback(tooltipItem) {
 
 const Heatmap = (props, canvas) => {
   //const maxPlayed = Math.max(...props.data);
-  console.log(props.data)
   let labels = [];
   for (let datapoint in props.data) {
     labels.push({ label: datapoint });
@@ -74,8 +73,8 @@ const Heatmap = (props, canvas) => {
         data: props.data,
         borderColor: "green",
         borderWidth: 1,
-        hoverBackgroundColor: "yellow",
-        hoverBorderColor: "yellowgreen",
+        hoverBackgroundColor: "hsl(193, 81%, 58%)",
+        hoverBorderColor: "hsl(193, 81%, 58%)",
         width: ({ chart }) => (chart.chartArea || {}).width / 53 - 1,
         height: ({ chart }) => (chart.chartArea || {}).height / 7 - 1,
         backgroundColor: function (context) {
