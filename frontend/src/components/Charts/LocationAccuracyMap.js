@@ -5,20 +5,27 @@ ChartJS.register(MatrixController, MatrixElement, ...registerables);
 
 const green = [0, 255, 0, 1];
 const red = [255, 0, 0, 1];
-const yellow = [255 , 255, 0, 1];
+const yellow = [255, 255, 0, 1];
 
 function titleCallback(context) {
+  if (context[0].raw.v === -1) {
+    return "No target has spawned here";
+  }
   let title = (context[0].raw.v * 100).toFixed(0) + "%";
   return title;
 }
 
 function getAvgValue(data, currentIndex) {
-  if (data === null || data.length === 0) {
-    return null;
-  }
+  if (data === null || data.length === 0) return null;
   let sum = 0;
   for (let i = 0; i < data.length; i++) {
+    if (data[i][currentIndex] === -1.0) {
+      continue;
+    }
     sum += data[i][currentIndex] || 0;
+  }
+  if (sum === 0) {
+    return -1;
   }
   return sum / data.length;
 }
@@ -31,15 +38,15 @@ function getAveragedLocAcc(data) {
     return data[0];
   }
   let accuracyValues = data.map((x) => x.map((y) => y.v));
-  let outData = [];
-  for (let i = 0; i < data[1].length; i++) {
-    outData.push({
-      x: data[1][i].x,
-      y: data[1][i].y,
-      v: getAvgValue(accuracyValues, i),
+  let averagedValues = [];
+  for (let point in data[0]) {
+    averagedValues.push({
+      x: data[0][point].x,
+      y: data[0][point].y,
+      v: getAvgValue(accuracyValues, point),
     });
   }
-  return outData;
+  return averagedValues;
 }
 
 function getWidth(data) {
@@ -47,7 +54,7 @@ function getWidth(data) {
     return null;
   }
   const x = data.map((x) => parseInt(x.x));
-  return (Math.max(...x));
+  return Math.max(...x);
 }
 
 function getHeight(data) {
@@ -55,50 +62,44 @@ function getHeight(data) {
     return null;
   }
   const y = data.map((x) => parseInt(x.y));
-  return (Math.max(...y));
+  return Math.max(...y);
 }
 
 const lerp = (x, y, a) => x * (1 - a) + y * a;
 
 function getColor(alpha) {
-  if (alpha <0 ) {
-    return `rgba(0, 0, 0, 0.0)`
-  }
-  else if (alpha === 0.5) {
-    return `rgba(255, 255, 0, 0.75)`
-  }
-  else if (alpha < 0.5) {
+  if (alpha < 0) {
+    return `rgba(255, 255, 255, 0.2)`;
+  } else if (alpha === 0.5) {
+    return `rgba(255, 255, 0, 0.75)`;
+  } else if (alpha < 0.5) {
     const r = lerp(red[0], yellow[0], alpha);
     const g = lerp(red[1], yellow[1], alpha);
     const b = lerp(red[2], yellow[2], alpha);
-    return `rgba(${r}, ${g}, ${b}, 0.75)`
-  }
-  else if (alpha > 0.5) {
+    return `rgba(${r}, ${g}, ${b}, 0.75)`;
+  } else if (alpha > 0.5) {
     const r = lerp(yellow[0], green[0], alpha);
     const g = lerp(yellow[1], green[1], alpha);
     const b = lerp(yellow[2], green[2], alpha);
-    return `rgba(${r}, ${g}, ${b},0.75)`
+    return `rgba(${r}, ${g}, ${b},0.75)`;
   }
 }
 
 function getHoverColor(alpha) {
-  if (alpha <0 ) {
-    return `rgba(0, 0, 0, 0.0)`
-  }
-  else if (alpha === 0.5) {
-    return `rgba(255, 255, 0, 1)`
-  }
-  else if (alpha < 0.5) {
+  if (alpha < 0) {
+    return `rgba(255, 255, 255, 0.5)`;
+  } else if (alpha === 0.5) {
+    return `rgba(255, 255, 0, 1)`;
+  } else if (alpha < 0.5) {
     const r = lerp(red[0], yellow[0], alpha);
     const g = lerp(red[1], yellow[1], alpha);
     const b = lerp(red[2], yellow[2], alpha);
-    return `rgba(${r}, ${g}, ${b}, 1)`
-  }
-  else if (alpha > 0.5) {
+    return `rgba(${r}, ${g}, ${b}, 1)`;
+  } else if (alpha > 0.5) {
     const r = lerp(yellow[0], green[0], alpha);
     const g = lerp(yellow[1], green[1], alpha);
     const b = lerp(yellow[2], green[2], alpha);
-    return `rgba(${r}, ${g}, ${b}, 1)`
+    return `rgba(${r}, ${g}, ${b}, 1)`;
   }
 }
 
@@ -113,17 +114,19 @@ const LocationAccuracyHeatmap = (props, canvas) => {
         borderColor: "white",
         borderWidth: 0,
         hoverBorderColor: "grey",
-        width: ({ chart }) => (chart.chartArea || {}).width / getWidth(avgData)-10,
-        height: ({ chart }) =>(chart.chartArea || {}).height / getHeight(avgData)-10,
+        width: ({ chart }) =>
+          (chart.chartArea || {}).width / getWidth(avgData)-5,
+        height: ({ chart }) =>
+          (chart.chartArea || {}).height / getHeight(avgData)-6,
         backgroundColor: function (context) {
-          if (!context.raw || context.raw.v === -1) {
-            return 0;
+          if (!context.raw) {
+            return null;
           }
           return getColor(context.raw.v);
         },
         hoverBackgroundColor: function (context) {
-          if (!context.raw || context.raw.v === -1) {
-            return 0;
+          if (!context.raw) {
+            return null;
           }
           return getHoverColor(context.raw.v);
         },

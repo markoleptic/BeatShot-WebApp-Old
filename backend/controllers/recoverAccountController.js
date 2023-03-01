@@ -1,19 +1,21 @@
 const { users } = require("../models");
 const nodemailer = require("nodemailer");
-var aws = require("aws-sdk");
+const aws = require("@aws-sdk/client-ses")
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-aws.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+const config = {
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
   region: "us-east-1",
-});
+};
 
+const ses = new aws.SES(config)
 // create Nodemailer SES transporter
 let transporter = nodemailer.createTransport({
-  SES: new aws.SES({
-    apiVersion: "2010-12-01",
-  }),
+  SES: {ses, aws}
 });
 
 const sendRecoveryEmail = async (user, emailToken) => {

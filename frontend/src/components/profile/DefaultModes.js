@@ -89,6 +89,7 @@ const DefaultModes = () => {
           let locAccArr = [];
           if (data[scoreObject].locationAccuracy !== null) {
             let accuracyArr = Object.values(data[scoreObject].locationAccuracy);
+            console.log(accuracyArr)
             for (let row in accuracyArr) {
               for (let col in accuracyArr[row].accuracy) {
                 locAccArr.push({
