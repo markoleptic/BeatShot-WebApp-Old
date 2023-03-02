@@ -145,7 +145,6 @@ const ProfileOverview = () => {
     }
     setHeatmapLabels(labels);
     setTimePlayedHeatmap(copyCalendar);
-    console.log(copyCalendar)
   }
 
   const getMostPlayedCustomGameModes = (gameModes) => {
