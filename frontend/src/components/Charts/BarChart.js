@@ -40,14 +40,14 @@ const BarChart = (props, canvas) => {
       chart.ctxfillStyle = gradient;
       chart.ctx.fill();
       setGradient(gradient);
-      //console.log("CanvasRenderingContext2D", chart.ctx);
-      //console.log("HTMLCanvasElement", chart.canvas.height);
 
     }
   }, [chartRef]);
 
   const options = {
     type: 'bar',
+    responsive: true,
+    maintainAspectRatio: false,
     layout: {
       padding: {
         right: category === "score" ? 0: 0,
@@ -66,17 +66,15 @@ const BarChart = (props, canvas) => {
       legend: {
         display: false,
       },
-      responsive: true,
-      maintainAspectRatio: true,
       title: {
         display: true,
         align: 'center',
         text: title,
-        color: "white",
+        color: "hsl(193, 81%, 58%)",
         font: {
           size: 20,
           family: "Montserrat",
-          weight: 800,
+          weight: 700,
           color: "hsl(193, 81%, 58%)",
         },
       },
@@ -228,11 +226,9 @@ const BarChart = (props, canvas) => {
   };
 
   return (
-    <>
       <div className="chart">
         <Bar ref={chartRef} data={data} options={options} />
       </div>
-    </>
   );
 };
 

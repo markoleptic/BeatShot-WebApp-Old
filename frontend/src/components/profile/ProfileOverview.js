@@ -11,12 +11,18 @@ const ProfileOverview = () => {
   const [heatmapLabels, setHeatmapLabels] = useState([]);
   const [gameModes, setGameModes] = useState();
   const [customGameModes, setCustomGameModes] = useState();
-  const [gameModeSpecificTimePlayed, setGameModeSpecificTimePlayed] = useState([]);
-  const [customGameModeSpecificTimePlayed, setCustomGameModeSpecificTimePlayed] = useState([]);
+  const [gameModeSpecificTimePlayed, setGameModeSpecificTimePlayed] = useState(
+    []
+  );
+  const [
+    customGameModeSpecificTimePlayed,
+    setCustomGameModeSpecificTimePlayed,
+  ] = useState([]);
   const [mostPlayedGameMode, setMostPlayedGameMode] = useState();
   const [mostPlayedCustomGameMode, setMostPlayedCustomGameMode] = useState();
   const [mostPlayedGameModeHours, setMostPlayedGameModeHours] = useState();
-  const [mostPlayedCustomGameModeHours, setMostPlayedCustomGameModeHours] = useState();
+  const [mostPlayedCustomGameModeHours, setMostPlayedCustomGameModeHours] =
+    useState();
   const errRef = useRef();
   // clear error message when Select box option changed
   useEffect(() => {
@@ -115,15 +121,18 @@ const ProfileOverview = () => {
     return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
   }
 
-  function generateCalendar()  {
+  function generateCalendar() {
     const dateArr = [];
     const end = startOfToday();
     let dt = new Date(new Date().setDate(end.getDate() - 365));
     while (dt <= end) {
       let v = 0;
       for (let object in data) {
-        if (DateTime.fromJSDate(dt).ordinal === DateTime.fromISO(data[object].time).ordinal) {
-          v += parseInt(data[object].songLength)
+        if (
+          DateTime.fromJSDate(dt).ordinal ===
+          DateTime.fromISO(data[object].time).ordinal
+        ) {
+          v += parseInt(data[object].songLength);
         }
       }
       dateArr.push({
@@ -136,16 +145,16 @@ const ProfileOverview = () => {
     }
     return dateArr;
   }
-  
+
   const getHeatMapData = (data, calendar) => {
     let copyCalendar = calendar;
     const labels = {
       label: [...copyCalendar.map((value) => value.x)],
-      value: [...copyCalendar.map((value) => value)]
-    }
+      value: [...copyCalendar.map((value) => value)],
+    };
     setHeatmapLabels(labels);
     setTimePlayedHeatmap(copyCalendar);
-  }
+  };
 
   const getMostPlayedCustomGameModes = (gameModes) => {
     let customPlayTimeMap = new Map();
@@ -175,7 +184,8 @@ const ProfileOverview = () => {
     setCustomGameModes([...sortedCustomPlayTimeMap.keys()]);
     setMostPlayedCustomGameMode([...sortedCustomPlayTimeMap.keys()][0]);
     setMostPlayedCustomGameModeHours(
-      Math.round(([...sortedCustomPlayTimeMap.values()][0] / 60 / 60) * 100) / 100
+      Math.round(([...sortedCustomPlayTimeMap.values()][0] / 60 / 60) * 100) /
+        100
     );
   };
 
@@ -253,11 +263,8 @@ const ProfileOverview = () => {
         />
       </div>
       <div>
-        <Heatmap
-          labels={heatmapLabels}
-          data={timePlayedHeatmap}
-        />
-        </div>
+        <Heatmap labels={heatmapLabels} data={timePlayedHeatmap} />
+      </div>
     </>
   );
 };

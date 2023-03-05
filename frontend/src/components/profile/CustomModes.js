@@ -202,7 +202,7 @@ const CustomModes = () => {
           }
         }
       }
-        setSelectedGameMode(mostRecent.customGameModeName || "");
+      setSelectedGameMode(mostRecent.customGameModeName || "");
     };
     if (gameModeOptions.length !== 0) {
       findMostRecentGameModeOption(gameModeOptions);

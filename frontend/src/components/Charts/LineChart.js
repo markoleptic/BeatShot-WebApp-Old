@@ -31,8 +31,11 @@ ChartJS.register(
 );
 
 const LineChart = (props, canvas) => {
+  console.log(canvas)
   var chartRef = useRef();
   var [gradient, setGradient] = useState();
+
+  chartRef = React.createRef();
 
   const { title, xAxisTitle, yAxisTitle, category } =
     props.myOptions;
@@ -75,13 +78,14 @@ const LineChart = (props, canvas) => {
       chart.ctxfillStyle = gradient;
       chart.ctx.fill();
       setGradient(gradient);
-      //console.log("CanvasRenderingContext2D", chart.ctx);
-      //console.log("HTMLCanvasElement", chart.canvas.height);
+      //chart.canvas.style="display: flex"
     }
   }, [chartRef]);
 
   const options = {
     tension: 0.3,
+    responsive: true,
+    maintainAspectRatio: false,
     layout: {
       padding: {
         right: category === "score" ? 0: 0,
@@ -100,8 +104,6 @@ const LineChart = (props, canvas) => {
       legend: {
         display: false,
       },
-      responsive: true,
-      maintainAspectRatio: true,
       title: {
         display: true,
         align: 'center',
@@ -271,11 +273,9 @@ const LineChart = (props, canvas) => {
   };
 
   return (
-    <>
-      <div className="chart">
-        <Line ref={chartRef} data={data} options={options} />
-      </div>
-    </>
+    <div className="chart">
+      <Line ref={chartRef} data={data} options={options} />
+    </div>
   );
 };
 

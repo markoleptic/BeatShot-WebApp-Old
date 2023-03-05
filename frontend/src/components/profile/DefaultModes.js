@@ -87,7 +87,7 @@ const DefaultModes = () => {
           data[scoreObject].difficulty === selectedDifficulty
         ) {
           let locAccArr = [];
-          console.log(data[scoreObject].locationAccuracy)
+          console.log(data[scoreObject].locationAccuracy);
           if (data[scoreObject].locationAccuracy !== null) {
             let accuracyArr = Object.values(data[scoreObject].locationAccuracy);
             for (let row in accuracyArr) {

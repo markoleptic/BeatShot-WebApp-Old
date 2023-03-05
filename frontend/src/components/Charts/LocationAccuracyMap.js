@@ -115,9 +115,9 @@ const LocationAccuracyHeatmap = (props, canvas) => {
         borderWidth: 0,
         hoverBorderColor: "grey",
         width: ({ chart }) =>
-          (chart.chartArea || {}).width / getWidth(avgData)-5,
+          (chart.chartArea || {}).width / getWidth(avgData) - 5,
         height: ({ chart }) =>
-          (chart.chartArea || {}).height / getHeight(avgData)-6,
+          (chart.chartArea || {}).height / getHeight(avgData) - 6,
         backgroundColor: function (context) {
           if (!context.raw) {
             return null;
@@ -212,11 +212,9 @@ const LocationAccuracyHeatmap = (props, canvas) => {
     },
   };
   return (
-    <>
-      <div className="locAcc-chart">
-        <Chart type="matrix" data={data} options={options} />
-      </div>
-    </>
+    <div className="locAcc-chart">
+      <Chart type="matrix" data={data} options={options} />
+    </div>
   );
 };
 

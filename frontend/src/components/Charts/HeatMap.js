@@ -159,8 +159,8 @@ const Heatmap = (props, canvas) => {
             return DateTime.fromObject({ weekday: value }).weekdayShort;
           },
           maxRotation: 0,
-          autoSkip: true,
-          padding: 1,
+          autoSkip: false,
+          padding: 0,
           font: {
             size: 12,
           },
@@ -184,8 +184,8 @@ const Heatmap = (props, canvas) => {
         },
         ticks: {
           maxRotation: 0,
-          autoSkip: true,
-          padding: 1,
+          autoSkip: false,
+          padding: 0,
           font: {
             size: 12,
           },
@@ -199,11 +199,9 @@ const Heatmap = (props, canvas) => {
     },
   };
   return (
-    <>
-      <div className="heatmap-chart">
-        <Chart type="matrix" data={data} options={options} />
-      </div>
-    </>
+    <div className="heatmap-chart">
+      <Chart type="matrix" data={data} options={options} />
+    </div>
   );
 };
 
