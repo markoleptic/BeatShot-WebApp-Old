@@ -63,7 +63,6 @@ const ProfileSidebar = () => {
                   ? "profile-sidebar-text-active text-center link hover-blue"
                   : "profile-sidebar-text text-center link hover-blue"
               }
-              color=""
               onClick={handleDefaultModesClick}>
               Default Modes
             </Link>
