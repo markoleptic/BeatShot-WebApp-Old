@@ -21,7 +21,7 @@ const Footer = () => {
 
       <ul className="footer-icon-list">
         <li className="footer-icon-item">
-          <a className="footer-icon-link link hover-blue" href="https://www.steam.com">
+          <a className="footer-icon-link link hover-blue" href="https://store.steampowered.com/app/2126580/BeatShot/">
             <FontAwesomeIcon icon={faSteam} />
           </a>
         </li>
