@@ -3,10 +3,8 @@ import logo from "../images/Beatshot_logo_header.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import Video from "./Video";
-import useAnalyticsEventTracker from "./AnalyticsEventTracker";
 
 const Home = () => {
-  const gaEventTracker = useAnalyticsEventTracker('Home');
   return (
     <>
       <div className="content">
@@ -16,7 +14,7 @@ const Home = () => {
             <a
               href="https://store.steampowered.com/app/2126580/BeatShot/"
               className="link hover-white steam-wishlist-link fw-semibold"
-              onClick={() => gaEventTracker('Steam')}>
+              /* onClick={() => gaEventTracker('Steam')} */>
               Wishlist on Steam!
             </a>
           </div>
