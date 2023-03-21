@@ -1,6 +1,5 @@
 // routing imports
 import { Route, Routes } from "react-router-dom";
-import { useEffect } from "react";
 // importing components so we can link to them
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
@@ -20,9 +19,6 @@ const TRACKING_ID = "G-6S477DPSJS";
 ReactGA.initialize(TRACKING_ID);
 
 const App = () => {
-  useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }, []);
   return (
     <>
       <NavBar />
