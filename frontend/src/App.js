@@ -14,8 +14,10 @@ import PersistCheck from "./components/PersistCheck";
 import EmailConfirmation from "./components/EmailConfirmation";
 import Footer from "./components/Footer";
 import ChangePassword from "./components/ChangePassword";
+import ReactGA from "react-ga4";
 
 function App() {
+  ReactGA.initialize("G-6S477DPSJS");
   return (
     <>
       <NavBar />

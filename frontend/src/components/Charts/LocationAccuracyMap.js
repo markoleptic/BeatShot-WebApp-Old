@@ -3,10 +3,6 @@ import { Chart } from "react-chartjs-2";
 import { MatrixController, MatrixElement } from "chartjs-chart-matrix";
 ChartJS.register(MatrixController, MatrixElement, ...registerables);
 
-const green = [0, 255, 0, 1];
-const red = [255, 0, 0, 1];
-const yellow = [255, 255, 0, 1];
-
 function titleCallback(context) {
   if (context[0].raw.v === -1) {
     return "No target has spawned here";
@@ -66,6 +62,10 @@ function getHeight(data) {
 }
 
 const lerp = (x, y, a) => x * (1 - a) + y * a;
+
+const green = [0, 255, 0, 1];
+const red = [255, 0, 0, 1];
+const yellow = [255, 255, 0, 1];
 
 function getColor(alpha) {
   if (alpha < 0) {
