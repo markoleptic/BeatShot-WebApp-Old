@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.renameColumn('scores', 'defaultMode', 'defaultMode')
+    await queryInterface.renameColumn('scores', 'gameModeActorName', 'defaultMode')
     /**
      * Add altering commands here.
      *
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.renameColumn('scores', 'defaultMode', 'defaultMode')
+    await queryInterface.renameColumn('scores', 'defaultMode', 'gameModeActorName')
     /**
      * Add reverting commands here.
      *
