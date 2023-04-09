@@ -49,14 +49,14 @@ const ProfileOverview = () => {
     for (let object in data) {
       if (
         data[object].customGameModeName === "" &&
-        data[object].gameModeActorName !== "Custom"
+        data[object].defaultMode !== "Custom"
       ) {
         if (
-          !gameModeArray.some((e) => e.label === data[object].gameModeActorName)
+          !gameModeArray.some((e) => e.label === data[object].defaultMode)
         ) {
           gameModeArray.push({
-            value: data[object].gameModeActorName,
-            label: data[object].gameModeActorName,
+            value: data[object].defaultMode,
+            label: data[object].defaultMode,
           });
         }
       } else {
@@ -94,9 +94,9 @@ const ProfileOverview = () => {
       // find matches for gameMode inside data
       for (let scoreObject in data) {
         if (
-          data[scoreObject].gameModeActorName !== "Custom" &&
+          data[scoreObject].defaultMode !== "Custom" &&
           data[scoreObject].customGameModeName === "" &&
-          data[scoreObject].gameModeActorName === gameModes[gameMode].value
+          data[scoreObject].defaultMode === gameModes[gameMode].value
         ) {
           gameModePlayTime += data[scoreObject].songLength;
         }
@@ -116,32 +116,26 @@ const ProfileOverview = () => {
     );
   };
 
-  function startOfToday() {
-    const d = new Date();
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
-  }
-
   function generateCalendar() {
     const dateArr = [];
-    const end = startOfToday();
-    let dt = new Date(new Date().setDate(end.getDate() - 365));
+    let dt = DateTime.now().startOf('day').minus({days: 364});
+    const end = DateTime.now().startOf('day')
     while (dt <= end) {
       let v = 0;
       for (let object in data) {
         if (
-          DateTime.fromJSDate(dt).ordinal ===
-          DateTime.fromISO(data[object].time).ordinal
+          dt.equals(DateTime.fromISO(data[object].time).startOf('day'))
         ) {
           v += parseInt(data[object].songLength);
         }
       }
       dateArr.push({
-        x: DateTime.fromJSDate(dt).toISO(),
-        y: DateTime.fromJSDate(dt).weekday,
-        d: DateTime.fromJSDate(dt),
+        x: dt.toISO(),
+        y: dt.weekday,
+        d: dt,
         v: v,
       });
-      dt = new Date(dt.setDate(dt.getDate() + 1));
+      dt = dt.plus({day: 1})
     }
     return dateArr;
   }
@@ -163,7 +157,7 @@ const ProfileOverview = () => {
       // find matches for gameMode inside data
       for (let scoreObject in data) {
         if (
-          data[scoreObject].gameModeActorName === "Custom" &&
+          data[scoreObject].defaultMode === "Custom" &&
           data[scoreObject].customGameModeName !== "" &&
           data[scoreObject].customGameModeName === gameModes[gameMode].value
         ) {

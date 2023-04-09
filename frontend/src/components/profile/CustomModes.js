@@ -49,7 +49,7 @@ const CustomModes = () => {
       let gameModeArray = [];
       for (let object in data) {
         if (
-          data[object].gameModeActorName === "Custom" &&
+          data[object].defaultMode === "Custom" &&
           data[object].customGameModeName !== ""
         ) {
           /* sets the game modes options */
@@ -80,7 +80,7 @@ const CustomModes = () => {
       for (let scoreObject in data) {
         if (
           data[scoreObject].customGameModeName === selectedGameMode &&
-          data[scoreObject].gameModeActorName === "Custom" &&
+          data[scoreObject].defaultMode === "Custom" &&
           data[scoreObject].songTitle === selectedSong
         ) {
           let locAccArr = [];
@@ -186,7 +186,7 @@ const CustomModes = () => {
       let mostRecent = null;
       for (let object in data) {
         if (
-          data[object].gameModeActorName === "Custom" &&
+          data[object].defaultMode === "Custom" &&
           data[object].customGameModeName !== "" &&
           gameModeOptions.some(
             (e) => e.value === data[object].customGameModeName
@@ -217,7 +217,7 @@ const CustomModes = () => {
       let mostRecent = null;
       for (let object in data) {
         if (
-          data[object].gameModeActorName === "Custom" &&
+          data[object].defaultMode === "Custom" &&
           data[object].customGameModeName !== "" &&
           songOptions.some((e) => e.value === data[object].songTitle)
         ) {

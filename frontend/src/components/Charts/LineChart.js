@@ -31,7 +31,6 @@ ChartJS.register(
 );
 
 const LineChart = (props, canvas) => {
-  console.log(canvas)
   var chartRef = useRef();
   var [gradient, setGradient] = useState();
 

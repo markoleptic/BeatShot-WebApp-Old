@@ -21,7 +21,7 @@ const saveScores = async (req, res) => {
       if (times.includes(data[scoreArray][scoreObject].time) === false) {
         scores.create({
           userID: foundUser.userID,
-          gameModeActorName: data[scoreArray][scoreObject].gameModeActorName,
+          defaultMode: data[scoreArray][scoreObject].defaultMode,
           customGameModeName: data[scoreArray][scoreObject].customGameModeName,
           songTitle: data[scoreArray][scoreObject].songTitle,
           songLength: data[scoreArray][scoreObject].songLength,

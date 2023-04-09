@@ -49,39 +49,46 @@ function getWidth(data) {
   if (data === null) {
     return null;
   }
-  const x = data.map((x) => parseInt(x.x));
-  return Math.max(...x);
+  if (data.map((x) => x.map((y) => Number(y.x)))[0] === undefined) {
+    return null;
+  }
+  const width = Math.max(...data.map((x) => x.map((y) => Number(y.x)))[0]) + 1;
+  return width;
 }
 
 function getHeight(data) {
   if (data === null) {
     return null;
   }
-  const y = data.map((x) => parseInt(x.y));
-  return Math.max(...y);
+  if (data.map((x) => x.map((y) => Number(y.y)))[0] === undefined) {
+    return null;
+  }
+  const height = Math.max(...data.map((x) => x.map((y) => Number(y.y)))[0]) + 1;
+  return height;
 }
 
 const lerp = (x, y, a) => x * (1 - a) + y * a;
 
 const green = [0, 255, 0, 1];
-const red = [255, 0, 0, 1];
 const yellow = [255, 255, 0, 1];
+const red = [255, 0, 0, 1];
 
 function getColor(alpha) {
+  const redYellowThreshold = 0.5;
+  const yellowGreenThreshold = 0.5;
   if (alpha < 0) {
     return `rgba(255, 255, 255, 0.2)`;
-  } else if (alpha === 0.5) {
-    return `rgba(255, 255, 0, 0.75)`;
-  } else if (alpha < 0.5) {
-    const r = lerp(red[0], yellow[0], alpha);
-    const g = lerp(red[1], yellow[1], alpha);
-    const b = lerp(red[2], yellow[2], alpha);
-    return `rgba(${r}, ${g}, ${b}, 0.75)`;
-  } else if (alpha > 0.5) {
-    const r = lerp(yellow[0], green[0], alpha);
-    const g = lerp(yellow[1], green[1], alpha);
-    const b = lerp(yellow[2], green[2], alpha);
-    return `rgba(${r}, ${g}, ${b},0.75)`;
+  } else if (alpha < redYellowThreshold) {
+    const r = lerp(red[0], yellow[0], (alpha) / redYellowThreshold);
+    const g = lerp(red[1], yellow[1], (alpha) / redYellowThreshold);
+    const b = lerp(red[2], yellow[2], (alpha) / redYellowThreshold);
+    return `rgba(${r}, ${g}, ${b}, 0.8)`; 
+  } else {
+    console.log((alpha-yellowGreenThreshold) / (1 - yellowGreenThreshold))
+    const r = lerp(yellow[0], green[0], (alpha-yellowGreenThreshold) / (1 - yellowGreenThreshold));
+    const g = lerp(yellow[1], green[1], (alpha-yellowGreenThreshold) / (1 - yellowGreenThreshold));
+    const b = lerp(yellow[2], green[2], (alpha-yellowGreenThreshold) / (1 - yellowGreenThreshold));
+    return `rgba(${r}, ${g}, ${b}, 0.8)`;
   }
 }
 
@@ -91,19 +98,21 @@ function getHoverColor(alpha) {
   } else if (alpha === 0.5) {
     return `rgba(255, 255, 0, 1)`;
   } else if (alpha < 0.5) {
-    const r = lerp(red[0], yellow[0], alpha);
-    const g = lerp(red[1], yellow[1], alpha);
-    const b = lerp(red[2], yellow[2], alpha);
+    const r = lerp(red[0], yellow[0], (alpha*2)/1);
+    const g = lerp(red[1], yellow[1], (alpha*2)/1);
+    const b = lerp(red[2], yellow[2], (alpha*2)/1);
     return `rgba(${r}, ${g}, ${b}, 1)`;
   } else if (alpha > 0.5) {
-    const r = lerp(yellow[0], green[0], alpha);
-    const g = lerp(yellow[1], green[1], alpha);
-    const b = lerp(yellow[2], green[2], alpha);
+    const r = lerp(yellow[0], green[0], (alpha-0.5)/0.5);
+    const g = lerp(yellow[1], green[1], (alpha-0.5)/0.5);
+    const b = lerp(yellow[2], green[2], (alpha-0.5)/0.5);
     return `rgba(${r}, ${g}, ${b}, 1)`;
   }
 }
 
 const LocationAccuracyHeatmap = (props, canvas) => {
+  const height = getHeight(props.data);
+  const width = getWidth(props.data);
   const { title } = props.myOptions;
   const avgData = getAveragedLocAcc(props.data);
   const data = {
@@ -114,10 +123,27 @@ const LocationAccuracyHeatmap = (props, canvas) => {
         borderColor: "white",
         borderWidth: 0,
         hoverBorderColor: "grey",
-        width: ({ chart }) =>
-          (chart.chartArea || {}).width / getWidth(avgData) - 5,
-        height: ({ chart }) =>
-          (chart.chartArea || {}).height / getHeight(avgData) - 6,
+        width: ({ chart }) => {
+          if (chart.chartArea === undefined || chart.chartArea === null) {
+            return {};
+          }
+          return (
+            (chart.chartArea || {}).width / width -
+            ((chart.chartArea || {}).width / width) * 0.05
+          );
+        },
+        height: ({ chart }) => {
+          if (chart.chartArea === undefined || chart.chartArea === null) {
+            return {};
+          }
+          return (
+            (chart.chartArea || {}).height / height -
+            (((chart.chartArea || {}).height / height) *
+              0.05 *
+              chart.chartArea.width) /
+              chart.chartArea.height
+          );
+        },
         backgroundColor: function (context) {
           if (!context.raw) {
             return null;

@@ -51,18 +51,18 @@ const DefaultModes = () => {
       let gameModeArray = [];
       for (let object in data) {
         if (
-          data[object].gameModeActorName !== "Custom" &&
+          data[object].defaultMode !== "Custom" &&
           data[object].customGameModeName === ""
         ) {
           /* sets the game modes options */
           if (
             !gameModeArray.some(
-              (e) => e.label === data[object].gameModeActorName
+              (e) => e.label === data[object].defaultMode
             )
           ) {
             gameModeArray.push({
-              value: data[object].gameModeActorName,
-              label: data[object].gameModeActorName,
+              value: data[object].defaultMode,
+              label: data[object].defaultMode,
             });
           }
         }
@@ -82,12 +82,11 @@ const DefaultModes = () => {
       let scoreMap = new Map();
       for (let scoreObject in data) {
         if (
-          data[scoreObject].gameModeActorName === selectedGameMode &&
+          data[scoreObject].defaultMode === selectedGameMode &&
           data[scoreObject].songTitle === selectedSong &&
           data[scoreObject].difficulty === selectedDifficulty
         ) {
           let locAccArr = [];
-          console.log(data[scoreObject].locationAccuracy);
           if (data[scoreObject].locationAccuracy !== null) {
             let accuracyArr = Object.values(data[scoreObject].locationAccuracy);
             for (let row in accuracyArr) {
@@ -190,10 +189,10 @@ const DefaultModes = () => {
       let mostRecent = null;
       for (let object in data) {
         if (
-          data[object].gameModeActorName !== "Custom" &&
+          data[object].defaultMode !== "Custom" &&
           data[object].customGameModeName === "" &&
           gameModeOptions.some(
-            (e) => e.value === data[object].gameModeActorName
+            (e) => e.value === data[object].defaultMode
           )
         ) {
           if (mostRecent === null) {
@@ -206,7 +205,7 @@ const DefaultModes = () => {
           }
         }
       }
-      setSelectedGameMode(mostRecent.gameModeActorName || "");
+      setSelectedGameMode(mostRecent.defaultMode || "");
     };
     if (gameModeOptions.length !== 0) {
       findMostRecentGameModeOption(gameModeOptions);
@@ -218,7 +217,7 @@ const DefaultModes = () => {
       let mostRecent = null;
       for (let object in data) {
         if (
-          data[object].gameModeActorName !== "Custom" &&
+          data[object].defaultMode !== "Custom" &&
           data[object].customGameModeName === "" &&
           songOptions.some((e) => e.value === data[object].songTitle)
         ) {
@@ -244,7 +243,7 @@ const DefaultModes = () => {
       let mostRecent = null;
       for (let object in data) {
         if (
-          data[object].gameModeActorName !== "Custom" &&
+          data[object].defaultMode !== "Custom" &&
           data[object].customGameModeName === "" &&
           difficultyOptions.some((e) => e.value === data[object].difficulty)
         ) {
@@ -270,7 +269,7 @@ const DefaultModes = () => {
     const updateSongOptions = (newSelectedGameMode) => {
       let matchingSongTitles = [];
       for (let scoreObject in data) {
-        if (data[scoreObject].gameModeActorName === newSelectedGameMode) {
+        if (data[scoreObject].defaultMode === newSelectedGameMode) {
           if (matchingSongTitles.length === 0) {
             matchingSongTitles.push({
               value: data[scoreObject].songTitle,
@@ -303,7 +302,7 @@ const DefaultModes = () => {
       for (let scoreObject in data) {
         if (
           data[scoreObject].songTitle === newSelectedSong &&
-          data[scoreObject].gameModeActorName === selectedGameMode
+          data[scoreObject].defaultMode === selectedGameMode
         ) {
           if (matchingDifficulties.length === 0) {
             matchingDifficulties.push({
