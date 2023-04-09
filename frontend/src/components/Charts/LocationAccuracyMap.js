@@ -84,7 +84,6 @@ function getColor(alpha) {
     const b = lerp(red[2], yellow[2], (alpha) / redYellowThreshold);
     return `rgba(${r}, ${g}, ${b}, 0.8)`; 
   } else {
-    console.log((alpha-yellowGreenThreshold) / (1 - yellowGreenThreshold))
     const r = lerp(yellow[0], green[0], (alpha-yellowGreenThreshold) / (1 - yellowGreenThreshold));
     const g = lerp(yellow[1], green[1], (alpha-yellowGreenThreshold) / (1 - yellowGreenThreshold));
     const b = lerp(yellow[2], green[2], (alpha-yellowGreenThreshold) / (1 - yellowGreenThreshold));
