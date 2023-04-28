@@ -110,31 +110,18 @@ const BarChart = (props, canvas) => {
     },
     scales: {
       x: {
-        //offset: true,
-        //bounds: 'ticks',
-        //source: 'auto',
-        //grace: 0,
-        //time: {
-        //  unit: 'day'
-        //},
         grid: {
           display: true,
           drawBorder: false,
           drawOnChartArea: true,
-          drawTicks: true,
+          drawTicks: false,
           beginAtZero: true,
           color: "hsl(227, 15%, 70%,0.4)",
         },
         ticks: {
-          //major : {
-          //  enabled: true,
-          //},
-          //callback: function (value) {
-          //  return value;
-          //},
-          //autoSkip: true,
-          //maxTicksLimit: 20,
-          //source: "data",
+          padding: 5,
+          maxTicksLimit: 10,
+          source: "data",
           color: "white",
           font: {
             size: 10,
@@ -150,7 +137,7 @@ const BarChart = (props, canvas) => {
             weight: 500,
             color: "white",
           },
-          display: true,
+          display: false,
           position: 'bottom',
           align: 'center',
           text: xAxisTitle,
@@ -168,6 +155,7 @@ const BarChart = (props, canvas) => {
           color: "hsl(227, 15%, 70%,0.4)",
         },
         ticks: {
+          padding: 8,
           callback: function (value) {
             if (category === "timePlayed") {
               return (Math.round(value / 60 / 60 * 10) / 10);

@@ -150,29 +150,28 @@ const LineChart = (props, canvas) => {
       x: {
         type: "timeseries",
         offset: false,
-        //bounds: 'ticks',
-        //source: 'auto',
-        //grace: 0,
+        grace: 0,
         time: {
           unit: "day",
-          displayFormats: {
-            day: "LLL c",
-          },
+          // displayFormats: {
+          //   day: "LLL c",
+          // },
         },
         grid: {
           display: true,
-          drawBorder: true,
+          drawBorder: false,
           drawOnChartArea: true,
           drawTicks: false,
-          beginAtZero: true,
+          beginAtZero: false,
           color: "hsl(227, 15%, 70%,0.4)",
         },
         ticks: {
           padding: 5,
-          autoSkip: true,
-          stepSize: 1,
+          //autoSkip: true,
+          //beginAtZero: false,
           minRotation: 40,
-          source: "data",
+          maxTicksLimit: 20,
+          source: "labels",
           color: "white",
           font: {
             size: 10,
@@ -188,11 +187,12 @@ const LineChart = (props, canvas) => {
             weight: 500,
             color: "white",
           },
-          display: true,
+          display: false,
           position: 'bottom',
           align: 'center',
           text: xAxisTitle,
           lineWidth: 1,
+          padding: 0,
         },
       },
       y: {
@@ -203,14 +203,17 @@ const LineChart = (props, canvas) => {
           drawBorder: false,
           drawOnChartArea: true,
           drawTicks: false,
-          beginAtZero: false,
+          beginAtZero: true,
           color: "hsl(227, 15%, 70%,0.4)",
         },
         ticks: {
+          padding:8,
           callback: function (value) {
-            if (value===0) return "";
+            if (value===0) {
+                return "0";
+            }
             if (category === "accuracy" || category === "completion") {
-              return this.getLabelForValue(value * 100) + " %";
+              return this.getLabelForValue(value * 100);
             } else if (category === "score") {
               return this.getLabelForValue(value/ 1000);
             } else if (category === "avgTimeOffset") {
@@ -235,39 +238,12 @@ const LineChart = (props, canvas) => {
             weight: 500,
             color: "white",
           },
-          alight: 'center',
+          align: 'center',
           display: true,
           text: yAxisTitle,
+          padding: 0,
         },
       },
-      // percentage: {
-      //   display: bDisplayPercentage,
-      //   beginatZero: true,
-      //   position: "right",
-      //   title: {
-      //     color: "white",
-      //     font: {
-      //       size: 16,
-      //       family: "Montserrat",
-      //       weight: 1000,
-      //       color: "white",
-      //     },
-      //     display: false,
-      //     text: "%",
-      //   },
-      //   ticks: {
-      //     callback: function (value) {
-      //       return this.getLabelForValue(value * 100) + "%";
-      //     },
-      //     color: "white",
-      //     font: {
-      //       family: "Montserrat",
-      //       size: 10,
-      //       weight: "100",
-      //       color: "white",
-      //     },
-      //   },
-      // },
     },
   };
 

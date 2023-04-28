@@ -4,6 +4,8 @@ import { DateTime } from "luxon";
 import BarChart from "../Charts/BarChart";
 import Heatmap from "../Charts/HeatMap";
 
+const maxCustomModesToShow = 4;
+
 const ProfileOverview = () => {
   const { data, errMsg, setErrMsg } = usePlayerDataContext();
   const [totalTimePlayed, setTotalTimePlayed] = useState();
@@ -174,11 +176,12 @@ const ProfileOverview = () => {
     let sortedCustomPlayTimeMap = new Map(
       [...customPlayTimeMap.entries()].sort((a, b) => b[1] - a[1])
     );
-    setCustomGameModeSpecificTimePlayed([...sortedCustomPlayTimeMap.values()]);
-    setCustomGameModes([...sortedCustomPlayTimeMap.keys()]);
+    console.log([...sortedCustomPlayTimeMap.keys()].slice(0, maxCustomModesToShow))
+    setCustomGameModeSpecificTimePlayed([...sortedCustomPlayTimeMap.values()].slice(0, maxCustomModesToShow));
+    setCustomGameModes([...sortedCustomPlayTimeMap.keys()].slice(0, maxCustomModesToShow));
     setMostPlayedCustomGameMode([...sortedCustomPlayTimeMap.keys()][0]);
     setMostPlayedCustomGameModeHours(
-      Math.round(([...sortedCustomPlayTimeMap.values()][0] / 60 / 60) * 100) /
+      Math.round(([...sortedCustomPlayTimeMap.values()].slice(0, maxCustomModesToShow)[0] / 60 / 60) * 100) /
         100
     );
   };
