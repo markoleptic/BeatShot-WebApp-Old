@@ -21,8 +21,10 @@ const saveScores = async (req, res) => {
       if (times.includes(data[scoreArray][scoreObject].time) === false) {
         scores.create({
           userID: foundUser.userID,
-          defaultMode: data[scoreArray][scoreObject].defaultMode,
-          customGameModeName: data[scoreArray][scoreObject].customGameModeName,
+          baseGameMode: data[scoreArray][scoreObject].definingConfig.baseGameMode,
+          gameModeType: data[scoreArray][scoreObject].definingConfig.gameModeType,
+          difficulty: data[scoreArray][scoreObject].definingConfig.difficulty,
+          customGameModeName: data[scoreArray][scoreObject].definingConfig.customGameModeName,
           songTitle: data[scoreArray][scoreObject].songTitle,
           songLength: data[scoreArray][scoreObject].songLength,
           score: data[scoreArray][scoreObject].score,
@@ -38,7 +40,6 @@ const saveScores = async (req, res) => {
           avgTimeOffset: data[scoreArray][scoreObject].avgTimeOffset,
           time: data[scoreArray][scoreObject].time,
           streak: data[scoreArray][scoreObject].streak,
-          difficulty: data[scoreArray][scoreObject].difficulty,
           locationAccuracy: data[scoreArray][scoreObject].locationAccuracy,
         });
       }

@@ -51,14 +51,14 @@ const ProfileOverview = () => {
     for (let object in data) {
       if (
         data[object].customGameModeName === "" &&
-        data[object].defaultMode !== "Custom"
+        data[object].gameModeType === "Preset"
       ) {
         if (
-          !gameModeArray.some((e) => e.label === data[object].defaultMode)
+          !gameModeArray.some((e) => e.label === data[object].baseGameMode)
         ) {
           gameModeArray.push({
-            value: data[object].defaultMode,
-            label: data[object].defaultMode,
+            value: data[object].baseGameMode,
+            label: data[object].baseGameMode,
           });
         }
       } else {
@@ -96,9 +96,9 @@ const ProfileOverview = () => {
       // find matches for gameMode inside data
       for (let scoreObject in data) {
         if (
-          data[scoreObject].defaultMode !== "Custom" &&
+          data[scoreObject].gameModeType === "Preset" &&
           data[scoreObject].customGameModeName === "" &&
-          data[scoreObject].defaultMode === gameModes[gameMode].value
+          data[scoreObject].baseGameMode === gameModes[gameMode].value
         ) {
           gameModePlayTime += data[scoreObject].songLength;
         }
@@ -159,7 +159,7 @@ const ProfileOverview = () => {
       // find matches for gameMode inside data
       for (let scoreObject in data) {
         if (
-          data[scoreObject].defaultMode === "Custom" &&
+          data[scoreObject].gameModeType === "Custom" &&
           data[scoreObject].customGameModeName !== "" &&
           data[scoreObject].customGameModeName === gameModes[gameMode].value
         ) {

@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true,
     },
-    defaultMode: {
+    gameModeType: {
+      type: DataTypes.STRING,
+    },
+    baseGameMode: {
       type: DataTypes.STRING,
     },
     customGameModeName: {
