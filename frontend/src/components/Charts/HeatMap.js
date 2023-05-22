@@ -5,27 +5,6 @@ import { Chart } from "react-chartjs-2";
 import { MatrixController, MatrixElement } from "chartjs-chart-matrix";
 ChartJS.register(MatrixController, MatrixElement, ...registerables);
 
-/* function startOfToday() {
-  const d = new Date();
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
-} */
-
-/* function generateData() {
-  const data = [];
-  const end = startOfToday();
-  let dt = new Date(new Date().setDate(end.getDate() - 365));
-  while (dt <= end) {
-    data.push({
-      x: DateTime.fromJSDate(dt).toISO(),
-      y: DateTime.fromJSDate(dt).weekday,
-      d: DateTime.fromJSDate(dt),
-      v: Math.random() * 50,
-    });
-    dt = new Date(dt.setDate(dt.getDate() + 1));
-  }
-  return data;
-} */
-
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 function titleCallback(context) {
