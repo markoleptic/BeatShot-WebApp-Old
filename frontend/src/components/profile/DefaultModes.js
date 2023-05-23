@@ -51,8 +51,7 @@ const DefaultModes = () => {
       let gameModeArray = [];
       for (let object in data) {
         if (
-          data[object].gameModeType !== "Preset" &&
-          data[object].customGameModeName === ""
+          data[object].gameModeType === "Preset"
         ) {
           /* sets the game modes options */
           if (
@@ -195,6 +194,7 @@ const DefaultModes = () => {
             (e) => e.value === data[object].baseGameMode
           )
         ) {
+          console.log("passed checks")
           if (mostRecent === null) {
             mostRecent = data[object];
           } else if (

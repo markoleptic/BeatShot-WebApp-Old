@@ -176,7 +176,6 @@ const ProfileOverview = () => {
     let sortedCustomPlayTimeMap = new Map(
       [...customPlayTimeMap.entries()].sort((a, b) => b[1] - a[1])
     );
-    console.log([...sortedCustomPlayTimeMap.keys()].slice(0, maxCustomModesToShow))
     setCustomGameModeSpecificTimePlayed([...sortedCustomPlayTimeMap.values()].slice(0, maxCustomModesToShow));
     setCustomGameModes([...sortedCustomPlayTimeMap.keys()].slice(0, maxCustomModesToShow));
     setMostPlayedCustomGameMode([...sortedCustomPlayTimeMap.keys()][0]);
