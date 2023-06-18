@@ -29,6 +29,7 @@ app.use("/api/logout", require("./routes/logout"));
 app.use("/api/recoveraccount", require("./routes/recoverAccount"));
 app.use("/api/changepassword", require("./routes/changePassword"));
 app.use("/api/resendconfemail", require("./routes/resendConfEmail"));
+app.use("/api/sendfeedback", require("./routes/sendFeedback"));
 app.use(verifyJWT);
 app.use("/api/profile", require("./routes/profile"));
 
