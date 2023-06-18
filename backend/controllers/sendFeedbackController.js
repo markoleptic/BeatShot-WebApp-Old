@@ -34,7 +34,7 @@ const sendFeedbackEmail = async (title, content) => {
 
 const handleSendFeedback = async (req, res) => {
   try {
-    sendFeedbackEmail(req.title, req.content);
+    sendFeedbackEmail(req.body.title, req.body.content);
     return res.status(200).json("email sent");
   } catch (err) {
     console.log(err);
