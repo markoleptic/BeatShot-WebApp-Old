@@ -10,8 +10,6 @@ const verifyJWT = require("./middleware/verifyJWT");
 const cookieParser = require("cookie-parser");
 const { sequelize } = require("./models");
 
-app.use("/api/sendfeedback", require("./routes/sendFeedback"));
-
 //  handle credentials check
 app.use(credentials);
 // Cross Origin Resource Sharing
@@ -31,6 +29,7 @@ app.use("/api/logout", require("./routes/logout"));
 app.use("/api/recoveraccount", require("./routes/recoverAccount"));
 app.use("/api/changepassword", require("./routes/changePassword"));
 app.use("/api/resendconfemail", require("./routes/resendConfEmail"));
+app.use("/api/sendfeedback", require("./routes/sendFeedback"));
 app.use(verifyJWT);
 app.use("/api/profile", require("./routes/profile"));
 
