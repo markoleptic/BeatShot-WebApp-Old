@@ -9,13 +9,12 @@ const config = {
   region: "us-east-1",
 };
 
-const ses = new aws.SES(config);
-// create Nodemailer SES transporter
-let transporter = nodemailer.createTransport({
-  SES: { ses, aws },
-});
-
 const sendFeedbackEmail = async (title, content) => {
+  const ses = new aws.SES(config);
+  // create Nodemailer SES transporter
+  let transporter = nodemailer.createTransport({
+    SES: { ses, aws },
+  });
   transporter
     .sendMail({
       from: "support@beatshot.gg",
