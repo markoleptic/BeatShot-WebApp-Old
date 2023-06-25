@@ -85,6 +85,7 @@ select {
   --fw-700: 700;
   /* font-families */
   --ff-serif: "Montserrat", sans-serif;
+  --ff-code: "Consolas", sans-serif;
 }
 
 /* all */
@@ -253,6 +254,7 @@ button:disabled:hover {
   height: 100%;
 }
 .steam-wishlist-link {
+  align-self:center;
   text-align: center;
   font-size: var(--fs-400);
   text-shadow: 0 0 4px rgba(62, 198, 235, 1);
@@ -837,6 +839,11 @@ form {
   .table-row {
     font-size: var(--fs-75);
   }
+}
+
+.inline-code {
+  font-family: var(--ff-code);
+  background-color: #282a36;
 }
 
 /* mobile navigation transform and animation */

@@ -3,6 +3,41 @@ import logo from "../images/Beatshot_logo_header.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import Video from "./Video";
+import {BSCodeBlock, BSInlineCodeBlock} from "./CodeBlock";
+
+const ExCode = `void ATargetManager::OnAudioAnalyzerBeat()
+{
+	if (!ShouldSpawn) return;
+	
+	// We're relying on FindNextTargetProperties to have a fresh SpawnPoint lined up
+	if (!SpawnPoint)
+	{
+		UE_LOG(LogTemp, Display, TEXT("Invalid SpawnPoint"));
+		FindNextTargetProperties();
+		return;
+	}
+
+	// Handles activating targets that were previously spawned, but are inactive
+	HandleActivateExistingTargets();
+	
+	// Handles spawning (and activating) RuntimeOnly targets
+	if (BSConfig.TargetConfig.TargetSpawningPolicy == ETargetSpawningPolicy::RuntimeOnly)
+	{
+		HandleRuntimeSpawnAndActivation();
+	}
+	
+	// Debug stuff
+	if (bShowDebug_SpawnMemory)
+	{
+		ShowDebug_NumRecentNumActivated();
+	}
+
+	// Remove recent targets if based on number of targets
+	if (BSConfig.TargetConfig.RecentTargetMemoryPolicy == ERecentTargetMemoryPolicy::NumTargetsBased)
+	{
+		SpawnPointManager->RefreshRecentTargetFlags();
+	}
+}`;
 
 const Home = () => {
   return (
@@ -13,14 +48,22 @@ const Home = () => {
             <Video embedId="nVDfVseH24g" />
             <a
               href="https://store.steampowered.com/app/2126580/BeatShot/"
-              className="link hover-white steam-wishlist-link fw-semibold"
-              /* onClick={() => gaEventTracker('Steam')} */>
+              className="link hover-white steam-wishlist-link fw-semibold inline-code"
+              referrerPolicy="strict-origin-when-cross-origin">
               Wishlist on Steam!
             </a>
+            <p className="fs-200">
+              hello <BSInlineCodeBlock code={"StopRecoil()"} language={"c"} showLineNumbers={false} /> hello <BSInlineCodeBlock code={"ATargetManager"} language={"c"} showLineNumbers={false} />
+            </p>
+          </div>
+          <div className="centered-bordered-container padding-1rem fs-100">
+            <BSCodeBlock code={ExCode} language={"c"} showLineNumbers={false} fontSize="0.6rem"/>
           </div>
           <div className="centered-bordered-container padding-1rem">
             <p className="fs-200">
-            BeatShot is rhythm-based aim-trainer that syncs targets to your music. Create custom game modes, view your stats, and make aim-training less of a chore.
+              BeatShot is rhythm-based aim-trainer that syncs targets to your
+              music. Create custom game modes, view your stats, and make
+              aim-training less of a chore.
             </p>
             <ul className="pn-ul-lvl1">
               <li className="pn-li-lvl1">
@@ -57,11 +100,13 @@ const Home = () => {
                 </li>
                 <li className="pn-li-lvl2">
                   <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
-                  spawn area height/width, including dynamic spawn area height/width
+                  spawn area height/width, including dynamic spawn area
+                  height/width
                 </li>
                 <li className="pn-li-lvl2">
                   <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
-                  minimum and maximum size of targets, including dynamic target sizing
+                  minimum and maximum size of targets, including dynamic target
+                  sizing
                 </li>
                 <li className="pn-li-lvl2">
                   <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
@@ -89,7 +134,9 @@ const Home = () => {
                 Real-Time Audio Analysis
                 <ul>
                   <li className="pn-li-lvl2 margin-bottom-02rem">
-                  You can choose for the game to analyze an audio file or listen to a specific audio device. Customize the audio analysis using:
+                    You can choose for the game to analyze an audio file or
+                    listen to a specific audio device. Customize the audio
+                    analysis using:
                   </li>
                   <li className="pn-li-lvl2">
                     <FontAwesomeIcon icon={faPlay} className="pn-icon-lvl2" />
