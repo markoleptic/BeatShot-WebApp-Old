@@ -13,6 +13,7 @@ import PersistCheck from "./components/PersistCheck";
 import EmailConfirmation from "./components/EmailConfirmation";
 import Footer from "./components/Footer";
 import ChangePassword from "./components/ChangePassword";
+import DevBlog from "./components/DevBlog";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/patchnotes" element={<PatchNotes />} />
+        <Route path="/devblog" element={<DevBlog />} />
         <Route path="/confirmation/:token" element={<EmailConfirmation />} />
         <Route path="/recover" element={<RecoverAccount />} />
         <Route path="/recover/:token" element={<ChangePassword />} />

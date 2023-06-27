@@ -1,5 +1,5 @@
 // icons and images
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "../images/logo.ico";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -42,20 +42,34 @@ const NavBar = () => {
           className="primary-navigation flex fs-300"
           data-visible={visible}>
           <li className="uppercase">
-            <Link
-              className="link text-white hover-blue"
+            <NavLink
+              className={({ isActive, isPending }) =>
+                "hover-blue link" + (isActive ? " active" : "")
+              }
+              to="/devblog"
+              onClick={() => setVisibilty(false)}>
+              Dev Blog
+            </NavLink>
+          </li>
+          <li className="uppercase">
+            <NavLink
+              className={({ isActive, isPending }) =>
+                "hover-blue link" + (isActive ? " active" : "")
+              }
               to="/patchnotes"
               onClick={() => setVisibilty(false)}>
               Patch Notes
-            </Link>
+            </NavLink>
           </li>
           <li className="uppercase">
-            <Link
-              className="link text-white hover-blue"
+            <NavLink
               to={`/profile/${auth.username}`}
+              className={({ isActive, isPending }) =>
+                "text-white hover-blue link" + (isActive ? " active" : "")
+              }
               onClick={() => setVisibilty(false)}>
               Profile
-            </Link>
+            </NavLink>
           </li>
           <li className="uppercase">
             {loggedIn ? (
@@ -68,12 +82,12 @@ const NavBar = () => {
                 Logout
               </button>
             ) : (
-              <Link
+              <NavLink
                 className="fake-button link text-white hover-blue"
                 to="/login"
                 onClick={() => setVisibilty(false)}>
                 Login
-                </Link>
+              </NavLink>
             )}
           </li>
         </ul>

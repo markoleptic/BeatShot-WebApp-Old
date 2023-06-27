@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-import logo from "../images/Beatshot_logo_header.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import Video from "./Video";
