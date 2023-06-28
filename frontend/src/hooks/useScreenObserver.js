@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 
 const options = {
-  root: document.getElementById("scrolling-container"),
+  root: document.getElementById("article.article"),
   rootMargin: "0px 10px 0px 10px",
   threshold: 0.5,
   trackVisibility: true,

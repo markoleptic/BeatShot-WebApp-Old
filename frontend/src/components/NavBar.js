@@ -25,6 +25,7 @@ const NavBar = () => {
   };
 
   return (
+    <div className="header-container">
     <header className="primary-header flex">
       <a className="link" href="/">
         <img className="logo" src={logo} alt="logo" />
@@ -46,7 +47,7 @@ const NavBar = () => {
               className={({ isActive, isPending }) =>
                 "hover-blue link" + (isActive ? " active" : "")
               }
-              to="/devblog"
+              to="/devblog/target-spawning-system"
               onClick={() => setVisibilty(false)}>
               Dev Blog
             </NavLink>
@@ -93,6 +94,7 @@ const NavBar = () => {
         </ul>
       </nav>
     </header>
+    </div>
   );
 };
 

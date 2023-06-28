@@ -8,6 +8,7 @@ import {
 
 const Footer = () => {
   return (
+    <div className="footer-container">
     <footer>
       <div className="footer-brand-container">
         <div className="footer-logo-container">
@@ -39,6 +40,7 @@ const Footer = () => {
         </li>
       </ul>
     </footer>
+    </div>
   );
 };
 
