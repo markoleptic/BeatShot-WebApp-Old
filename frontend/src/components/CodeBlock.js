@@ -3,35 +3,41 @@ import { CodeBlock, dracula } from "react-code-blocks";
 
   
 const BSCodeBlock = ({code, language, showLineNumbers, fontSize="inherit"}) => {
-    const codeBlockStyle = {
+    const customStyle = {
+        height: 'auto',
+        width: 'auto',
+        minWidth: 0,
+        overflow: 'wrap',
         fontSize: fontSize,
-        fontFamily: 'Consolas',
-        padding: "12px",
+        fontFamily: "inherit",
+        padding: "0.5rem",
         lineHeight: "1.25",
-      };
+        borderRadius: "0.25rem",
+        //borderStyle: "solid",
+    };
 
+    let custom = dracula;
+    custom.backgroundColor = "#1E1E1E"
     return (
+        <div className="codeblock-container">
         <CodeBlock
-        customStyle={{
-            height: 'auto',
-            width: 'auto',
-            overflow: 'scroll',
-        }}
+        customStyle={customStyle}
         text={code}
         language={language}
         showLineNumbers={showLineNumbers}
-        theme={dracula}
-        codeBlockStyle={codeBlockStyle}
-        codeContainerStyle={codeBlockStyle}
+        theme={custom}
+        /*codeBlockStyle={codeBlockStyle}
+        codeContainerStyle={codeBlockStyle}*/
         wrapLines={true}
         />
+        </div>
     );
 }
 
 const inlineCodeBlockStyle = {
     display: "inline",
     fontSize: "inherit",
-    fontFamily: 'Consolas',
+    fontFamily: "inherit",
     padding: "0px",
     lineHeight: "1"
   };

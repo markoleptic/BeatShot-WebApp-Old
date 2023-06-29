@@ -4,15 +4,15 @@ import { useAuthContext } from "../../context/AuthProvider";
 const ProfileSidebar = () => {
   const { auth } = useAuthContext();
   return (
-    <div className="sidebar-container profile">
+    <div className="sidebar-container centered">
       <div className="sidebar-main">
         <NavLink
           to={`/profile/${auth.username}`}
           className="profile-name-text link hover-white">
           {auth.username}
         </NavLink>
-        <ul className="sidebar">
-          <li className="sidebar-item">
+        <ul>
+          <li>
             <NavLink
               to={`/profile/${auth.username}`}
               end
@@ -23,7 +23,7 @@ const ProfileSidebar = () => {
               Overview
             </NavLink>
           </li>
-          <li className="sidebar">
+          <li>
             <NavLink
               to={`/profile/${auth.username}/stats/defaultmodes`}
               className={({ isActive, isPending }) =>
@@ -33,7 +33,7 @@ const ProfileSidebar = () => {
               Default Modes
             </NavLink>
           </li>
-          <li className="sidebar">
+          <li>
             <NavLink
               to={`/profile/${auth.username}/stats/custommodes`}
               className={({ isActive, isPending }) =>
@@ -43,7 +43,7 @@ const ProfileSidebar = () => {
               Custom Modes
             </NavLink>
           </li>
-          <li className="sidebar">
+          <li>
             <NavLink
               to={`/profile/${auth.username}/stats/history`}
               className={({ isActive, isPending }) =>

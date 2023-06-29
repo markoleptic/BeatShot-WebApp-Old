@@ -3,38 +3,34 @@ import { faPlay, faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import Video from "./Video";
 import {BSCodeBlock, BSInlineCodeBlock} from "./CodeBlock";
 
-const ExCode = `void ATargetManager::OnAudioAnalyzerBeat()
+const GetValidSpawnLocations = 
+`TArray<FVector> USpawnAreaManagerComponent::GetValidSpawnLocations(const FVector& Scale, const FExtrema& InCurrentExtrema, const USpawnArea* CurrentSpawnArea) const
 {
-	if (!ShouldSpawn) return;
-	
-	// We're relying on FindNextTargetProperties to have a fresh SpawnPoint lined up
-	if (!SpawnPoint)
-	{
-		UE_LOG(LogTemp, Display, TEXT("Invalid SpawnPoint"));
-		FindNextTargetProperties();
-		return;
-	}
-
-	// Handles activating targets that were previously spawned, but are inactive
-	HandleActivateExistingTargets();
-	
-	// Handles spawning (and activating) RuntimeOnly targets
-	if (BSConfig.TargetConfig.TargetSpawningPolicy == ETargetSpawningPolicy::RuntimeOnly)
-	{
-		HandleRuntimeSpawnAndActivation();
-	}
-	
-	// Debug stuff
-	if (bShowDebug_SpawnMemory)
-	{
-		ShowDebug_NumRecentNumActivated();
-	}
-
-	// Remove recent targets if based on number of targets
-	if (BSConfig.TargetConfig.RecentTargetMemoryPolicy == ERecentTargetMemoryPolicy::NumTargetsBased)
-	{
-		SpawnPointManager->RefreshRecentTargetFlags();
-	}
+  TArray<FVector> ValidSpawnLocations;
+  switch (BSConfig.TargetConfig.TargetDistributionPolicy)
+  {
+  case ETargetDistributionPolicy::EdgeOnly:
+    HandleEdgeOnlySpawnLocations(ValidSpawnLocations, InCurrentExtrema, bShowDebug_SpawnMemory);
+    RemoveOverlappingSpawnLocations(ValidSpawnLocations, Scale, bShowDebug_SpawnMemory);
+    RemoveSharedVertices(ValidSpawnLocations, InCurrentExtrema);
+    break;
+  case ETargetDistributionPolicy::FullRange:
+    HandleFullRangeSpawnLocations(ValidSpawnLocations, InCurrentExtrema, bShowDebug_SpawnMemory);
+    RemoveOverlappingSpawnLocations(ValidSpawnLocations, Scale, bShowDebug_SpawnMemory);
+    RemoveSharedVertices(ValidSpawnLocations, InCurrentExtrema);
+    break;
+  case ETargetDistributionPolicy::Grid:
+    HandleGridSpawnLocations(ValidSpawnLocations, CurrentSpawnArea, bShowDebug_SpawnMemory);
+    break;
+  case ETargetDistributionPolicy::None:
+  case ETargetDistributionPolicy::HeadshotHeightOnly:
+  default:
+    ValidSpawnLocations = GetAllBottomLeftVertices();
+    RemoveOverlappingSpawnLocations(ValidSpawnLocations, Scale, bShowDebug_SpawnMemory);
+    RemoveSharedVertices(ValidSpawnLocations, InCurrentExtrema);
+    break;
+  }
+  return ValidSpawnLocations;
 }`;
 
 const Home = () => {
@@ -46,16 +42,10 @@ const Home = () => {
             <Video embedId="nVDfVseH24g" />
             <a
               href="https://store.steampowered.com/app/2126580/BeatShot/"
-              className="link hover-white steam-wishlist-link fw-semibold inline-code"
+              className="link hover-blue steam-wishlist-link fw-semibold"
               referrerPolicy="strict-origin-when-cross-origin">
               Wishlist on Steam!
             </a>
-            <p className="fs-200">
-              hello <BSInlineCodeBlock code={"StopRecoil()"} language={"c"} showLineNumbers={false} /> hello <BSInlineCodeBlock code={"ATargetManager"} language={"c"} showLineNumbers={false} />
-            </p>
-          </div>
-          <div className="centered-bordered-container padding-1rem fs-100">
-            <BSCodeBlock code={ExCode} language={"c"} showLineNumbers={false} fontSize="0.6rem"/>
           </div>
           <div className="centered-bordered-container padding-1rem">
             <p className="fs-200">
