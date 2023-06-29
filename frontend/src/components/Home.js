@@ -1,37 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import Video from "./Video";
-import {BSCodeBlock, BSInlineCodeBlock} from "./CodeBlock";
-
-const GetValidSpawnLocations = 
-`TArray<FVector> USpawnAreaManagerComponent::GetValidSpawnLocations(const FVector& Scale, const FExtrema& InCurrentExtrema, const USpawnArea* CurrentSpawnArea) const
-{
-  TArray<FVector> ValidSpawnLocations;
-  switch (BSConfig.TargetConfig.TargetDistributionPolicy)
-  {
-  case ETargetDistributionPolicy::EdgeOnly:
-    HandleEdgeOnlySpawnLocations(ValidSpawnLocations, InCurrentExtrema, bShowDebug_SpawnMemory);
-    RemoveOverlappingSpawnLocations(ValidSpawnLocations, Scale, bShowDebug_SpawnMemory);
-    RemoveSharedVertices(ValidSpawnLocations, InCurrentExtrema);
-    break;
-  case ETargetDistributionPolicy::FullRange:
-    HandleFullRangeSpawnLocations(ValidSpawnLocations, InCurrentExtrema, bShowDebug_SpawnMemory);
-    RemoveOverlappingSpawnLocations(ValidSpawnLocations, Scale, bShowDebug_SpawnMemory);
-    RemoveSharedVertices(ValidSpawnLocations, InCurrentExtrema);
-    break;
-  case ETargetDistributionPolicy::Grid:
-    HandleGridSpawnLocations(ValidSpawnLocations, CurrentSpawnArea, bShowDebug_SpawnMemory);
-    break;
-  case ETargetDistributionPolicy::None:
-  case ETargetDistributionPolicy::HeadshotHeightOnly:
-  default:
-    ValidSpawnLocations = GetAllBottomLeftVertices();
-    RemoveOverlappingSpawnLocations(ValidSpawnLocations, Scale, bShowDebug_SpawnMemory);
-    RemoveSharedVertices(ValidSpawnLocations, InCurrentExtrema);
-    break;
-  }
-  return ValidSpawnLocations;
-}`;
 
 const Home = () => {
   return (
