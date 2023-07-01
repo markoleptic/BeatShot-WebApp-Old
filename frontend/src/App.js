@@ -1,6 +1,4 @@
-// routing imports
 import { Route, Routes } from "react-router-dom";
-// importing components so we can link to them
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -39,7 +37,7 @@ const App = () => {
         <Route path="*" element={<Home />} />
       </Routes>
       <Footer />
-    </>
+      </>
   );
 }
 

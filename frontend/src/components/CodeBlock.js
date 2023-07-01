@@ -1,65 +1,112 @@
 import { CodeBlock, dracula } from "react-code-blocks";
 
+const backGroundColor = "#1E1E1E";
 
-  
-const BSCodeBlock = ({code, language, showLineNumbers, fontSize="inherit"}) => {
-    const customStyle = {
-        height: 'auto',
-        width: 'auto',
-        minWidth: 0,
-        overflow: 'wrap',
-        fontSize: fontSize,
-        fontFamily: "inherit",
-        padding: "0.5rem",
-        lineHeight: "1.25",
-        borderRadius: "0.25rem",
-        //borderStyle: "solid",
-    };
-
-    let custom = dracula;
-    custom.backgroundColor = "#1E1E1E"
-    return (
-        <div className="codeblock-container">
-        <CodeBlock
-        customStyle={customStyle}
-        text={code}
-        language={language}
-        showLineNumbers={showLineNumbers}
-        theme={custom}
-        /*codeBlockStyle={codeBlockStyle}
-        codeContainerStyle={codeBlockStyle}*/
-        wrapLines={true}
-        />
-        </div>
-    );
-}
+const codeBlockStyle = {
+  overflowX: "scroll",
+  overflowY: "scroll",
+  lineHeight: "inherit",
+  width: "100%",
+};
 
 const inlineCodeBlockStyle = {
-    display: "inline",
-    fontSize: "inherit",
-    fontFamily: "inherit",
-    padding: "0px",
-    lineHeight: "1"
-  };
+  display: "inline",
+  fontSize: "inherit",
+  fontFamily: "inherit",
+  padding: "0px",
+  lineHeight: "inherit",
+};
 
-const BSInlineCodeBlock = ({code, language, showLineNumbers}) => {
-    return (
+const codeContainerStyle = {
+  overflowX: "scroll",
+  overflowY: "scroll",
+  lineHeight: "inherit",
+  width: "100%",
+};
+
+const customStyle = {
+  flexshrink: 1,
+  display: "flex",
+  overflowX: "scroll",
+  fontFamily: "inherit",
+  padding: "0.25rem",
+  borderRadius: "0.25rem",
+  fontSize: "inherit",
+  lineHeight: "inherit",
+  width: "100%",
+};
+
+const theme = dracula;
+theme.backgroundColor = backGroundColor;
+
+const BSCodeBlock = ({
+  code,
+  language,
+  showLineNumbers,
+  fontSize = "inherit",
+  maxHeight = "inherit",
+  lineHeight = "inherit",
+}) => {
+  customStyle.fontSize = fontSize;
+  customStyle.lineHeight = lineHeight;
+  codeBlockStyle.lineHeight = lineHeight;
+  codeContainerStyle.lineHeight = lineHeight;
+
+  return (
+    <div className="code-border-container">
+    <div className="code-border">
+      <div className="codeblock-container">
         <CodeBlock
+          customStyle={customStyle}
+          text={code}
+          language={language || "c"}
+          showLineNumbers={showLineNumbers || false}
+          theme={theme}
+          wrapLines={true}
+          codeBlockStyle={codeBlockStyle}
+          codeContainerStyle={codeContainerStyle}
+        />
+      </div>
+    </div>
+    </div>
+  );
+};
+
+const BSInlineCodeBlock = ({
+  code,
+  language,
+  showLineNumbers,
+  fontSize = "inherit",
+  lineHeight = "inherit",
+  padding = "0rem",
+  color = "inherit",
+}) => {
+
+  inlineCodeBlockStyle.lineHeight = lineHeight;
+
+  return (
+    <div className="inline inline-code">
+      <CodeBlock
         customStyle={{
-            display: "inline",
-            height: 'auto',
-            width: 'auto',
-            overflow: 'scroll',
+          display: "inline",
+          overflowY: "clip",
+          overflowWrap: "anywhere",
+          whiteSpace: "inherit",
+          fontSize: fontSize,
+          lineHeight: lineHeight,
+          padding: padding,
+          color: color
         }}
         text={code}
-        language={language}
-        showLineNumbers={showLineNumbers}
-        theme={dracula}
+        language={language || "c"}
+        showLineNumbers={showLineNumbers || false}
+        theme={theme}
         codeBlockStyle={inlineCodeBlockStyle}
         codeContainerStyle={inlineCodeBlockStyle}
         wrapLines={true}
-        />
-    );
-}
-  
-export { BSCodeBlock ,BSInlineCodeBlock }
+      />
+    </div>
+  );
+};
+
+export { BSCodeBlock, BSInlineCodeBlock };

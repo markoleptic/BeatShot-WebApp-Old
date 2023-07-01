@@ -2,39 +2,22 @@
 import { HashLink } from "react-router-hash-link";
 
 const SidebarHashLink = (props) => {
-    
   //const location = useLocation();
-
+  const semiBold = " fw-semibold";
   const activeClassName = "hover-blue link active";
   const inactiveClassName = "hover-blue link";
 
-  let { path, hash, id, text, onScreen } = props;
-  let { previous, current} = onScreen;
+  const { path, hash, text, onScreen, topLevel = false } = props;
 
   const getSidebarClassName = () => {
-    if (previous !== null) {
-        if (current.isIntersecting && !previous.isIntersecting) {
-                return activeClassName;
-            }
-        }
-    else {
-        if (current.isIntersecting) {
-            return activeClassName;
-        }
+    if (onScreen === true) {
+      return topLevel ? activeClassName + semiBold : activeClassName;
     }
-
-    return inactiveClassName;
-    /* return `${location.pathname}${location.hash}` === path + hash
-      ? "activeClassName"
-      : "inactiveClassName; */
+    return topLevel ? inactiveClassName + semiBold : inactiveClassName;
   };
 
   return (
-    <HashLink
-      to={path + hash}
-      id={id}
-      scroll={(el) => el.scrollIntoView()}
-      className={getSidebarClassName()}>
+    <HashLink to={path + hash} scroll={(el) => el.scrollIntoView()} className={getSidebarClassName()}>
       {text}
     </HashLink>
   );

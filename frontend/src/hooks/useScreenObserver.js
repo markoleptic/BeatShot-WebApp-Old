@@ -1,31 +1,34 @@
 import { useState, useMemo, useEffect } from "react";
 
 let options = {
-  root: document.getElementById("[data-scroll-root]"),
-  rootMargin: "-69px 0px 0px 0px",
+  root: null,
+  rootMargin: "-71px 0px 0px 0px",
+  //rootMargin: "0px 0px 0px 0px",
   trackVisibility: true,
   threshold: 0,
   delay: 100,
 };
 
-export default function useOnScreen(ref) {
+export default function useOnScreen(currentRef) {
   //options.threshold = isCurrent ? 0.1 : 0.9;
-  const [isIntersecting, setIntersecting] = useState(false);
-  //const [intersectionRatio, setintersectionRatio] = useState(0.);
-  const observer = useMemo(() =>
-    new IntersectionObserver(
-      ([entry]) => {
-        setIntersecting(entry.isIntersecting);
-        //setintersectionRatio(entry.intersectionRatio);
-      },
-      options
-    ),[]
+  const [currentIsIntersecting, setCurrentIsIntersecting] = useState(false);
+
+  const observer = useMemo(
+    () =>
+      new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          setCurrentIsIntersecting(entry.isIntersecting);
+        });
+      }, options),
+    []
   );
 
   useEffect(() => {
-    observer.observe(ref.current);
-    return () => { observer.disconnect(); };
-  }, [observer, ref]);
+    observer.observe(currentRef.current);
+    return () => {
+      observer.disconnect();
+    };
+  }, [observer, currentRef]);
 
-  return {"isIntersecting": isIntersecting, /*"intersectionRatio": intersectionRatio*/};
+  return currentIsIntersecting;
 }
