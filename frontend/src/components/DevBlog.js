@@ -8,11 +8,8 @@ import { BSCodeBlock, BSInlineCodeBlock } from "./CodeBlock";
 import SpawnMemory1 from "../images/SpawnMemory_Hero_Cropped.png";
 import BoxBounds from "../images/BoxBounds.png";
 import OverlappingVerts from "../images/OverlappingVerts.png";
-import SpawnMemory_Dynamic_FewRecent from "../images/SpawnMemory_Dynamic_FewRecent.png";
 import SpawnMemory_Dynamic_FewRecent2 from "../images/SpawnMemory_Dynamic_FewRecent2.png";
-import SpawnMemory_Dynamic_FewRecent3 from "../images/SpawnMemory_Dynamic_FewRecent3.png";
 import SpawnMemory_Dynamic_ManyRecent from "../images/SpawnMemory_Dynamic_ManyRecent.png";
-import SpawnMemory_ManyRecent2 from "../images/SpawnMemory_ManyRecent2.png";
 
 const OnAudioAnalyzerBeat = `void ATargetManager::OnAudioAnalyzerBeat()
 {
@@ -34,114 +31,6 @@ const OnAudioAnalyzerBeat = `void ATargetManager::OnAudioAnalyzerBeat()
     if (BSConfig.TargetConfig.RecentTargetMemoryPolicy == ERecentTargetMemoryPolicy::NumTargetsBased)
     {
         SpawnAreaManager->RefreshRecentFlags();
-    }
-}`;
-
-const SpawnUpfrontOnlyTargets = `void ATargetManager::SpawnUpfrontOnlyTargets()
-{
-    if (BSConfig.TargetConfig.TargetDistributionPolicy == ETargetDistributionPolicy::Grid)
-    {
-        for (int i = 0; i < SpawnAreaManager->GetSpawnAreas().Num(); i++)
-        {
-            SpawnAreaManager->GetSpawnAreasRef()[i]->SetTargetScale(GetNextTargetScale());
-            SpawnTarget(SpawnAreaManager->GetSpawnAreasRef()[i]);
-        }
-
-        FindNextTargetProperties();
-    }
-    else
-    {
-        for (int i = 0; i < BSConfig.TargetConfig.NumUpfrontTargetsToSpawn; i++)
-        {
-            FindNextTargetProperties();
-            if (CurrentSpawnArea)
-            {
-                SpawnTarget(CurrentSpawnArea);
-            }
-        }
-    }
-}`;
-
-const HandleActivateExistingTargets = `void ATargetManager::HandleActivateExistingTargets()
-{
-    if (GetManagedTargets().IsEmpty())
-    {
-        return;
-    }
-
-    // Persistant Targets are the only type that can always receive continuous activation
-    if (BSConfig.TargetConfig.TargetDeactivationConditions.Contains(
-        ETargetDeactivationCondition::Persistant))
-    {
-        HandlePermanentlyActiveTargetActivation();
-        return;
-    }
-
-    // Check to see if there are any targets available to activate
-    if (SpawnAreaManager->GetDeactivatedManagedSpawnAreas().IsEmpty())
-    {
-        return;
-    }
-
-    const int32 NumToActivate = GetNumberOfTargetsToActivate();
-
-    // SpawnAreas referencing managed targets, but are not activated
-    for (int i = 0; i < NumToActivate; i++)
-    {
-        if (BSConfig.TargetConfig.TargetSpawningPolicy == ETargetSpawningPolicy::UpfrontOnly)
-        {
-            if (CurrentSpawnArea)
-            {
-                if (ATarget* Target = FindManagedTargetByGuid(CurrentSpawnArea->GetTargetGuid()))
-                {
-                    if (ActivateTarget(Target))
-                    {
-                        FindNextTargetProperties();
-                    }
-                }
-            }
-        }
-        else if (const USpawnArea* SpawnArea = SpawnAreaManager->FindOldestDeactivatedManagedSpawnArea())
-        {
-            if (ATarget* Target = FindManagedTargetByGuid(SpawnArea->GetTargetGuid()))
-            {
-                ActivateTarget(Target);
-            }
-        }
-    }
-}`;
-
-const HandleRuntimeSpawnAndActivation = `void ATargetManager::HandleRuntimeSpawnAndActivation()
-{
-    int32 NumberToSpawn = GetNumberOfRuntimeTargetsToSpawn();
-    int32 NumberToActivate = GetNumberOfTargetsToActivate();
-
-    if (!BSConfig.TargetConfig.bAllowSpawnWithoutActivation)
-    {
-       	// Only spawn targets that can be activated
-        if (NumberToSpawn > NumberToActivate)
-        {
-            NumberToSpawn = NumberToActivate;
-        }
-    }
-
-    if (CurrentSpawnArea->IsCurrentlyManaged())
-    {
-        FindNextTargetProperties();
-    }
-
-    for (int i = 0; i < NumberToSpawn; i++)
-    {
-        if (ATarget* SpawnedTarget = SpawnTarget(CurrentSpawnArea))
-        {
-            if (NumberToActivate > 0)
-            {
-                ActivateTarget(SpawnedTarget);
-                NumberToActivate--;
-            }
-
-            FindNextTargetProperties();
-        }
     }
 }`;
 
