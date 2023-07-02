@@ -5,8 +5,8 @@ import Video from "./Video";
 const Home = () => {
   return (
     <>
-      <div className="content">
-        <div className="content-main">
+      <div className="flex-container-row">
+        <div className="flex-container-column gap-1rem padding-1rem">
           <div className="centered-bordered-container padding-1rem">
             <Video embedId="nVDfVseH24g" />
             <a

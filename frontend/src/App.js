@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/patchnotes" element={<PatchNotes />} />
-        <Route path="/devblog/target-spawning-system" element={<DevBlog />} />
+        <Route path="/devblog/*" element={<DevBlog />} />
         <Route path="/confirmation/:token" element={<EmailConfirmation />} />
         <Route path="/recover" element={<RecoverAccount />} />
         <Route path="/recover/:token" element={<ChangePassword />} />

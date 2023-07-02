@@ -47,7 +47,7 @@ const NavBar = () => {
               className={({ isActive, isPending }) =>
                 "hover-blue link" + (isActive ? " active" : "")
               }
-              to="/devblog/target-spawning-system"
+              to="/devblog"
               onClick={() => setVisibilty(false)}>
               Dev Blog
             </NavLink>

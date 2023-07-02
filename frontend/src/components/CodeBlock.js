@@ -85,7 +85,7 @@ const BSInlineCodeBlock = ({
   inlineCodeBlockStyle.lineHeight = lineHeight;
 
   return (
-    <div className="inline inline-code">
+    <span className="inline inline-code">
       <CodeBlock
         customStyle={{
           display: "inline",
@@ -105,7 +105,7 @@ const BSInlineCodeBlock = ({
         codeContainerStyle={inlineCodeBlockStyle}
         wrapLines={true}
       />
-    </div>
+    </span>
   );
 };
 
