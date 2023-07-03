@@ -523,13 +523,13 @@ const TargetSpawningSystem = () => {
         </div>
         <article className="flex-container-column" id="article">
           <p className="margin-bottom-05rem">
-            I wrote this article with the goal that the reader doesn't need to understand any C++ to grasp the main
-            concepts that BeatShot uses in its target spawning system. The code blocks are supplementary and I follow a
-            general pattern when inserting them: introduce the function and context, insert code block, describe what's
+            I wrote this article with the goal that the reader doesn't need to understand C++ to grasp the main concepts
+            that BeatShot uses in its target spawning system. The code blocks are supplementary and I follow a general
+            pattern when inserting them: introduce the function and context, insert code block, describe what's
             happening in the code block.
           </p>
           <div className="article-section" ref={Ref_Classes} id="classes-header">
-            <time dateTime="2020-03-20"></time>
+            <time dateTime="2023-07-02"></time>
             <div className="article-section-header">
               <span className="line-top" />
               <h1 className="text-light">Classes</h1>
@@ -1338,14 +1338,18 @@ const TargetSpawningSystem = () => {
               <span className="line-top" />
               <h2 className="text-light">Conclusion</h2>
               <span className="line-bottom" />
-              <p>Well that was a lot.</p>
+              <p>
+                Well, that was a lot. The system I described is by no means the only way to approach the problem, it's
+                just the way that made sense to me and worked. I hoped you learned something and weren't too
+                overwhelmed.
+              </p>
             </div>
             <div className="article-subsection">
               <p className="inline posted-date">
-                <span className="inline text-light">Posted:</span> June 5, 2017
+                <span className="inline text-light">Posted:</span> July 2, 2023
               </p>
               <p className="inline updated-date">
-                <span className="inline text-light">Updated:</span> December 28, 2021
+                <span className="inline text-light">Updated:</span> July 2, 2023
               </p>
             </div>
           </div>

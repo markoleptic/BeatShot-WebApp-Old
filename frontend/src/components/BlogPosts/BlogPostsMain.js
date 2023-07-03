@@ -13,7 +13,6 @@ const BlogPostsMain = () => {
       <div className="hero-container">
         <div className="hero">
           <h1>BeatShot Developer Blog</h1>
-          <p className="hero-lead">Sometimes I like to write things down so I don't forget.</p>
         </div>
       </div>
       <div className="flex-container-row padding-1rem flex-wrap">

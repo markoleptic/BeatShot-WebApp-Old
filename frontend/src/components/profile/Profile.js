@@ -13,31 +13,17 @@ const Profile = () => {
     <PlayerDataProvider>
       <div className="flex-container-row">
         <ProfileSidebar></ProfileSidebar>
-        <div className="content">
-          <div className="content-main">
-            <Routes>
-              <Route
-                path={`/${auth.username}/overview`}
-                element={<ProfileOverview />}
-              />
-              <Route
-                path={`/${auth.username}/stats/defaultmodes`}
-                element={<DefaultModes />}
-              />
-              <Route
-                path={`/${auth.username}/stats/custommodes`}
-                element={<CustomModes />}
-              />
-              <Route
-                path={`/${auth.username}/stats/history`}
-                element={<ProfileHistory />}
-              />
-              <Route path={"/*"} element={<ProfileOverview />} />
-            </Routes>
-          </div>
+        <div className="flex-container-column gap-1rem padding-1rem0">
+          <Routes>
+            <Route path={`/${auth.username}/overview`} element={<ProfileOverview />} />
+            <Route path={`/${auth.username}/stats/defaultmodes`} element={<DefaultModes />} />
+            <Route path={`/${auth.username}/stats/custommodes`} element={<CustomModes />} />
+            <Route path={`/${auth.username}/stats/history`} element={<ProfileHistory />} />
+            <Route path={"/*"} element={<ProfileOverview />} />
+          </Routes>
         </div>
-        </div>
-      </PlayerDataProvider>
+      </div>
+    </PlayerDataProvider>
   );
 };
 export default Profile;

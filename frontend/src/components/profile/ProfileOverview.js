@@ -13,19 +13,14 @@ const ProfileOverview = () => {
   const [heatmapLabels, setHeatmapLabels] = useState([]);
   const [gameModes, setGameModes] = useState();
   const [customGameModes, setCustomGameModes] = useState();
-  const [gameModeSpecificTimePlayed, setGameModeSpecificTimePlayed] = useState(
-    []
-  );
-  const [
-    customGameModeSpecificTimePlayed,
-    setCustomGameModeSpecificTimePlayed,
-  ] = useState([]);
+  const [gameModeSpecificTimePlayed, setGameModeSpecificTimePlayed] = useState([]);
+  const [customGameModeSpecificTimePlayed, setCustomGameModeSpecificTimePlayed] = useState([]);
   const [mostPlayedGameMode, setMostPlayedGameMode] = useState();
   const [mostPlayedCustomGameMode, setMostPlayedCustomGameMode] = useState();
   const [mostPlayedGameModeHours, setMostPlayedGameModeHours] = useState();
-  const [mostPlayedCustomGameModeHours, setMostPlayedCustomGameModeHours] =
-    useState();
+  const [mostPlayedCustomGameModeHours, setMostPlayedCustomGameModeHours] = useState();
   const errRef = useRef();
+  
   // clear error message when Select box option changed
   useEffect(() => {
     setErrMsg("");
@@ -49,24 +44,15 @@ const ProfileOverview = () => {
     let gameModeArray = [];
     let customGameModeArray = [];
     for (let object in data) {
-      if (
-        data[object].customGameModeName === "" &&
-        data[object].gameModeType === "Preset"
-      ) {
-        if (
-          !gameModeArray.some((e) => e.label === data[object].baseGameMode)
-        ) {
+      if (data[object].customGameModeName === "" && data[object].gameModeType === "Preset") {
+        if (!gameModeArray.some((e) => e.label === data[object].baseGameMode)) {
           gameModeArray.push({
             value: data[object].baseGameMode,
             label: data[object].baseGameMode,
           });
         }
       } else {
-        if (
-          !customGameModeArray.some(
-            (e) => e.label === data[object].customGameModeName
-          )
-        ) {
+        if (!customGameModeArray.some((e) => e.label === data[object].customGameModeName)) {
           customGameModeArray.push({
             value: data[object].customGameModeName,
             label: data[object].customGameModeName,
@@ -107,27 +93,21 @@ const ProfileOverview = () => {
         playTimeMap.set(gameModes[gameMode].value, gameModePlayTime);
       }
     }
-    let sortedPlayTimeMap = new Map(
-      [...playTimeMap.entries()].sort((a, b) => b[1] - a[1])
-    );
+    let sortedPlayTimeMap = new Map([...playTimeMap.entries()].sort((a, b) => b[1] - a[1]));
     setGameModeSpecificTimePlayed([...sortedPlayTimeMap.values()]);
     setGameModes([...sortedPlayTimeMap.keys()]);
     setMostPlayedGameMode([...sortedPlayTimeMap.keys()][0]);
-    setMostPlayedGameModeHours(
-      Math.round(([...sortedPlayTimeMap.values()][0] / 60 / 60) * 100) / 100
-    );
+    setMostPlayedGameModeHours(Math.round(([...sortedPlayTimeMap.values()][0] / 60 / 60) * 100) / 100);
   };
 
   function generateCalendar() {
     const dateArr = [];
-    let dt = DateTime.now().startOf('day').minus({days: 364});
-    const end = DateTime.now().startOf('day')
+    let dt = DateTime.now().startOf("day").minus({ days: 364 });
+    const end = DateTime.now().startOf("day");
     while (dt <= end) {
       let v = 0;
       for (let object in data) {
-        if (
-          dt.equals(DateTime.fromISO(data[object].time).startOf('day'))
-        ) {
+        if (dt.equals(DateTime.fromISO(data[object].time).startOf("day"))) {
           v += parseInt(data[object].songLength);
         }
       }
@@ -137,7 +117,7 @@ const ProfileOverview = () => {
         d: dt,
         v: v,
       });
-      dt = dt.plus({day: 1})
+      dt = dt.plus({ day: 1 });
     }
     return dateArr;
   }
@@ -167,21 +147,15 @@ const ProfileOverview = () => {
         }
       }
       if (customGameModePlayTime !== 0) {
-        customPlayTimeMap.set(
-          gameModes[gameMode].value,
-          customGameModePlayTime
-        );
+        customPlayTimeMap.set(gameModes[gameMode].value, customGameModePlayTime);
       }
     }
-    let sortedCustomPlayTimeMap = new Map(
-      [...customPlayTimeMap.entries()].sort((a, b) => b[1] - a[1])
-    );
+    let sortedCustomPlayTimeMap = new Map([...customPlayTimeMap.entries()].sort((a, b) => b[1] - a[1]));
     setCustomGameModeSpecificTimePlayed([...sortedCustomPlayTimeMap.values()].slice(0, maxCustomModesToShow));
     setCustomGameModes([...sortedCustomPlayTimeMap.keys()].slice(0, maxCustomModesToShow));
     setMostPlayedCustomGameMode([...sortedCustomPlayTimeMap.keys()][0]);
     setMostPlayedCustomGameModeHours(
-      Math.round(([...sortedCustomPlayTimeMap.values()].slice(0, maxCustomModesToShow)[0] / 60 / 60) * 100) /
-        100
+      Math.round(([...sortedCustomPlayTimeMap.values()].slice(0, maxCustomModesToShow)[0] / 60 / 60) * 100) / 100
     );
   };
 
@@ -204,10 +178,7 @@ const ProfileOverview = () => {
   return (
     <>
       <div className={errMsg ? "responsive-centered-container" : "offscreen"}>
-        <p
-          ref={errRef}
-          className={errMsg ? "errmsg" : "offscreen"}
-          aria-live="assertive">
+        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
           {errMsg}
         </p>
       </div>
@@ -227,9 +198,7 @@ const ProfileOverview = () => {
             </li>
             <li className="table-row">
               <div className="col col-1">Time for Most Played:</div>
-              <div className="col col-2">
-                {mostPlayedGameModeHours}&nbsp;hrs
-              </div>
+              <div className="col col-2">{mostPlayedGameModeHours}&nbsp;hrs</div>
             </li>
             <li className="table-row">
               <div className="col col-1">Most Played Custom Mode:</div>
@@ -237,19 +206,13 @@ const ProfileOverview = () => {
             </li>
             <li className="table-row">
               <div className="col col-1">Time Played for Custom:</div>
-              <div className="col col-2">
-                {mostPlayedCustomGameModeHours}&nbsp;hrs
-              </div>
+              <div className="col col-2">{mostPlayedCustomGameModeHours}&nbsp;hrs</div>
             </li>
           </ul>
         </div>
       </div>
       <div>
-        <BarChart
-          labels={gameModes}
-          data={gameModeSpecificTimePlayed}
-          myOptions={gameModeTimePlayedOptions}
-        />
+        <BarChart labels={gameModes} data={gameModeSpecificTimePlayed} myOptions={gameModeTimePlayedOptions} />
       </div>
       <div>
         <BarChart

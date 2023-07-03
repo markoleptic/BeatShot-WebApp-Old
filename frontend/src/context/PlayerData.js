@@ -56,7 +56,7 @@ export const PlayerDataProvider = ({ children }) => {
   }, [auth]);
 
   return (
-    <PlayerDataContext.Provider value={{ data, setData, errMsg, setErrMsg }}>
+    <PlayerDataContext.Provider value={{ data, errMsg, setErrMsg }}>
       {children}
     </PlayerDataContext.Provider>
   );

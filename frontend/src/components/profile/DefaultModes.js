@@ -50,15 +50,9 @@ const DefaultModes = () => {
     try {
       let gameModeArray = [];
       for (let object in data) {
-        if (
-          data[object].gameModeType === "Preset"
-        ) {
+        if (data[object].gameModeType === "Preset") {
           /* sets the game modes options */
-          if (
-            !gameModeArray.some(
-              (e) => e.label === data[object].baseGameMode
-            )
-          ) {
+          if (!gameModeArray.some((e) => e.label === data[object].baseGameMode)) {
             gameModeArray.push({
               value: data[object].baseGameMode,
               label: data[object].baseGameMode,
@@ -116,68 +110,23 @@ const DefaultModes = () => {
       setScores(values);
       setDates(keys);
       // bests
-      setBestScore(
-        Math.round(
-          (Math.max(...values.map((value) => value.highScore)) * 10) / 10
-        )
-      );
-      setBestAccuracy(
-        Math.round(Math.max(...values.map((value) => value.accuracy)) * 1000) /
-          10 +
-          "%"
-      );
-      setBestCompletion(
-        Math.round(
-          Math.max(...values.map((value) => value.completion)) * 1000
-        ) /
-          10 +
-          "%"
-      );
-      setBestTimeOffset(
-        Math.round(
-          Math.min(...values.map((value) => value.timeOffset)) * 1000
-        ) + " ms"
-      );
+      setBestScore(Math.round((Math.max(...values.map((value) => value.highScore)) * 10) / 10));
+      setBestAccuracy(Math.round(Math.max(...values.map((value) => value.accuracy)) * 1000) / 10 + "%");
+      setBestCompletion(Math.round(Math.max(...values.map((value) => value.completion)) * 1000) / 10 + "%");
+      setBestTimeOffset(Math.round(Math.min(...values.map((value) => value.timeOffset)) * 1000) + " ms");
       setBestStreak(Math.max(...values.map((value) => value.streak)));
       // averages
-      setAvgScore(
-        Math.round(
-          values
-            .map((value) => value.score)
-            .reduce((p, c, i, a) => p + c / a.length, 0)
-        )
-      );
+      setAvgScore(Math.round(values.map((value) => value.score).reduce((p, c, i, a) => p + c / a.length, 0)));
       setAvgAccuracy(
-        Math.round(
-          values
-            .map((value) => value.accuracy)
-            .reduce((p, c, i, a) => p + c / a.length, 0) * 1000
-        ) /
-          10 +
-          "%"
+        Math.round(values.map((value) => value.accuracy).reduce((p, c, i, a) => p + c / a.length, 0) * 1000) / 10 + "%"
       );
-      setAvgStreak(
-        Math.round(
-          values
-            .map((value) => value.streak)
-            .reduce((p, c, i, a) => p + c / a.length, 0)
-        )
-      );
+      setAvgStreak(Math.round(values.map((value) => value.streak).reduce((p, c, i, a) => p + c / a.length, 0)));
       setAvgCompletion(
-        Math.round(
-          values
-            .map((value) => value.completion)
-            .reduce((p, c, i, a) => p + c / a.length, 0) * 1000
-        ) /
-          10 +
+        Math.round(values.map((value) => value.completion).reduce((p, c, i, a) => p + c / a.length, 0) * 1000) / 10 +
           "%"
       );
       setAvgTimeOffset(
-        Math.round(
-          values
-            .map((value) => value.timeOffset)
-            .reduce((p, c, i, a) => p + c / a.length, 0) * 1000
-        ) + " ms"
+        Math.round(values.map((value) => value.timeOffset).reduce((p, c, i, a) => p + c / a.length, 0) * 1000) + " ms"
       );
     };
     getScores();
@@ -190,22 +139,17 @@ const DefaultModes = () => {
         if (
           data[object].gameModeType === "Preset" &&
           data[object].customGameModeName === "" &&
-          gameModeOptions.some(
-            (e) => e.value === data[object].baseGameMode
-          )
+          gameModeOptions.some((e) => e.value === data[object].baseGameMode)
         ) {
-          console.log("passed checks")
           if (mostRecent === null) {
             mostRecent = data[object];
-          } else if (
-            DateTime.fromISO(mostRecent.time) <=
-            DateTime.fromISO(data[object].time)
-          ) {
+          } 
+          if (DateTime.fromISO(mostRecent.time) <= DateTime.fromISO(data[object].time)) {
             mostRecent = data[object];
           }
         }
       }
-      setSelectedGameMode(mostRecent.baseGameMode || "");
+      setSelectedGameMode(mostRecent === null ? "" : mostRecent.baseGameMode);
     };
     if (gameModeOptions.length !== 0) {
       findMostRecentGameModeOption(gameModeOptions);
@@ -223,15 +167,12 @@ const DefaultModes = () => {
         ) {
           if (mostRecent === null) {
             mostRecent = data[object];
-          } else if (
-            DateTime.fromISO(mostRecent.time) <=
-            DateTime.fromISO(data[object].time)
-          ) {
+          } else if (DateTime.fromISO(mostRecent.time) <= DateTime.fromISO(data[object].time)) {
             mostRecent = data[object];
           }
         }
       }
-      setSelectedSong(mostRecent.songTitle || "");
+      setSelectedSong(mostRecent === null ? "" : mostRecent.songTitle);
     };
     if (songOptions.length !== 0) {
       findMostRecentSongOption(songOptions);
@@ -249,15 +190,12 @@ const DefaultModes = () => {
         ) {
           if (mostRecent === null) {
             mostRecent = data[object];
-          } else if (
-            DateTime.fromISO(mostRecent.time) <=
-            DateTime.fromISO(data[object].time)
-          ) {
+          } else if (DateTime.fromISO(mostRecent.time) <= DateTime.fromISO(data[object].time)) {
             mostRecent = data[object];
           }
         }
       }
-      setSelectedDifficulty(mostRecent.difficulty || "");
+      setSelectedDifficulty(mostRecent === null ? "" : mostRecent.difficulty);
     };
     if (difficultyOptions.length !== 0) {
       findMostRecentDifficultyOption(difficultyOptions);
@@ -275,11 +213,7 @@ const DefaultModes = () => {
               value: data[scoreObject].songTitle,
               label: data[scoreObject].songTitle,
             });
-          } else if (
-            !matchingSongTitles.some(
-              (e) => e.value === data[scoreObject].songTitle
-            )
-          ) {
+          } else if (!matchingSongTitles.some((e) => e.value === data[scoreObject].songTitle)) {
             matchingSongTitles.push({
               value: data[scoreObject].songTitle,
               label: data[scoreObject].songTitle,
@@ -287,9 +221,7 @@ const DefaultModes = () => {
           }
         }
       }
-      let sorted = matchingSongTitles.sort((a, b) =>
-        a.value.localeCompare(b.value)
-      );
+      let sorted = matchingSongTitles.sort((a, b) => a.value.localeCompare(b.value));
       setSongOptions(sorted || []);
     };
     updateSongOptions(selectedGameMode);
@@ -300,20 +232,13 @@ const DefaultModes = () => {
     const updateDifficultyOptions = (newSelectedSong) => {
       let matchingDifficulties = [];
       for (let scoreObject in data) {
-        if (
-          data[scoreObject].songTitle === newSelectedSong &&
-          data[scoreObject].baseGameMode === selectedGameMode
-        ) {
+        if (data[scoreObject].songTitle === newSelectedSong && data[scoreObject].baseGameMode === selectedGameMode) {
           if (matchingDifficulties.length === 0) {
             matchingDifficulties.push({
               value: data[scoreObject].difficulty,
               label: data[scoreObject].difficulty,
             });
-          } else if (
-            !matchingDifficulties.some(
-              (e) => e.value === data[scoreObject].difficulty
-            )
-          ) {
+          } else if (!matchingDifficulties.some((e) => e.value === data[scoreObject].difficulty)) {
             matchingDifficulties.push({
               value: data[scoreObject].difficulty,
               label: data[scoreObject].difficulty,
@@ -321,9 +246,7 @@ const DefaultModes = () => {
           }
         }
       }
-      let sorted = matchingDifficulties.sort((a, b) =>
-        a.value.localeCompare(b.value)
-      );
+      let sorted = matchingDifficulties.sort((a, b) => a.value.localeCompare(b.value));
       setDifficultyOptions(sorted || []);
     };
     updateDifficultyOptions(selectedSong);
@@ -375,15 +298,10 @@ const DefaultModes = () => {
     <>
       <div className="stats-header">
         <h2 className="stats-title">Statistics for {auth.username}</h2>
-        <h4 className="stats-subtitle">
-          Get started by selecting a game mode or song.
-        </h4>
+        <h4 className="stats-subtitle">Get started by selecting a game mode or song.</h4>
       </div>
       <div className={errMsg ? "responsive-centered-container" : "offscreen"}>
-        <p
-          ref={errRef}
-          className={errMsg ? "errmsg" : "offscreen"}
-          aria-live="assertive">
+        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
           {errMsg}
         </p>
       </div>
@@ -486,55 +404,35 @@ const DefaultModes = () => {
       <div className={"content-main"}>
         <div>
           {selectedGameMode !== "" && selectedSong !== "" ? (
-            <LineChart
-              labels={dates}
-              data={scores.map((value) => value.score)}
-              myOptions={scoreOptions}
-            />
+            <LineChart labels={dates} data={scores.map((value) => value.score)} myOptions={scoreOptions} />
           ) : (
             <div className="empty-chart" />
           )}
         </div>
         <div>
           {selectedGameMode !== "" && selectedSong !== "" ? (
-            <LineChart
-              labels={dates}
-              data={scores.map((value) => value.accuracy)}
-              myOptions={accuracyOptions}
-            />
+            <LineChart labels={dates} data={scores.map((value) => value.accuracy)} myOptions={accuracyOptions} />
           ) : (
             <div className="empty-chart" />
           )}
         </div>
         <div>
           {selectedGameMode !== "" && selectedSong !== "" ? (
-            <LineChart
-              labels={dates}
-              data={scores.map((value) => value.streak)}
-              myOptions={streakOptions}
-            />
+            <LineChart labels={dates} data={scores.map((value) => value.streak)} myOptions={streakOptions} />
           ) : (
             <div className="empty-chart" />
           )}
         </div>
         <div>
           {selectedGameMode !== "" && selectedSong !== "" ? (
-            <LineChart
-              labels={dates}
-              data={scores.map((value) => value.completion)}
-              myOptions={completionOptions}
-            />
+            <LineChart labels={dates} data={scores.map((value) => value.completion)} myOptions={completionOptions} />
           ) : (
             <div className="empty-chart" />
           )}
         </div>
         <div>
           {selectedGameMode !== "" && selectedSong !== "" ? (
-            <LineChart
-              labels={dates}
-              data={scores.map((value) => value.timeOffset)}
-              myOptions={avgTimeOffsetOptions}
-            />
+            <LineChart labels={dates} data={scores.map((value) => value.timeOffset)} myOptions={avgTimeOffsetOptions} />
           ) : (
             <div className="empty-chart" />
           )}
