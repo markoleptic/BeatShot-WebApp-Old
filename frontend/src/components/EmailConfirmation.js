@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "../api/axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import SEO from "./SEO";
 
 const EmailConfirmation = () => {
   const { token } = useParams()
@@ -51,6 +52,11 @@ const EmailConfirmation = () => {
 
   return (
     <>
+    <SEO title={"Confirm Email | BeatShot"} 
+    type={"website"} 
+    description={"the rhythm-based aim-trainer"} 
+    url="/confirmation"
+    />
     <div className="email-conf">
       <p>{confirmationResult}</p>
       <Link to={`/login`}>

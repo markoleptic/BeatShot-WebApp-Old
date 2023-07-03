@@ -10,7 +10,7 @@ const verifyJWT = require("./middleware/verifyJWT");
 const cookieParser = require("cookie-parser");
 const { sequelize } = require("./models");
 
-//  handle credentials check
+// handle credentials check
 app.use(credentials);
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));

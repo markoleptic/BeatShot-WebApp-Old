@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useAuthContext } from "../context/AuthProvider";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import SEO from "./SEO";
 
 const usernameRegex = /^[A-z][A-z0-9-_]{3,23}$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,24}$/;
@@ -110,6 +111,12 @@ const Login = () => {
   };
 
   return (
+    <>
+    <SEO 
+    title={"Log in to BeatShot"}
+    type={"website"}
+    description={"the rhythm-based aim-trainer"} 
+    />
     <div className="form-container">
       <p
         ref={errRef}
@@ -200,6 +207,7 @@ const Login = () => {
         </a>
       </form>
     </div>
+    </>
   );
 };
 

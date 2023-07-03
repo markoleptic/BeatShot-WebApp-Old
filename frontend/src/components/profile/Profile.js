@@ -6,10 +6,13 @@ import ProfileHistory from "./ProfileHistory";
 import CustomModes from "./CustomModes";
 import { PlayerDataProvider } from "../../context/PlayerData";
 import { Routes, Route } from "react-router-dom";
+import SEO from "../SEO";
 
 const Profile = () => {
   const { auth } = useAuthContext();
   return (
+    <>
+    <SEO title={`${auth.username} | BeatShot`} type={"website"} description={"the rhythm-based aim-trainer"} />
     <PlayerDataProvider>
       <div className="flex-container-row">
         <ProfileSidebar></ProfileSidebar>
@@ -24,6 +27,7 @@ const Profile = () => {
         </div>
       </div>
     </PlayerDataProvider>
+    </>
   );
 };
 export default Profile;

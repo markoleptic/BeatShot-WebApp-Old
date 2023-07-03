@@ -7,8 +7,8 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.359.0",
-    "@aws-sdk/credential-provider-node": "^3.358.0",
+    "@aws-sdk/client-ses": "^3.363.0",
+    "@aws-sdk/credential-provider-node": "^3.363.0",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -18,7 +18,7 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "luxon": "^3.3.0",
-    "mysql2": "^3.4.1",
+    "mysql2": "^3.4.3",
     "nodemailer": "^6.9.3",
     "path": "^0.12.7",
     "sequelize": "^6.32.1",

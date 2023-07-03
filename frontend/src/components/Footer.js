@@ -11,15 +11,10 @@ const Footer = () => {
     <div className="footer-container">
     <footer>
       <div className="footer-brand-container">
-        <div className="footer-logo-container">
           <img className="footer-logo" src={logo} alt="logo" />
           <h2 className="footer-logo-text">BeatShot</h2>
-        </div>
-        <div className="footer-text-container">
           <p className="footer-description-text">the rhythm-based aim trainer</p>
-        </div>
       </div>
-
       <ul className="footer-icon-list">
         <li className="footer-icon-item">
           <a className="footer-icon-link link hover-blue" href="https://store.steampowered.com/app/2126580/BeatShot/">

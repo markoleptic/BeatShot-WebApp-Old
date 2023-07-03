@@ -138,18 +138,6 @@ canvas {
   min-height: 100vh;
   flex-grow: 1;
 }
-header {
-  padding: 0.5rem 1rem 0.5rem 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  justify-content: space-between;
-  align-items: center;
-  height: var(--header-height);
-  font-weight: var(--fw-400);
-  background: hsl(var(--clr-beatshot-bluegrey));
-  width: 100%;
-  z-index: 9999;
-}
 .header-container {
   display: flex;
   margin-left: auto;
@@ -157,21 +145,21 @@ header {
   justify-content: center;
   top: 0;
   position: sticky;
+  height: var(--header-height);
   width: 100%;
   background: hsl(var(--clr-beatshot-bluegrey));
   z-index: 9999;
 }
-footer {
+header {
   display: flex;
-  margin-top: auto;
   margin-left: auto;
   margin-right: auto;
   justify-content: space-between;
-  height: var(--header-height);
+  align-items: center;
+  font-weight: var(--fw-400);
+  height: 100%;
   width: 100%;
-  bottom: 0;
   padding: 0.5rem 1rem 0.5rem 1rem;
-  background: hsl(var(--clr-beatshot-bluegrey));
   z-index: 9999;
 }
 .footer-container {
@@ -179,11 +167,26 @@ footer {
   margin-top: auto;
   margin-left: auto;
   margin-right: auto;
-  bottom: 0;
   justify-content: center;
+  position: relative;
+  bottom: 0;
+  height: var(--header-height);
   width: 100%;
   background: hsl(var(--clr-beatshot-bluegrey));
   z-index: 9999;
+}
+footer {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  z-index: 9999;
+  gap: 0.25rem;
+  overflow: hidden;
 }
 div.hero {
   display: flex;
@@ -698,40 +701,33 @@ article .updated-date {
 }
 .footer-brand-container {
   display: flex;
-  gap: 0.25rem;
-}
-.footer-logo-container {
+  flex-direction: row;
   align-items: center;
-  display: inline-flex;
-  flex-shrink: 0;
+  text-align: center;
   gap: 0.25rem;
+  overflow: hidden;
 }
 .footer-logo {
-  height: 1.25rem;
-  object-fit: contain;
+  width: auto;
+  height: 2rem;
 }
 .footer-logo-text {
-  line-height: normal;
   font-weight: var(--fw-600);
   text-shadow: 0 0 8px hsl(var(--clr-beatshot-lightblue));
   color: hsl(var(--clr-beatshot-lightblue));
 }
-.footer-text-container {
-  align-items: center;
-  display: inline-flex;
-  flex-wrap: wrap;
-}
 .footer-description-text {
-  font-size: var(--fs-200);
-  max-height: var(--fs-200) + (2 * 0.2 rem);
-  overflow: hidden;
+  padding-top: 0.1rem;
+  font-size: var(--fs-100);
+  max-height: 2rem;
+  max-width: 300px;
 }
+
 .footer-icon-list {
   display: flex;
-  align-items: center;
+  align-content: center;
   flex-shrink: 0;
   gap: 0.5rem;
-  justify-content: flex-end;
 }
 .footer-icon-link {
   color: hsl(var(--clr-white));
@@ -1258,29 +1254,8 @@ td.combined > p {
   .card-container {
     align-self: center;
   }
-  footer {
-    gap: 0.5rem;
-  }
-  .footer-logo-container {
-    align-items: center;
-    display: inline-flex;
-    justify-content: flex-start;
-    flex: 1;
-  }
-  .footer-text-container {
-    flex: 0 1;
-    visibility: collapse;
-  }
-  .footer-icon-list {
-    justify-content: center;
-  }
   .footer-description-text {
-    font-size: var(--fs-100);
-    max-height: 60px;
-  }
-  .footer-logo {
-    height: 1.2rem;
-    object-fit: contain;
+    visibility: collapse;
   }
   .footer-logo-text {
     font-size: 1.2rem;

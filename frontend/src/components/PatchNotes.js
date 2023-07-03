@@ -1,6 +1,13 @@
+import SEO from "./SEO";
+
 const PatchNotes = () => {
   return (
     <>
+    <SEO 
+      title={"Patch Notes | BeatShot"}
+      type={"website"}
+      description={"patch notes for the rhythm-based aim-trainer"}
+    />
       <div className="flex-container pn-container">
         <div className="content">
           <div className="content-header">

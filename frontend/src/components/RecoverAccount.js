@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import axios from "../api/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import SEO from "./SEO";
 
 const emailRegex = /^\S+@\S+\.\S+$/;
 
@@ -128,6 +129,13 @@ const RecoverAccount = () => {
   }, [regMsg, successMsg]);
 
   return (
+    <>
+    <SEO 
+    title={"Recover Account | BeatShot"} 
+    type={"website"} 
+    description={"the rhythm-based aim-trainer"}
+    url="/recover"
+    />
     <div className="form-container">
       <p ref={errRef} className={regMsgClassName} aria-live="assertive">
         {regMsg}
@@ -184,6 +192,7 @@ const RecoverAccount = () => {
         </a>
       </form>
     </div>
+    </>
   );
 };
 

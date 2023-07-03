@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import SEO from "./SEO";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
@@ -127,6 +128,12 @@ const Register = () => {
   }, [regMsg, checkEmailMsg]);
 
   return (
+    <>
+    <SEO 
+      title={"Register | BeatShot"}
+      type={"website"}
+      description={"the rhythm-based aim-trainer"}
+    />
     <div className="form-container">
       <p ref={errRef} className={regMsgClassName} aria-live="assertive">
         {regMsg}
@@ -301,6 +308,7 @@ const Register = () => {
         </a>
       </form>
     </div>
+    </>
   );
 };
 

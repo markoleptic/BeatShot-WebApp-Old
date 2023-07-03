@@ -1,10 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import Video from "./Video";
+import SEO from "./SEO";
 
 const Home = () => {
   return (
     <>
+    <SEO 
+      title={"Home | BeatShot"}
+      type={"website"}
+      description={"the rhythm-based aim-trainer"} 
+    />
       <div className="flex-container-row">
         <div className="flex-container-column gap-1rem padding-1rem">
           <div className="centered-bordered-container padding-1rem">
